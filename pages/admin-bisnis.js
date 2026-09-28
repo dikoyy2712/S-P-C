@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
 
             const response = await fetch(
-                "http://localhost:3000/api/admin/businesses"
+                "http:///api/admin/businesses"
             );
 
             const result = await response.json();

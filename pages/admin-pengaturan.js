@@ -13,7 +13,7 @@ async function checkBackend() {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/status"
+            "http:///api/status"
         );
 
         const result =

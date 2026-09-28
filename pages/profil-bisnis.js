@@ -39,7 +39,7 @@ if (ownerAvatar) {
         try {
 
             const response = await fetch(
-                "http://localhost:3000/api/owner/business",
+                "http:///api/owner/business",
                 {
                     method: "GET",
                     headers: {
@@ -199,7 +199,7 @@ if (ownerAvatar) {
         try {
 
             const response = await fetch(
-                "http://localhost:3000/api/owner/business",
+                "http:///api/owner/business",
                 {
                     method: "POST",
 

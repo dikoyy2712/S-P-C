@@ -68,7 +68,7 @@ if (user) {
     async function apiRequest(url, options = {}) {
 
         const response = await fetch(
-            "http://localhost:3000" + url,
+            "http://" + url,
             {
                 ...options,
                 headers: {

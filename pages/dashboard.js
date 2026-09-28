@@ -23,7 +23,7 @@ async function loadOwnerDashboard() {
 
     try {
         const response = await fetch(
-            `http://localhost:3000/api/owner/dashboard?owner_id=${encodeURIComponent(user.id)}`
+            `http:///api/owner/dashboard?owner_id=${encodeURIComponent(user.id)}`
         );
 
         const result = await response.json();

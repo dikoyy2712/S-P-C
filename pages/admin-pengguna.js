@@ -10,7 +10,7 @@ async function loadUsers() {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/admin/users"
+            "http:///api/admin/users"
         );
 
         const result = await response.json();
@@ -163,7 +163,7 @@ async function approveUser(userId) {
     try {
 
         const response = await fetch(
-            `http://localhost:3000/api/admin/users/${userId}/approve`,
+            `http:///api/admin/users/${userId}/approve`,
             {
                 method: "PATCH",
                 headers: {
