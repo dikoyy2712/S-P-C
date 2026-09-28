@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Profil Bisnis | SPC</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="../style.css">
+    <script src="../auth.js"></script>
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- SIDEBAR -->
+    <aside class="owner-sidebar">
+
+        <a href="dashboard.html" class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <span>SPC</span>
+
+        </a>
+
+
+        <div class="sidebar-label">
+            MENU UTAMA
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="profil-bisnis.html" class="active">
+                <i class="fa-solid fa-store"></i>
+                <span>Profil Bisnis</span>
+            </a>
+
+            <a href="produk-layanan.html">
+    <i class="fa-solid fa-box-open"></i>
+    <span>Produk & Layanan</span>
+</a>
+
+          <a href="pesanan.html">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span>Pesanan</span>
+</a>
+
+         <a href="pelanggan.html">
+    <i class="fa-solid fa-users"></i>
+    <span>Pelanggan</span>
+</a>
+
+           <a href="statistik.html">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Statistik</span>
+</a>
+
+           <a href="qr-code.html">
+    <i class="fa-solid fa-qrcode"></i>
+    <span>QR Code</span>
+</a>
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+         <a href="pengaturan.html">
+    <i class="fa-solid fa-gear"></i>
+    <span>Pengaturan</span>
+</a>
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="owner-main">
+
+        <!-- TOPBAR -->
+        <header class="owner-topbar">
+
+            <div>
+
+                <span class="owner-breadcrumb">
+                    SPC / OWNER / PROFIL BISNIS
+                </span>
+
+                <h1>
+                    Profil Bisnis
+                </h1>
+
+            </div>
+
+
+            <div class="owner-profile">
+
+              <div class="owner-avatar" id="ownerAvatar">
+    O
+</div>
+
+                <div>
+
+                   <strong id="ownerName">
+    Owner
+</strong>
+
+                    <span>
+                        Owner
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="owner-content">
+
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span>
+                        INFORMASI BISNIS
+                    </span>
+
+                    <h2>
+                        Kelola Profil Bisnis
+                    </h2>
+
+                    <p>
+                        Lengkapi informasi bisnis agar pelanggan
+                        dapat mengenal bisnis Anda.
+                    </p>
+
+                </div>
+
+                <div class="business-status">
+
+                    <span></span>
+
+                    Bisnis Aktif
+
+                </div>
+
+            </div>
+
+
+            <!-- FORM -->
+            <div class="owner-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            DATA UTAMA
+                        </span>
+
+                        <h3>
+                            Informasi Bisnis
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <form class="business-form" id="businessForm">
+
+
+                    <!-- NAMA BISNIS -->
+
+                    <div class="business-field">
+
+                        <label for="businessName">
+                            Nama Bisnis
+                        </label>
+
+                        <div class="business-input">
+
+                            <i class="fa-solid fa-store"></i>
+
+                           <input
+    type="text"
+    id="businessName"
+    placeholder="Masukkan nama bisnis"
+    required
+>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- KATEGORI -->
+
+                    <div class="business-field">
+
+                        <label for="businessCategory">
+                            Kategori Bisnis
+                        </label>
+
+                        <div class="business-input">
+
+                            <i class="fa-solid fa-layer-group"></i>
+
+                            <select id="businessCategory">
+
+                                <option value="kuliner">
+                                    Kuliner
+                                </option>
+
+                                <option value="fashion">
+                                    Fashion
+                                </option>
+
+                                <option value="jasa">
+                                    Jasa
+                                </option>
+
+                                <option value="retail">
+                                    Retail
+                                </option>
+
+                                <option value="lainnya">
+                                    Lainnya
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ALAMAT -->
+
+                    <div class="business-field business-field-full">
+
+                        <label for="businessAddress">
+                            Alamat Bisnis
+                        </label>
+
+                        <div class="business-input">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                          <textarea
+    id="businessAddress"
+    rows="4"
+    placeholder="Masukkan alamat lengkap bisnis"
+    required
+></textarea>
+                        </div>
+
+                    </div>
+
+
+                    <!-- TELEPON -->
+
+                    <div class="business-field">
+
+                        <label for="businessPhone">
+                            Nomor Telepon
+                        </label>
+
+                        <div class="business-input">
+
+                            <i class="fa-solid fa-phone"></i>
+
+                            <input
+                                type="tel"
+                                id="businessPhone"
+                                placeholder="08xxxxxxxxxx"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="business-field">
+
+                        <label for="businessEmail">
+                            Email Bisnis
+                        </label>
+
+                        <div class="business-input">
+
+                            <i class="fa-regular fa-envelope"></i>
+
+                            <input
+                                type="email"
+                                id="businessEmail"
+                                placeholder="bisnis@email.com"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- JAM BUKA -->
+
+                    <div class="business-field">
+
+                        <label for="openTime">
+                            Jam Buka
+                        </label>
+
+                        <div class="business-input">
+
+                            <i class="fa-regular fa-clock"></i>
+<input
+    type="time"
+    id="openTime"
+>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- JAM TUTUP -->
+
+                    <div class="business-field">
+
+                        <label for="closeTime">
+                            Jam Tutup
+                        </label>
+
+                        <div class="business-input">
+
+                            <i class="fa-regular fa-clock"></i>
+
+                            <input
+    type="time"
+    id="closeTime"
+>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESKRIPSI -->
+
+                    <div class="business-field business-field-full">
+
+                        <label for="businessDescription">
+                            Deskripsi Bisnis
+                        </label>
+
+                        <div class="business-input">
+
+                            <i class="fa-solid fa-align-left"></i>
+
+                            <textarea
+                                id="businessDescription"
+                                rows="5"
+                                placeholder="Jelaskan bisnis Anda..."
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTON -->
+
+                    <div class="business-actions">
+
+                        <button
+                            type="button"
+                            class="business-cancel"
+                        >
+                            Batal
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="business-save"
+                        >
+
+                            <i class="fa-solid fa-check"></i>
+
+                            Simpan Perubahan
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="profil-bisnis.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPC — Pengguna</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <script src="../auth.js"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="owner-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="owner-sidebar">
+
+        <div class="owner-logo">
+            <div class="owner-logo-mark">SPC</div>
+
+            <div>
+                <strong>SPC</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+        </div>
+
+        <nav class="owner-menu">
+
+            <a href="admin-dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="verifikasi-bisnis.html">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Verifikasi Bisnis</span>
+            </a>
+
+            <a href="admin-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Bisnis</span>
+            </a>
+
+            <a href="admin-pengguna.html" class="active">
+                <i class="fa-solid fa-users"></i>
+                <span>Pengguna</span>
+            </a>
+
+           <a href="admin-laporan.html">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Laporan</span>
+</a>
+
+        <a href="admin-pengaturan.html">
+    <i class="fa-solid fa-gear"></i>
+    <span>Pengaturan</span>
+</a>
+
+        </nav>
+
+        <div class="owner-sidebar-bottom">
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="owner-main">
+
+        <header class="owner-topbar">
+
+            <div class="owner-breadcrumb">
+                SPC
+                <span>/</span>
+                ADMIN
+                <span>/</span>
+                PENGGUNA
+            </div>
+
+            <div class="owner-profile">
+
+                <div class="owner-avatar">
+                    A
+                </div>
+
+                <div>
+                    <strong>Administrator</strong>
+                    <span>Admin SPC</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="owner-content">
+
+            <div class="owner-welcome">
+
+                <div>
+                    <span class="welcome-label">
+                        MANAJEMEN SISTEM
+                    </span>
+
+                    <h1>
+                        Pengguna
+                    </h1>
+
+                    <p>
+                        Kelola akun pengguna yang terdaftar di sistem SPC.
+                    </p>
+                </div>
+
+                <div class="business-status">
+                    <span class="status-dot"></span>
+                    SISTEM ONLINE
+                </div>
+
+            </div>
+
+
+            <!-- STATISTIK -->
+            <div class="owner-stats">
+
+                <div class="owner-stat-card">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Pengguna</span>
+                        <strong id="totalUsers">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+
+                    <div>
+                        <span>Owner</span>
+                        <strong id="totalOwners">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div>
+                        <span>Customer</span>
+                        <strong id="totalCustomers">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+
+                    <div>
+                        <span>Aktif</span>
+                        <strong id="totalActive">0</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TABLE -->
+            <div class="owner-panel admin-user-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="panel-label">
+                            DATABASE USERS
+                        </span>
+
+                        <h3>
+                            Daftar Pengguna
+                        </h3>
+                    </div>
+
+                </div>
+
+
+                <div class="admin-user-table-wrap">
+
+                    <table class="admin-user-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                               <th>Status</th>
+<th>Dibuat</th>
+<th>Aksi</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="userTable">
+
+                            <tr>
+                                <td colspan="7">
+                                    Memuat data pengguna...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="admin-pengguna.js"></script>
+
+</body>
+</html>

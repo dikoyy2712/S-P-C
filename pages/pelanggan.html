@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Pelanggan | SPC</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="../style.css">
+    <script src="../auth.js"></script>
+
+    <style>
+        .customer-search {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            min-width: 230px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .customer-search i {
+            color: #777784;
+        }
+
+        .customer-search input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .customer-search input::placeholder {
+            color: #777784;
+        }
+
+        .customer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .customer-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.025);
+            transition: 0.2s ease;
+        }
+
+        .customer-card:hover {
+            border-color: rgba(112, 92, 255, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .customer-avatar {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: rgba(112, 92, 255, 0.13);
+            color: #705cff;
+            font-weight: 700;
+        }
+
+        .customer-info h4 {
+            margin: 0 0 5px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .customer-info span {
+            color: #858592;
+            font-size: 12px;
+        }
+
+        .customer-meta {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .customer-meta-item span {
+            display: block;
+            margin-bottom: 4px;
+            color: #777784;
+            font-size: 11px;
+        }
+
+        .customer-meta-item strong {
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .customer-empty,
+        .customer-loading {
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .customer-empty-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: rgba(112, 92, 255, 0.1);
+            color: #705cff;
+            font-size: 23px;
+        }
+
+        .customer-empty h4 {
+            margin: 0 0 7px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .customer-empty p,
+        .customer-loading {
+            color: #8e8e9b;
+            font-size: 13px;
+        }
+
+        .customer-loading i {
+            margin-right: 8px;
+            color: #705cff;
+        }
+
+        @media (max-width: 700px) {
+
+            .customer-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .customer-meta {
+                width: 100%;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .customer-search {
+                width: 100%;
+            }
+
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="owner-sidebar">
+
+        <a href="dashboard.html" class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <span>SPC</span>
+
+        </a>
+
+
+        <div class="sidebar-label">
+            MENU UTAMA
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="profil-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Profil Bisnis</span>
+            </a>
+
+            <a href="produk-layanan.html">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Produk & Layanan</span>
+            </a>
+
+            <a href="pesanan.html">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pesanan</span>
+            </a>
+
+            <a href="pelanggan.html" class="active">
+                <i class="fa-solid fa-users"></i>
+                <span>Pelanggan</span>
+            </a>
+
+            <a href="statistik.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Statistik</span>
+            </a>
+
+            <a href="qr-code.html">
+                <i class="fa-solid fa-qrcode"></i>
+                <span>QR Code</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="pengaturan.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+            </a>
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="owner-main">
+
+
+        <header class="owner-topbar">
+
+            <div>
+
+                <span class="owner-breadcrumb">
+                    SPC / OWNER / PELANGGAN
+                </span>
+
+                <h1>
+                    Pelanggan
+                </h1>
+
+            </div>
+
+
+            <div class="owner-profile">
+
+                <div
+                    class="owner-avatar"
+                    id="ownerAvatar"
+                >
+                    O
+                </div>
+
+                <div>
+
+                    <strong id="ownerName">
+                        Owner
+                    </strong>
+
+                    <span>
+                        Owner
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <section class="owner-content">
+
+
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span>
+                        DATA PELANGGAN
+                    </span>
+
+                    <h2>
+                        Pelanggan Bisnis
+                    </h2>
+
+                    <p>
+                        Kelola dan pantau pelanggan
+                        yang melakukan pemesanan.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATISTIK -->
+
+            <div class="owner-stats">
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Pelanggan
+                        </span>
+
+                        <strong id="totalCustomers">
+                            0
+                        </strong>
+
+                        <small>
+                            Semua pelanggan
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-user-plus"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pelanggan Baru
+                        </span>
+
+                        <strong id="newCustomers">
+                            0
+                        </strong>
+
+                        <small>
+                            30 hari terakhir
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Pesanan
+                        </span>
+
+                        <strong id="totalOrders">
+                            0
+                        </strong>
+
+                        <small>
+                            Dari pelanggan
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pelanggan Aktif
+                        </span>
+
+                        <strong id="activeCustomers">
+                            0
+                        </strong>
+
+                        <small>
+                            30 hari terakhir
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- CUSTOMER LIST -->
+
+            <div class="owner-panel">
+
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            DAFTAR PELANGGAN
+                        </span>
+
+                        <h3>
+                            Pelanggan Bisnis
+                        </h3>
+
+                    </div>
+
+
+                    <div class="customer-search">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="text"
+                            id="customerSearch"
+                            placeholder="Cari pelanggan..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <div
+                    class="customer-list"
+                    id="customerList"
+                >
+
+                    <div class="customer-loading">
+
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+
+                        Memuat data pelanggan...
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <script>
+
+        const API_URL =
+            "http://localhost:3000";
+
+        let customers = [];
+
+
+        // ================================
+        // OWNER
+        // ================================
+
+        function loadOwnerInfo() {
+
+            try {
+
+                const user =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "spc_user"
+                        ) || "null"
+                    );
+
+                if (!user) return;
+
+                const name =
+                    user.name ||
+                    user.email ||
+                    "Owner";
+
+                document.getElementById(
+                    "ownerName"
+                ).textContent = name;
+
+                document.getElementById(
+                    "ownerAvatar"
+                ).textContent =
+                    name
+                        .charAt(0)
+                        .toUpperCase();
+
+            } catch (error) {
+
+                console.error(
+                    "Owner info error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // ================================
+        // RUPIAH
+        // ================================
+
+        function formatRupiah(value) {
+
+            return new Intl.NumberFormat(
+                "id-ID",
+                {
+                    style: "currency",
+                    currency: "IDR",
+                    maximumFractionDigits: 0
+                }
+            ).format(
+                Number(value) || 0
+            );
+
+        }
+
+
+        // ================================
+        // DATE
+        // ================================
+
+        function formatDate(value) {
+
+            if (!value) return "-";
+
+            return new Date(value)
+                .toLocaleString(
+                    "id-ID",
+                    {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+        }
+
+
+        // ================================
+        // LOAD CUSTOMERS
+        // ================================
+
+        async function loadCustomers() {
+
+            const token =
+                localStorage.getItem(
+                    "spc_token"
+                );
+
+
+            if (!token) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/owner/customers",
+                        {
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    token
+                            }
+                        }
+                    );
+
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem(
+                        "spc_token"
+                    );
+
+                    localStorage.removeItem(
+                        "spc_user"
+                    );
+
+                    window.location.href =
+                        "../login.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Gagal mengambil data pelanggan"
+                    );
+
+                }
+
+
+                customers =
+                    Array.isArray(
+                        data.customers
+                    )
+                        ? data.customers
+                        : [];
+
+
+                updateStatistics(
+                    data.stats
+                );
+
+                renderCustomers();
+
+            } catch (error) {
+
+                console.error(
+                    "Load customers error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "customerList"
+                ).innerHTML = `
+
+                    <div class="customer-empty">
+
+                        <div class="customer-empty-icon">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        </div>
+
+                        <h4>
+                            Gagal memuat pelanggan
+                        </h4>
+
+                        <p>
+                            ${escapeHtml(
+                                error.message
+                            )}
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // ================================
+        // STATISTICS
+        // ================================
+
+        function updateStatistics(stats) {
+
+            stats =
+                stats || {};
+
+            document.getElementById(
+                "totalCustomers"
+            ).textContent =
+                Number(
+                    stats.total || 0
+                );
+
+
+            document.getElementById(
+                "newCustomers"
+            ).textContent =
+                Number(
+                    stats.newCustomers || 0
+                );
+
+
+            document.getElementById(
+                "totalOrders"
+            ).textContent =
+                Number(
+                    stats.totalOrders || 0
+                );
+
+
+            document.getElementById(
+                "activeCustomers"
+            ).textContent =
+                Number(
+                    stats.activeCustomers || 0
+                );
+
+        }
+
+
+        // ================================
+        // RENDER
+        // ================================
+
+        function renderCustomers() {
+
+            const list =
+                document.getElementById(
+                    "customerList"
+                );
+
+            const search =
+                document.getElementById(
+                    "customerSearch"
+                ).value
+                .trim()
+                .toLowerCase();
+
+
+            const filtered =
+                customers.filter(
+                    customer =>
+                        String(
+                            customer.customer_id
+                        )
+                        .toLowerCase()
+                        .includes(search)
+                );
+
+
+            if (filtered.length === 0) {
+
+                list.innerHTML = `
+
+                    <div class="customer-empty">
+
+                        <div class="customer-empty-icon">
+
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
+
+                        <h4>
+                            ${
+                                customers.length === 0
+                                    ? "Belum ada pelanggan"
+                                    : "Pelanggan tidak ditemukan"
+                            }
+                        </h4>
+
+                        <p>
+                            ${
+                                customers.length === 0
+                                    ? "Data pelanggan akan muncul setelah identitas customer tersedia pada pesanan."
+                                    : "Coba gunakan kata pencarian lain."
+                            }
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            list.innerHTML =
+                filtered
+                    .map(
+                        customer =>
+                            createCustomerCard(
+                                customer
+                            )
+                    )
+                    .join("");
+
+        }
+
+
+        // ================================
+        // CARD
+        // ================================
+
+        function createCustomerCard(customer) {
+
+            const id =
+                customer.customer_id;
+
+            const initial =
+                String(id)
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            return `
+
+                <div class="customer-card">
+
+                    <div class="customer-info">
+
+                        <div class="customer-avatar">
+                            ${escapeHtml(initial)}
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Customer #${escapeHtml(id)}
+                            </h4>
+
+                            <span>
+                                ID pelanggan: ${escapeHtml(id)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="customer-meta">
+
+                        <div class="customer-meta-item">
+
+                            <span>
+                                Pesanan
+                            </span>
+
+                            <strong>
+                                ${Number(
+                                    customer.total_orders
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="customer-meta-item">
+
+                            <span>
+                                Total Belanja
+                            </span>
+
+                            <strong>
+                                ${formatRupiah(
+                                    customer.total_spending
+                                )}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="customer-meta-item">
+
+                            <span>
+                                Pesanan Terakhir
+                            </span>
+
+                            <strong>
+                                ${formatDate(
+                                    customer.last_order
+                                )}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        // ================================
+        // SEARCH
+        // ================================
+
+        document
+            .getElementById(
+                "customerSearch"
+            )
+            .addEventListener(
+                "input",
+                renderCustomers
+            );
+
+
+        // ================================
+        // ESCAPE
+        // ================================
+
+        function escapeHtml(value) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // ================================
+        // START
+        // ================================
+
+        loadOwnerInfo();
+
+        loadCustomers();
+
+    </script>
+
+</body>
+
+</html>

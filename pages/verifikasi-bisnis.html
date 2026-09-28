@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SPC — Verifikasi Bisnis</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="owner-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="owner-sidebar">
+
+            <div class="owner-logo">
+
+                <div class="owner-logo-mark">
+                    SPC
+                </div>
+
+                <div>
+                    <strong>SPC</strong>
+                    <span>ADMIN PANEL</span>
+                </div>
+
+            </div>
+
+
+            <nav class="owner-menu">
+
+                <a href="admin-dashboard.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="verifikasi-bisnis.html"
+                   class="active">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    <span>Verifikasi Bisnis</span>
+
+                </a>
+
+                <a href="admin-bisnis.html">
+
+    <i class="fa-solid fa-store"></i>
+
+    <span>Bisnis</span>
+
+</a>
+
+               <a href="admin-pengguna.html">
+    <i class="fa-solid fa-users"></i>
+    <span>Pengguna</span>
+</a>
+                <a href="admin-laporan.html">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Laporan</span>
+</a>
+
+               <a href="admin-pengaturan.html">
+    <i class="fa-solid fa-gear"></i>
+    <span>Pengaturan</span>
+</a>
+            </nav>
+
+
+            <div class="owner-sidebar-bottom">
+
+                <a href="../index.html">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>Keluar</span>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="owner-main">
+
+            <header class="owner-topbar">
+
+                <div class="owner-breadcrumb">
+
+                    SPC
+                    <span>/</span>
+                    ADMIN
+                    <span>/</span>
+                    VERIFIKASI
+
+                </div>
+
+
+                <div class="owner-profile">
+
+                    <div class="owner-avatar">
+                        A
+                    </div>
+
+                    <div>
+
+                        <strong>Administrator</strong>
+
+                        <span>Admin SPC</span>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <section class="owner-content">
+
+
+                <!-- WELCOME -->
+                <div class="owner-welcome">
+
+                    <div>
+
+                        <span class="welcome-label">
+                            VERIFIKASI BISNIS
+                        </span>
+
+                        <h1>
+                            Verifikasi Bisnis
+                        </h1>
+
+                        <p>
+                            Periksa dan kelola pengajuan bisnis dari Owner.
+                        </p>
+
+                    </div>
+
+
+                    <div class="business-status">
+
+                        <span class="status-dot"></span>
+
+                        SISTEM ONLINE
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATS -->
+                <div class="owner-stats">
+
+                    <div class="owner-stat-card">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Menunggu</span>
+
+                            <strong>0</strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="owner-stat-card">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Disetujui</span>
+
+                            <strong>0</strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="owner-stat-card">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Ditolak</span>
+
+                            <strong>0</strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="owner-stat-card">
+
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+
+                        <div>
+
+                            <span>Bisnis Aktif</span>
+
+                            <strong>0</strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- VERIFICATION PANEL -->
+                <div class="owner-panel verification-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                PENGAJUAN BISNIS
+                            </span>
+
+                            <h3>
+                                Daftar Verifikasi
+                            </h3>
+
+                        </div>
+
+
+                        <div class="verification-filter">
+
+                            <button type="button">
+                                Semua
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMPTY STATE -->
+                    <div class="admin-empty">
+
+                        <div class="admin-empty-icon">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                        </div>
+
+                        <h4>
+                            Belum ada pengajuan bisnis
+                        </h4>
+
+                        <p>
+                            Pengajuan dari Owner akan muncul di halaman ini setelah melakukan pendaftaran.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+        </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const panel = document.querySelector(".verification-panel");
+            const emptyState = panel.querySelector(".admin-empty");
+
+            const statCards = document.querySelectorAll(".owner-stat-card strong");
+
+            async function loadBusinesses() {
+
+                try {
+
+                    const response = await fetch(
+                        "http://localhost:3000/api/admin/businesses"
+                    );
+
+                    const result = await response.json();
+
+                    if (!result.success) {
+                        throw new Error(result.message || "Gagal mengambil data");
+                    }
+
+                    const businesses = result.data || [];
+
+                    // =========================
+                    // STATISTIK
+                    // =========================
+
+                    const waiting = businesses.filter(
+                        business => business.verification_status === "pending"
+                    ).length;
+
+                    const approved = businesses.filter(
+                        business => business.verification_status === "approved"
+                    ).length;
+
+                    const rejected = businesses.filter(
+                        business => business.verification_status === "rejected"
+                    ).length;
+
+                    const active = approved;
+
+                    statCards[0].textContent = waiting;
+                    statCards[1].textContent = approved;
+                    statCards[2].textContent = rejected;
+                    statCards[3].textContent = active;
+
+
+                    // =========================
+                    // HANYA TAMPILKAN PENDING
+                    // =========================
+
+                    const pendingBusinesses = businesses.filter(
+                        business => business.verification_status === "pending"
+                    );
+
+
+                    if (pendingBusinesses.length === 0) {
+
+                        emptyState.style.display = "block";
+
+                        emptyState.querySelector("h4").textContent =
+                            "Belum ada pengajuan bisnis";
+
+                        emptyState.querySelector("p").textContent =
+                            "Pengajuan bisnis dari Owner akan muncul di halaman ini.";
+
+                        return;
+                    }
+
+
+                    // Hilangkan empty state
+                    emptyState.style.display = "none";
+
+
+                    // Hapus daftar lama jika ada
+                    const oldList = panel.querySelector(".verification-list");
+
+                    if (oldList) {
+                        oldList.remove();
+                    }
+
+
+                    // =========================
+                    // BUAT DAFTAR BISNIS
+                    // =========================
+
+                    const list = document.createElement("div");
+
+                    list.className = "verification-list";
+
+
+                    pendingBusinesses.forEach(business => {
+
+                        const item = document.createElement("div");
+
+                        item.className = "verification-item";
+
+                        item.innerHTML = `
+                            <div class="verification-info">
+
+                                <div class="verification-icon">
+                                    <i class="fa-solid fa-store"></i>
+                                </div>
+
+                                <div>
+                                    <h4>${business.business_name || "-"}</h4>
+
+                                    <p>
+                                        Owner: ${business.owner_name || "-"}
+                                    </p>
+
+                                    <p>
+                                        Kategori: ${business.category || "-"}
+                                    </p>
+
+                                    <p>
+                                        Alamat: ${business.address || "-"}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="verification-actions">
+
+                                <button
+                                    type="button"
+                                    class="verify-button"
+                                    data-id="${business.id}">
+                                    <i class="fa-solid fa-check"></i>
+                                    Verifikasi
+                                </button>
+
+                            </div>
+                        `;
+
+                        list.appendChild(item);
+
+                    });
+
+
+                    panel.appendChild(list);
+
+
+                    // =========================
+                    // TOMBOL VERIFIKASI
+                    // =========================
+
+                    document.querySelectorAll(".verify-button").forEach(button => {
+
+                        button.addEventListener("click", async function () {
+
+                            const businessId = this.dataset.id;
+
+                            this.disabled = true;
+                            this.textContent = "Memproses...";
+
+
+                            try {
+
+                                const response = await fetch(
+                                    `http://localhost:3000/api/admin/businesses/${businessId}/approve`,
+                                    {
+                                        method: "PATCH"
+                                    }
+                                );
+
+                                const result = await response.json();
+
+
+                                if (!response.ok || !result.success) {
+
+                                    throw new Error(
+                                        result.message ||
+                                        "Gagal memverifikasi bisnis"
+                                    );
+
+                                }
+
+
+                                alert("Bisnis berhasil diverifikasi.");
+
+                                await loadBusinesses();
+
+                            } catch (error) {
+
+                                console.error(error);
+
+                                alert(
+                                    error.message ||
+                                    "Terjadi kesalahan saat verifikasi."
+                                );
+
+                                this.disabled = false;
+
+                                this.innerHTML =
+                                    '<i class="fa-solid fa-check"></i> Verifikasi';
+
+                            }
+
+                        });
+
+                    });
+
+                } catch (error) {
+
+                    console.error(
+                        "Gagal mengambil data bisnis:",
+                        error
+                    );
+
+                    emptyState.style.display = "block";
+
+                    emptyState.querySelector("h4").textContent =
+                        "Gagal memuat data";
+
+                    emptyState.querySelector("p").textContent =
+                        "Pastikan server SPC sedang berjalan.";
+
+                }
+
+            }
+
+
+            loadBusinesses();
+
+        });
+    </script>
+
+</body>
+</html>

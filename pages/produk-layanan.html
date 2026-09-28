@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Produk & Layanan | SPC</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="../style.css">
+    <script src="../auth.js"></script>
+</head>
+
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- SIDEBAR -->
+    <aside class="owner-sidebar">
+
+        <a href="dashboard.html" class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <span>SPC</span>
+
+        </a>
+
+
+        <div class="sidebar-label">
+            MENU UTAMA
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="profil-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Profil Bisnis</span>
+            </a>
+
+            <a href="produk-layanan.html" class="active">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Produk & Layanan</span>
+            </a>
+
+           <a href="pesanan.html">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span>Pesanan</span>
+</a>
+
+            <a href="pelanggan.html">
+    <i class="fa-solid fa-users"></i>
+    <span>Pelanggan</span>
+</a>
+          <a href="statistik.html">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Statistik</span>
+</a>
+
+           <a href="qr-code.html">
+    <i class="fa-solid fa-qrcode"></i>
+    <span>QR Code</span>
+</a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+         <a href="pengaturan.html">
+    <i class="fa-solid fa-gear"></i>
+    <span>Pengaturan</span>
+</a>
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="owner-main">
+
+        <header class="owner-topbar">
+
+            <div>
+
+                <span class="owner-breadcrumb">
+                    SPC / OWNER / PRODUK & LAYANAN
+                </span>
+
+                <h1>
+                    Produk & Layanan
+                </h1>
+
+            </div>
+
+
+            <div class="owner-profile">
+
+                <div class="owner-avatar" id="ownerAvatar">O</div>
+
+                <div>
+<strong id="ownerName">Owner</strong>
+                    <span>
+                        Owner
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="owner-content">
+
+
+            <!-- HEADER -->
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span>
+                        KELOLA BISNIS
+                    </span>
+
+                    <h2>
+                        Produk & Layanan
+                    </h2>
+
+                    <p>
+                        Tambahkan dan kelola produk atau layanan
+                        yang tersedia untuk pelanggan.
+                    </p>
+
+                </div>
+
+
+                <button class="product-add-button">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Tambah Produk
+
+                </button>
+
+            </div>
+
+
+            <!-- PRODUCT SUMMARY -->
+            <div class="owner-stats">
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Produk
+                        </span>
+
+                        <strong>
+                            28
+                        </strong>
+
+                        <small>
+                            Produk terdaftar
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Produk Aktif
+                        </span>
+
+                        <strong>
+                            24
+                        </strong>
+
+                        <small>
+                            Siap dipesan
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Stok Rendah
+                        </span>
+
+                        <strong>
+                            3
+                        </strong>
+
+                        <small>
+                            Perlu diperiksa
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Kategori
+                        </span>
+
+                        <strong>
+                            6
+                        </strong>
+
+                        <small>
+                            Kategori aktif
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT LIST -->
+            <div class="owner-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            DAFTAR PRODUK
+                        </span>
+
+                        <h3>
+                            Produk & Layanan Anda
+                        </h3>
+
+                    </div>
+
+
+                  <div class="product-filter">
+
+    <button
+        class="product-filter-button"
+        id="productFilterButton"
+        type="button"
+    >
+        <span id="productFilterText">Semua</span>
+
+        <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+    <div class="product-filter-menu" id="productFilterMenu">
+
+        <button type="button" data-filter="Semua">
+            Semua
+        </button>
+
+        <button type="button" data-filter="Makanan">
+            Makanan
+        </button>
+
+        <button type="button" data-filter="Minuman">
+            Minuman
+        </button>
+
+        <button type="button" data-filter="Fashion">
+            Fashion
+        </button>
+
+        <button type="button" data-filter="Jasa">
+            Jasa
+        </button>
+
+        <button type="button" data-filter="Lainnya">
+            Lainnya
+        </button>
+
+    </div>
+
+</div>
+
+                </div>
+
+
+                <div class="product-list">
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+    <!-- MODAL TAMBAH PRODUK -->
+<div class="product-modal" id="productModal">
+
+    <div class="product-modal-box">
+
+        <div class="product-modal-header">
+
+            <div>
+                <span>DATA PRODUK</span>
+                <h2>Tambah Produk</h2>
+                <p>Tambahkan produk atau layanan baru ke bisnis Anda.</p>
+            </div>
+
+            <button class="product-modal-close" id="closeProductModal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <form id="productForm">
+
+            <div class="product-form-grid">
+
+                <div class="product-form-field">
+
+                    <label for="productName">
+                        Nama Produk
+                    </label>
+
+                    <div class="product-form-input">
+
+                        <i class="fa-solid fa-box"></i>
+
+                        <input
+                            type="text"
+                            id="productName"
+                            placeholder="Contoh: Nasi Goreng Spesial"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="product-form-field">
+
+                    <label for="productCategory">
+                        Kategori
+                    </label>
+
+                    <div class="product-form-input">
+
+                        <i class="fa-solid fa-layer-group"></i>
+
+                        <select id="productCategory" required>
+
+                            <option value="">
+                                Pilih kategori
+                            </option>
+
+                            <option value="Makanan">
+                                Makanan
+                            </option>
+
+                            <option value="Minuman">
+                                Minuman
+                            </option>
+
+                            <option value="Fashion">
+                                Fashion
+                            </option>
+
+                            <option value="Jasa">
+                                Jasa
+                            </option>
+
+                            <option value="Lainnya">
+                                Lainnya
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="product-form-field">
+
+                    <label for="productPrice">
+                        Harga
+                    </label>
+
+                    <div class="product-form-input">
+
+                        <i class="fa-solid fa-money-bill"></i>
+
+                        <input
+                            type="number"
+                            id="productPrice"
+                            placeholder="25000"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="product-form-field">
+
+                    <label for="productStock">
+                        Stok
+                    </label>
+
+                    <div class="product-form-input">
+
+                        <i class="fa-solid fa-boxes-stacked"></i>
+
+                        <input
+                            type="number"
+                            id="productStock"
+                            placeholder="20"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="product-form-field product-form-full">
+
+                    <label for="productDescription">
+                        Deskripsi
+                    </label>
+
+                    <div class="product-form-input">
+
+                        <i class="fa-solid fa-align-left"></i>
+
+                        <textarea
+                            id="productDescription"
+                            rows="4"
+                            placeholder="Jelaskan produk atau layanan..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="product-modal-actions">
+
+                <button
+                    type="button"
+                    class="product-cancel"
+                    id="cancelProduct"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="product-save"
+                >
+                    <i class="fa-solid fa-check"></i>
+                    Simpan Produk
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="produk-layanan.js"></script>
+
+</body>
+
+</html>

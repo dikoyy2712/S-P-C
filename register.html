@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Daftar | SPC</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <span>SPC</span>
+
+        </a>
+
+
+        <div class="nav-buttons">
+
+            <a
+                href="index.html"
+                class="btn-login"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Kembali
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- REGISTER -->
+    <main class="auth-page">
+
+        <div class="auth-container">
+
+
+            <!-- HEADER -->
+            <div class="auth-header">
+
+                <div class="auth-icon">
+                    <i class="fa-solid fa-store"></i>
+                </div>
+
+                <span>CREATE BUSINESS ACCOUNT</span>
+
+                <h1>
+                    Daftarkan Bisnis
+                </h1>
+
+                <p>
+                    Buat akun Owner dan daftarkan bisnis
+                    Anda untuk menggunakan SPC.
+                </p>
+
+            </div>
+
+
+            <!-- FORM -->
+            <form
+                class="auth-form"
+                id="registerForm"
+            >
+
+
+                <!-- NAMA OWNER -->
+                <div class="input-group">
+
+                    <label for="name">
+                        Nama Pemilik
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Masukkan nama lengkap"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="input-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="nama@email.com"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Buat password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                        >
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- KONFIRMASI PASSWORD -->
+                <div class="input-group">
+
+                    <label for="confirmPassword">
+                        Konfirmasi Password
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Ulangi password"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- NAMA BISNIS -->
+                <div class="input-group">
+
+                    <label for="business">
+                        Nama Bisnis
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-store"></i>
+
+                        <input
+                            type="text"
+                            id="business"
+                            placeholder="Contoh: Dika Store"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+                <button
+                    type="submit"
+                    class="btn-primary auth-submit"
+                >
+
+                    <span>
+                        Daftarkan Bisnis
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
+
+            <!-- DIVIDER -->
+            <div class="auth-divider">
+
+                <span>
+                    atau
+                </span>
+
+            </div>
+
+
+            <!-- LOGIN -->
+            <div class="auth-register">
+
+                <span>
+                    Sudah punya akun?
+                </span>
+
+                <a href="login.html">
+                    Masuk sekarang
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="register.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Pesanan | SPC</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="../style.css">
+    <script src="../auth.js"></script>
+
+    <style>
+        /* ================================
+           PESANAN
+        ================================= */
+
+        .order-filter {
+            position: relative;
+        }
+
+        .order-filter-button {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .order-filter-button i {
+            font-size: 11px;
+        }
+
+        .order-filter-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            width: 160px;
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: #15151d;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+            z-index: 20;
+        }
+
+        .order-filter-menu.show {
+            display: block;
+        }
+
+        .order-filter-menu button {
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #ddd;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .order-filter-menu button:hover {
+            background: rgba(112, 92, 255, 0.15);
+            color: #fff;
+        }
+
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .order-card {
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.025);
+            transition: 0.2s ease;
+        }
+
+        .order-card:hover {
+            border-color: rgba(112, 92, 255, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .order-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .order-number {
+            display: block;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .order-date {
+            display: block;
+            margin-top: 5px;
+            color: #8e8e9b;
+            font-size: 12px;
+        }
+
+        .order-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.12);
+            color: #f59e0b;
+        }
+
+        .status-processing {
+            background: rgba(59, 130, 246, 0.12);
+            color: #60a5fa;
+        }
+
+        .status-completed {
+            background: rgba(34, 197, 94, 0.12);
+            color: #4ade80;
+        }
+
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+        }
+
+        .order-items {
+            margin: 18px 0;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 7px 0;
+            color: #d4d4dc;
+            font-size: 14px;
+        }
+
+        .order-item-name {
+            display: flex;
+            gap: 8px;
+        }
+
+        .order-item-qty {
+            color: #8e8e9b;
+        }
+
+        .order-item-price {
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .order-card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .order-total span {
+            display: block;
+            margin-bottom: 4px;
+            color: #8e8e9b;
+            font-size: 12px;
+        }
+
+        .order-total strong {
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .order-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-status-select {
+            min-width: 145px;
+            padding: 9px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9px;
+            background: #15151d;
+            color: #fff;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .order-status-select:focus {
+            border-color: #705cff;
+        }
+
+        .order-empty {
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .order-empty-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: rgba(112, 92, 255, 0.1);
+            color: #705cff;
+            font-size: 23px;
+        }
+
+        .order-empty h4 {
+            margin: 0 0 7px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .order-empty p {
+            margin: 0;
+            color: #8e8e9b;
+            font-size: 13px;
+        }
+
+        .order-loading {
+            padding: 45px 20px;
+            text-align: center;
+            color: #8e8e9b;
+        }
+
+        .order-loading i {
+            margin-right: 8px;
+            color: #705cff;
+        }
+
+        @media (max-width: 700px) {
+
+            .order-card-top,
+            .order-card-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-actions {
+                width: 100%;
+            }
+
+            .order-status-select {
+                width: 100%;
+            }
+
+            .panel-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="owner-sidebar">
+
+        <a href="dashboard.html" class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <span>SPC</span>
+
+        </a>
+
+
+        <div class="sidebar-label">
+            MENU UTAMA
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="profil-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Profil Bisnis</span>
+            </a>
+
+            <a href="produk-layanan.html">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Produk & Layanan</span>
+            </a>
+
+            <a href="pesanan.html" class="active">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pesanan</span>
+            </a>
+
+            <a href="pelanggan.html">
+                <i class="fa-solid fa-users"></i>
+                <span>Pelanggan</span>
+            </a>
+
+            <a href="statistik.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Statistik</span>
+            </a>
+
+            <a href="qr-code.html">
+                <i class="fa-solid fa-qrcode"></i>
+                <span>QR Code</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="pengaturan.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+            </a>
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="owner-main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="owner-topbar">
+
+            <div>
+
+                <span class="owner-breadcrumb">
+                    SPC / OWNER / PESANAN
+                </span>
+
+                <h1>
+                    Pesanan
+                </h1>
+
+            </div>
+
+
+            <div class="owner-profile">
+
+                <div class="owner-avatar" id="ownerAvatar">
+                    O
+                </div>
+
+                <div>
+
+                    <strong id="ownerName">
+                        Owner
+                    </strong>
+
+                    <span>
+                        Owner
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- CONTENT -->
+
+        <section class="owner-content">
+
+
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span>
+                        KELOLA PESANAN
+                    </span>
+
+                    <h2>
+                        Pesanan Pelanggan
+                    </h2>
+
+                    <p>
+                        Kelola dan pantau pesanan pelanggan
+                        dari bisnis Anda.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATISTIK PESANAN -->
+
+            <div class="owner-stats">
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Pesanan
+                        </span>
+
+                        <strong id="totalOrders">
+                            0
+                        </strong>
+
+                        <small>
+                            Semua pesanan
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Menunggu
+                        </span>
+
+                        <strong id="pendingOrders">
+                            0
+                        </strong>
+
+                        <small>
+                            Perlu diproses
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-spinner"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Diproses
+                        </span>
+
+                        <strong id="processingOrders">
+                            0
+                        </strong>
+
+                        <small>
+                            Sedang berjalan
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Selesai
+                        </span>
+
+                        <strong id="completedOrders">
+                            0
+                        </strong>
+
+                        <small>
+                            Pesanan selesai
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- DAFTAR PESANAN -->
+
+            <div class="owner-panel">
+
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            DAFTAR PESANAN
+                        </span>
+
+                        <h3>
+                            Pesanan Pelanggan
+                        </h3>
+
+                    </div>
+
+
+                    <div class="order-filter">
+
+                        <button
+                            class="order-filter-button"
+                            id="orderFilterButton"
+                            type="button"
+                        >
+
+                            <span id="filterLabel">
+                                Semua
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down"></i>
+
+                        </button>
+
+
+                        <div
+                            class="order-filter-menu"
+                            id="orderFilterMenu"
+                        >
+
+                            <button type="button" data-filter="all">
+                                Semua
+                            </button>
+
+                            <button type="button" data-filter="pending">
+                                Menunggu
+                            </button>
+
+                            <button type="button" data-filter="processing">
+                                Diproses
+                            </button>
+
+                            <button type="button" data-filter="completed">
+                                Selesai
+                            </button>
+
+                            <button type="button" data-filter="cancelled">
+                                Dibatalkan
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="order-list"
+                    id="orderList"
+                >
+
+                    <div class="order-loading">
+
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+
+                        Memuat pesanan...
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        const API_URL = "http://localhost:3000";
+        let orders = [];
+        let currentFilter = "all";
+
+
+        // ================================
+        // OWNER INFO
+        // ================================
+
+        function loadOwnerInfo() {
+
+            try {
+
+                const user =
+                    JSON.parse(
+                        localStorage.getItem("spc_user") || "null"
+                    );
+
+                if (!user) return;
+
+                const name =
+                    user.name ||
+                    user.email ||
+                    "Owner";
+
+                document.getElementById("ownerName").textContent =
+                    name;
+
+                document.getElementById("ownerAvatar").textContent =
+                    name.charAt(0).toUpperCase();
+
+            } catch (error) {
+
+                console.error(
+                    "Gagal membaca data owner:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // ================================
+        // FORMAT RUPIAH
+        // ================================
+
+        function formatRupiah(value) {
+
+            return new Intl.NumberFormat(
+                "id-ID",
+                {
+                    style: "currency",
+                    currency: "IDR",
+                    maximumFractionDigits: 0
+                }
+            ).format(Number(value) || 0);
+
+        }
+
+
+        // ================================
+        // FORMAT TANGGAL
+        // ================================
+
+        function formatDate(value) {
+
+            if (!value) return "-";
+
+            const date = new Date(value);
+
+            return date.toLocaleString(
+                "id-ID",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        // ================================
+        // STATUS
+        // ================================
+
+        function getStatusLabel(status) {
+
+            const labels = {
+                pending: "Menunggu",
+                processing: "Diproses",
+                completed: "Selesai",
+                cancelled: "Dibatalkan"
+            };
+
+            return labels[status] || status;
+
+        }
+
+
+        function getStatusClass(status) {
+
+            return {
+                pending: "status-pending",
+                processing: "status-processing",
+                completed: "status-completed",
+                cancelled: "status-cancelled"
+            }[status] || "status-pending";
+
+        }
+
+
+        function getStatusIcon(status) {
+
+            return {
+                pending: "fa-hourglass-half",
+                processing: "fa-spinner",
+                completed: "fa-circle-check",
+                cancelled: "fa-circle-xmark"
+            }[status] || "fa-circle";
+
+        }
+
+
+        // ================================
+        // LOAD ORDERS
+        // ================================
+
+        async function loadOrders() {
+
+            const token =
+                localStorage.getItem("spc_token");
+
+            if (!token) {
+
+                window.location.href = "../login.html";
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL + "/api/owner/orders",
+                        {
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("spc_token");
+                    localStorage.removeItem("spc_user");
+
+                    window.location.href =
+                        "../login.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "Gagal mengambil pesanan"
+                    );
+
+                }
+
+
+                orders =
+                    Array.isArray(data.orders)
+                        ? data.orders
+                        : [];
+
+
+                updateStatistics();
+
+                renderOrders();
+
+            } catch (error) {
+
+                console.error(
+                    "Load orders error:",
+                    error
+                );
+
+
+                document.getElementById("orderList").innerHTML = `
+
+                    <div class="order-empty">
+
+                        <div class="order-empty-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                        <h4>
+                            Gagal memuat pesanan
+                        </h4>
+
+                        <p>
+                            ${escapeHtml(error.message)}
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // ================================
+        // STATISTICS
+        // ================================
+
+        function updateStatistics() {
+
+            const total =
+                orders.length;
+
+            const pending =
+                orders.filter(
+                    order =>
+                        order.status === "pending"
+                ).length;
+
+            const processing =
+                orders.filter(
+                    order =>
+                        order.status === "processing"
+                ).length;
+
+            const completed =
+                orders.filter(
+                    order =>
+                        order.status === "completed"
+                ).length;
+
+
+            document.getElementById(
+                "totalOrders"
+            ).textContent = total;
+
+
+            document.getElementById(
+                "pendingOrders"
+            ).textContent = pending;
+
+
+            document.getElementById(
+                "processingOrders"
+            ).textContent = processing;
+
+
+            document.getElementById(
+                "completedOrders"
+            ).textContent = completed;
+
+        }
+
+
+        // ================================
+        // RENDER ORDERS
+        // ================================
+
+        function renderOrders() {
+
+            const orderList =
+                document.getElementById("orderList");
+
+
+            let filteredOrders =
+                orders;
+
+
+            if (currentFilter !== "all") {
+
+                filteredOrders =
+                    orders.filter(
+                        order =>
+                            order.status === currentFilter
+                    );
+
+            }
+
+
+            if (filteredOrders.length === 0) {
+
+                orderList.innerHTML = `
+
+                    <div class="order-empty">
+
+                        <div class="order-empty-icon">
+
+                            <i class="fa-solid fa-receipt"></i>
+
+                        </div>
+
+                        <h4>
+                            Belum ada pesanan
+                        </h4>
+
+                        <p>
+                            ${currentFilter === "all"
+                                ? "Pesanan pelanggan akan muncul di halaman ini."
+                                : "Tidak ada pesanan dengan status ini."
+                            }
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            orderList.innerHTML =
+                filteredOrders
+                    .map(
+                        order =>
+                            createOrderCard(order)
+                    )
+                    .join("");
+
+        }
+
+
+        // ================================
+        // CREATE ORDER CARD
+        // ================================
+
+        function createOrderCard(order) {
+
+            const items =
+                Array.isArray(order.items)
+                    ? order.items
+                    : [];
+
+
+            const itemsHtml =
+                items.length > 0
+
+                    ? items.map(item => `
+
+                        <div class="order-item">
+
+                            <div class="order-item-name">
+
+                                <span>
+                                    ${escapeHtml(item.product_name)}
+                                </span>
+
+                                <span class="order-item-qty">
+                                    × ${Number(item.quantity)}
+                                </span>
+
+                            </div>
+
+                            <span class="order-item-price">
+                                ${formatRupiah(item.subtotal)}
+                            </span>
+
+                        </div>
+
+                    `).join("")
+
+                    : `
+
+                        <div class="order-item">
+
+                            <span>
+                                Tidak ada detail produk
+                            </span>
+
+                        </div>
+
+                    `;
+
+
+            return `
+
+                <div class="order-card">
+
+                    <div class="order-card-top">
+
+                        <div>
+
+                            <span class="order-number">
+                                ${escapeHtml(order.order_number)}
+                            </span>
+
+                            <span class="order-date">
+                                ${formatDate(order.created_at)}
+                            </span>
+
+                        </div>
+
+
+                        <span class="order-status ${getStatusClass(order.status)}">
+
+                            <i class="fa-solid ${getStatusIcon(order.status)}"></i>
+
+                            ${getStatusLabel(order.status)}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="order-items">
+
+                        ${itemsHtml}
+
+                    </div>
+
+
+                    <div class="order-card-bottom">
+
+                        <div class="order-total">
+
+                            <span>
+                                Total Pesanan
+                            </span>
+
+                            <strong>
+                                ${formatRupiah(order.total)}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="order-actions">
+
+                            ${
+                                order.status === "completed" ||
+                                order.status === "cancelled"
+
+                                ? `
+
+                                    <span class="order-status ${getStatusClass(order.status)}">
+
+                                        ${getStatusLabel(order.status)}
+
+                                    </span>
+
+                                `
+
+                                : `
+
+                                    <select
+                                        class="order-status-select"
+                                        onchange="changeOrderStatus(
+                                            ${Number(order.id)},
+                                            this.value
+                                        )"
+                                    >
+
+                                        <option
+                                            value="pending"
+                                            ${order.status === "pending" ? "selected" : ""}
+                                        >
+                                            Menunggu
+                                        </option>
+
+                                        <option
+                                            value="processing"
+                                            ${order.status === "processing" ? "selected" : ""}
+                                        >
+                                            Diproses
+                                        </option>
+
+                                        <option
+                                            value="completed"
+                                            ${order.status === "completed" ? "selected" : ""}
+                                        >
+                                            Selesai
+                                        </option>
+
+                                        <option
+                                            value="cancelled"
+                                            ${order.status === "cancelled" ? "selected" : ""}
+                                        >
+                                            Dibatalkan
+                                        </option>
+
+                                    </select>
+
+                                `
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        // ================================
+        // CHANGE STATUS
+        // ================================
+
+        async function changeOrderStatus(
+            orderId,
+            status
+        ) {
+
+            const token =
+                localStorage.getItem("spc_token");
+
+
+            if (!token) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/owner/orders/" +
+                        encodeURIComponent(orderId) +
+                        "/status",
+                        {
+                            method: "PATCH",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    "Bearer " + token
+                            },
+
+                            body: JSON.stringify({
+                                status: status
+                            })
+                        }
+                    );
+
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem(
+                        "spc_token"
+                    );
+
+                    localStorage.removeItem(
+                        "spc_user"
+                    );
+
+                    window.location.href =
+                        "../login.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "Gagal mengubah status pesanan"
+                    );
+
+                }
+
+
+                const order =
+                    orders.find(
+                        item =>
+                            Number(item.id) ===
+                            Number(orderId)
+                    );
+
+
+                if (order) {
+
+                    order.status =
+                        status;
+
+                }
+
+
+                updateStatistics();
+
+                renderOrders();
+
+            } catch (error) {
+
+                console.error(
+                    "Change order status error:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Gagal mengubah status pesanan"
+                );
+
+                renderOrders();
+
+            }
+
+        }
+
+
+        // ================================
+        // FILTER
+        // ================================
+
+        const filterButton =
+            document.getElementById(
+                "orderFilterButton"
+            );
+
+        const filterMenu =
+            document.getElementById(
+                "orderFilterMenu"
+            );
+
+        const filterLabel =
+            document.getElementById(
+                "filterLabel"
+            );
+
+
+        filterButton.addEventListener(
+            "click",
+            function () {
+
+                filterMenu.classList.toggle(
+                    "show"
+                );
+
+            }
+        );
+
+
+        document
+            .querySelectorAll(
+                "#orderFilterMenu button"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        currentFilter =
+                            this.dataset.filter;
+
+                        filterLabel.textContent =
+                            this.textContent;
+
+                        filterMenu.classList.remove(
+                            "show"
+                        );
+
+                        renderOrders();
+
+                    }
+                );
+
+            });
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    !event.target.closest(
+                        ".order-filter"
+                    )
+                ) {
+
+                    filterMenu.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+        // ================================
+        // ESCAPE HTML
+        // ================================
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ================================
+        // START
+        // ================================
+
+        loadOwnerInfo();
+
+        loadOrders();
+
+    </script>
+
+</body>
+
+</html>

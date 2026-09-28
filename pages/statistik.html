@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Statistik | SPC</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="../style.css">
+    <script src="../auth.js"></script>
+
+    <style>
+
+        .statistics-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            height: 240px;
+            padding: 25px 10px 10px;
+        }
+
+        .chart-day {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .chart-value {
+            color: #aaa;
+            font-size: 11px;
+        }
+
+        .chart-bar-area {
+            width: 100%;
+            height: 170px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .chart-bar {
+            width: 55%;
+            min-height: 4px;
+            border-radius: 7px 7px 3px 3px;
+            background: linear-gradient(
+                to top,
+                #705cff,
+                #927fff
+            );
+            box-shadow: 0 0 18px rgba(112, 92, 255, 0.25);
+            transition: height 0.5s ease;
+        }
+
+        .chart-label {
+            color: #888894;
+            font-size: 11px;
+        }
+
+        .statistics-loading {
+            padding: 70px 20px;
+            text-align: center;
+            color: #8e8e9b;
+        }
+
+        .statistics-loading i {
+            margin-right: 8px;
+            color: #705cff;
+        }
+
+        .statistics-error {
+            padding: 50px 20px;
+            text-align: center;
+            color: #8e8e9b;
+        }
+
+        .statistics-error i {
+            display: block;
+            margin-bottom: 12px;
+            color: #f87171;
+            font-size: 25px;
+        }
+
+        .statistics-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .statistics-summary-item {
+            display: grid;
+            grid-template-columns: 35px 1fr auto;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .statistics-summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .statistics-summary-item > div {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            background: rgba(112, 92, 255, 0.1);
+            color: #705cff;
+        }
+
+        .statistics-summary-item span {
+            color: #aaaab5;
+            font-size: 13px;
+        }
+
+        .statistics-summary-item strong {
+            color: #fff;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+
+            .statistics-chart {
+                gap: 5px;
+            }
+
+            .chart-bar {
+                width: 70%;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="owner-sidebar">
+
+        <a href="dashboard.html" class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <span>SPC</span>
+
+        </a>
+
+
+        <div class="sidebar-label">
+            MENU UTAMA
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="profil-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Profil Bisnis</span>
+            </a>
+
+            <a href="produk-layanan.html">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Produk & Layanan</span>
+            </a>
+
+            <a href="pesanan.html">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pesanan</span>
+            </a>
+
+            <a href="pelanggan.html">
+                <i class="fa-solid fa-users"></i>
+                <span>Pelanggan</span>
+            </a>
+
+            <a href="statistik.html" class="active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Statistik</span>
+            </a>
+
+            <a href="qr-code.html">
+                <i class="fa-solid fa-qrcode"></i>
+                <span>QR Code</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="pengaturan.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+            </a>
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="owner-main">
+
+        <header class="owner-topbar">
+
+            <div>
+
+                <span class="owner-breadcrumb">
+                    SPC / OWNER / STATISTIK
+                </span>
+
+                <h1>
+                    Statistik
+                </h1>
+
+            </div>
+
+
+            <div class="owner-profile">
+
+                <div
+                    class="owner-avatar"
+                    id="ownerAvatar"
+                >
+                    O
+                </div>
+
+                <div>
+
+                    <strong id="ownerName">
+                        Owner
+                    </strong>
+
+                    <span>
+                        Owner
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <section class="owner-content">
+
+
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span>
+                        ANALISIS BISNIS
+                    </span>
+
+                    <h2>
+                        Statistik Bisnis
+                    </h2>
+
+                    <p>
+                        Pantau perkembangan bisnis dan aktivitas pesanan Anda.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATISTIK UTAMA -->
+
+            <div class="owner-stats">
+
+
+                <!-- TOTAL PESANAN -->
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-chart-column"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Pesanan
+                        </span>
+
+                        <strong id="totalOrders">
+                            0
+                        </strong>
+
+                        <small>
+                            Semua pesanan
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PENDAPATAN -->
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pendapatan
+                        </span>
+
+                        <strong id="revenue">
+                            Rp 0
+                        </strong>
+
+                        <small>
+                            Pesanan selesai
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PESANAN SELESAI -->
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pesanan Selesai
+                        </span>
+
+                        <strong id="completedTop">
+                            0
+                        </strong>
+
+                        <small>
+                            Pesanan yang telah selesai
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PRODUK -->
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Produk Aktif
+                        </span>
+
+                        <strong id="activeProducts">
+                            0
+                        </strong>
+
+                        <small>
+                            Produk yang tersedia
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- GRAFIK -->
+
+            <div class="owner-grid">
+
+
+                <div class="owner-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                PERFORMA
+                            </span>
+
+                            <h3>
+                                Aktivitas Pesanan
+                            </h3>
+
+                        </div>
+
+
+                        <span class="statistics-period">
+                            7 Hari
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="statisticsChart"
+                        class="statistics-chart"
+                    >
+
+                        <div class="statistics-loading">
+
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+
+                            Memuat statistik...
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RINGKASAN -->
+
+                <div class="owner-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                RINGKASAN
+                            </span>
+
+                            <h3>
+                                Aktivitas Bisnis
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="statistics-summary">
+
+
+                        <div class="statistics-summary-item">
+
+                            <div>
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+
+                            <span>
+                                Pesanan Menunggu
+                            </span>
+
+                            <strong id="pending">
+                                0
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="statistics-summary-item">
+
+                            <div>
+                                <i class="fa-solid fa-spinner"></i>
+                            </div>
+
+                            <span>
+                                Pesanan Diproses
+                            </span>
+
+                            <strong id="processing">
+                                0
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="statistics-summary-item">
+
+                            <div>
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+
+                            <span>
+                                Pesanan Selesai
+                            </span>
+
+                            <strong id="completed">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <script>
+
+        const API_URL =
+            "http://localhost:3000";
+
+
+        // ================================
+        // OWNER INFO
+        // ================================
+
+        function loadOwnerInfo() {
+
+            try {
+
+                const user =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "spc_user"
+                        ) || "null"
+                    );
+
+                if (!user) return;
+
+                const name =
+                    user.name ||
+                    user.email ||
+                    "Owner";
+
+                document.getElementById(
+                    "ownerName"
+                ).textContent = name;
+
+                document.getElementById(
+                    "ownerAvatar"
+                ).textContent =
+                    name.charAt(0).toUpperCase();
+
+            } catch (error) {
+
+                console.error(
+                    "Owner info error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // ================================
+        // RUPIAH
+        // ================================
+
+        function formatRupiah(value) {
+
+            return new Intl.NumberFormat(
+                "id-ID",
+                {
+                    style: "currency",
+                    currency: "IDR",
+                    maximumFractionDigits: 0
+                }
+            ).format(
+                Number(value) || 0
+            );
+
+        }
+
+
+        // ================================
+        // LOAD STATISTICS
+        // ================================
+
+        async function loadStatistics() {
+
+            const token =
+                localStorage.getItem(
+                    "spc_token"
+                );
+
+
+            if (!token) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/api/owner/statistics",
+                        {
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    token
+                            }
+                        }
+                    );
+
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem(
+                        "spc_token"
+                    );
+
+                    localStorage.removeItem(
+                        "spc_user"
+                    );
+
+                    window.location.href =
+                        "../login.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Gagal mengambil statistik"
+                    );
+
+                }
+
+
+                renderStatistics(
+                    data.statistics
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Statistics error:",
+                    error
+                );
+
+                document.getElementById(
+                    "statisticsChart"
+                ).innerHTML = `
+
+                    <div class="statistics-error">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        Gagal memuat statistik
+
+                        <br>
+
+                        <small>
+                            ${escapeHtml(error.message)}
+                        </small>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // ================================
+        // RENDER
+        // ================================
+
+        function renderStatistics(stats) {
+
+            document.getElementById(
+                "totalOrders"
+            ).textContent =
+                Number(
+                    stats.totalOrders || 0
+                );
+
+
+            document.getElementById(
+                "revenue"
+            ).textContent =
+                formatRupiah(
+                    stats.revenue
+                );
+
+
+            document.getElementById(
+                "completedTop"
+            ).textContent =
+                Number(
+                    stats.completed || 0
+                );
+
+
+            document.getElementById(
+                "activeProducts"
+            ).textContent =
+                Number(
+                    stats.activeProducts || 0
+                );
+
+
+            document.getElementById(
+                "pending"
+            ).textContent =
+                Number(
+                    stats.pending || 0
+                );
+
+
+            document.getElementById(
+                "processing"
+            ).textContent =
+                Number(
+                    stats.processing || 0
+                );
+
+
+            document.getElementById(
+                "completed"
+            ).textContent =
+                Number(
+                    stats.completed || 0
+                );
+
+
+            renderChart(
+                stats.dailyOrders || []
+            );
+
+        }
+
+
+        // ================================
+        // CHART
+        // ================================
+
+        function renderChart(data) {
+
+            const chart =
+                document.getElementById(
+                    "statisticsChart"
+                );
+
+
+            const days = [];
+
+
+            for (let i = 6; i >= 0; i--) {
+
+                const date =
+                    new Date();
+
+                date.setHours(
+                    0,
+                    0,
+                    0,
+                    0
+                );
+
+                date.setDate(
+                    date.getDate() - i
+                );
+
+
+                const key =
+                    date
+                        .toISOString()
+                        .split("T")[0];
+
+
+                const found =
+                    data.find(
+                        item =>
+                            String(
+                                item.order_date
+                            ).slice(0, 10) === key
+                    );
+
+
+                days.push({
+                    date,
+                    total: found
+                        ? Number(found.total)
+                        : 0
+                });
+
+            }
+
+
+            const max =
+                Math.max(
+                    ...days.map(
+                        day =>
+                            day.total
+                    ),
+                    1
+                );
+
+
+            chart.innerHTML =
+                days.map(day => {
+
+                    const label =
+                        day.date.toLocaleDateString(
+                            "id-ID",
+                            {
+                                weekday: "short"
+                            }
+                        ).replace(
+                            ".",
+                            ""
+                        );
+
+
+                    const height =
+                        day.total === 0
+                            ? 4
+                            : Math.max(
+                                8,
+                                (
+                                    day.total /
+                                    max
+                                ) * 100
+                            );
+
+
+                    return `
+
+                        <div class="chart-day">
+
+                            <span class="chart-value">
+                                ${day.total}
+                            </span>
+
+                            <div class="chart-bar-area">
+
+                                <div
+                                    class="chart-bar"
+                                    style="height:${height}%"
+                                ></div>
+
+                            </div>
+
+                            <span class="chart-label">
+                                ${escapeHtml(label)}
+                            </span>
+
+                        </div>
+
+                    `;
+
+                }).join("");
+
+        }
+
+
+        // ================================
+        // ESCAPE
+        // ================================
+
+        function escapeHtml(value) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        // ================================
+        // START
+        // ================================
+
+        loadOwnerInfo();
+
+        loadStatistics();
+
+    </script>
+
+</body>
+
+</html>

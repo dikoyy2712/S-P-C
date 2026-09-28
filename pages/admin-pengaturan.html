@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPC — Pengaturan Admin</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <script src="../auth.js"></script>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="owner-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="owner-sidebar">
+
+        <div class="owner-logo">
+
+            <div class="owner-logo-mark">
+                SPC
+            </div>
+
+            <div>
+                <strong>SPC</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="admin-dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="verifikasi-bisnis.html">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Verifikasi Bisnis</span>
+            </a>
+
+            <a href="admin-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Bisnis</span>
+            </a>
+
+            <a href="admin-pengguna.html">
+                <i class="fa-solid fa-users"></i>
+                <span>Pengguna</span>
+            </a>
+
+            <a href="admin-laporan.html">
+                <i class="fa-solid fa-chart-column"></i>
+                <span>Laporan</span>
+            </a>
+
+            <a href="admin-pengaturan.html" class="active">
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+            </a>
+
+        </nav>
+
+
+        <div class="owner-sidebar-bottom">
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="owner-main">
+
+        <header class="owner-topbar">
+
+            <div class="owner-breadcrumb">
+                SPC
+                <span>/</span>
+                ADMIN
+                <span>/</span>
+                PENGATURAN
+            </div>
+
+            <div class="owner-profile">
+
+                <div class="owner-avatar">
+                    A
+                </div>
+
+                <div>
+                    <strong>Administrator</strong>
+                    <span>Admin SPC</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="owner-content">
+
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span class="welcome-label">
+                        SISTEM ADMINISTRASI
+                    </span>
+
+                    <h1>
+                        Pengaturan
+                    </h1>
+
+                    <p>
+                        Informasi dan pengaturan sistem SPC.
+                    </p>
+
+                </div>
+
+
+                <div class="business-status">
+
+                    <span class="status-dot"></span>
+
+                    SISTEM ONLINE
+
+                </div>
+
+            </div>
+
+
+            <!-- SISTEM -->
+            <div class="owner-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            SISTEM
+                        </span>
+
+                        <h3>
+                            Informasi Sistem
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-settings-list">
+
+                    <div class="admin-setting-item">
+
+                        <div class="admin-setting-icon">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+
+                        <div>
+                            <strong>Backend SPC</strong>
+                            <span id="backendStatus">
+                                Memeriksa koneksi...
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-setting-item">
+
+                        <div class="admin-setting-icon">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+
+                        <div>
+                            <strong>Database</strong>
+                            <span>
+                                PostgreSQL — spc_db
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-setting-item">
+
+                        <div class="admin-setting-icon">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+
+                        <div>
+                            <strong>Versi Sistem</strong>
+                            <span>
+                                SPC v1.0
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN -->
+            <div class="owner-panel admin-settings-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            ADMINISTRATOR
+                        </span>
+
+                        <h3>
+                            Akun Admin
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-setting-account">
+
+                    <div class="owner-avatar">
+                        A
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Administrator
+                        </strong>
+
+                        <span>
+                            Admin SPC
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="admin-pengaturan.js"></script>
+
+</body>
+
+</html>

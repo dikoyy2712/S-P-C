@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SPC — Halaman Bisnis</title>
+
+    <link rel="stylesheet"
+          href="../style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* ===============================
+           CUSTOMER PRODUCT
+        =============================== */
+
+        .customer-products {
+            min-height: 250px;
+        }
+
+        .customer-product-card {
+            position: relative;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.035);
+            transition: 0.25s ease;
+        }
+
+        .customer-product-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(112, 92, 255, 0.45);
+            box-shadow: 0 10px 35px rgba(112, 92, 255, 0.12);
+        }
+
+        .customer-product-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            background: rgba(112, 92, 255, 0.12);
+            color: #705cff;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .customer-product-category {
+            display: inline-block;
+            font-size: 11px;
+            color: #9d92ff;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .customer-product-card h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .customer-product-description {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 13px;
+            line-height: 1.5;
+            min-height: 40px;
+            margin-bottom: 15px;
+        }
+
+        .customer-product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .customer-product-price {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .customer-add-button {
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #705cff;
+            color: white;
+            font-size: 16px;
+            transition: 0.2s ease;
+        }
+
+        .customer-add-button:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 20px rgba(112, 92, 255, 0.4);
+        }
+
+        .customer-add-button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .customer-stock {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.45);
+            margin-top: 8px;
+        }
+
+        .customer-loading {
+            width: 100%;
+            padding: 50px 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .customer-loading i {
+            color: #705cff;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        /* ===============================
+           CART MODAL
+        =============================== */
+
+        .customer-cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .customer-cart-overlay.show {
+            display: flex;
+        }
+
+        .customer-cart-modal {
+            width: min(500px, 100%);
+            max-height: 85vh;
+            overflow: hidden;
+            background: #111116;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 22px;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+        }
+
+        .customer-cart-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .customer-cart-header h3 {
+            margin: 0;
+        }
+
+        .customer-cart-close {
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .customer-cart-items {
+            padding: 15px 20px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .customer-cart-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .customer-cart-item-info {
+            flex: 1;
+        }
+
+        .customer-cart-item-info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .customer-cart-item-price {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 13px;
+        }
+
+        .customer-cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .customer-cart-controls button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            cursor: pointer;
+        }
+
+        .customer-cart-controls span {
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .customer-cart-empty {
+            text-align: center;
+            padding: 35px 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .customer-cart-empty i {
+            display: block;
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: #705cff;
+        }
+
+        .customer-cart-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .customer-cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .customer-order-button {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 13px;
+            background: #705cff;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .customer-order-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="customer-page">
+
+    <!-- HEADER BISNIS -->
+    <header class="customer-header">
+
+        <div class="customer-brand">
+
+            <div class="customer-logo">
+                <i class="fa-solid fa-store"></i>
+            </div>
+
+            <div>
+                <strong>Memuat bisnis...</strong>
+                <span>Memuat informasi...</span>
+            </div>
+
+        </div>
+<button
+    class="customer-cart check-order-button"
+    type="button"
+    id="checkOrderButton"
+    title="Cek status pesanan">
+
+    <i class="fa-solid fa-receipt"></i>
+    <span>Cek Pesanan</span>
+
+</button>
+        <button
+            class="customer-cart"
+            type="button"
+            id="cartButton">
+
+            <i class="fa-solid fa-cart-shopping"></i>
+
+            <span class="customer-cart-count" id="cartCount">
+                0
+            </span>
+
+        </button>
+
+    </header>
+
+
+    <!-- PROFIL BISNIS -->
+    <section class="customer-hero">
+
+        <span class="customer-label">
+            INFORMASI BISNIS
+        </span>
+
+        <h1 id="heroTitle">
+            Memuat bisnis...
+        </h1>
+
+        <p id="heroDescription">
+            Mengambil informasi bisnis...
+        </p>
+
+        <div class="customer-business-info">
+
+            <span id="businessAddress">
+                <i class="fa-solid fa-location-dot"></i>
+                Memuat alamat...
+            </span>
+
+            <span id="businessHours">
+                <i class="fa-solid fa-clock"></i>
+                Memuat jam operasional...
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRODUK -->
+    <main class="customer-content">
+
+        <div class="customer-section-header">
+
+            <div>
+
+                <span class="customer-label">
+                    PRODUK & LAYANAN
+                </span>
+
+                <h2>
+                    Pilihan Untuk Anda
+                </h2>
+
+            </div>
+
+            <div class="customer-search">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="productSearch"
+                    placeholder="Cari produk...">
+
+            </div>
+
+        </div>
+
+
+        <!-- KATEGORI -->
+        <div class="customer-categories" id="categoryButtons">
+
+            <button
+                class="active"
+                type="button"
+                data-category="Semua">
+                Semua
+            </button>
+
+            <button type="button" data-category="Makanan">
+                Makanan
+            </button>
+
+            <button type="button" data-category="Minuman">
+                Minuman
+            </button>
+
+            <button type="button" data-category="Fashion">
+                Fashion
+            </button>
+
+            <button type="button" data-category="Jasa">
+                Jasa
+            </button>
+
+            <button type="button" data-category="Lainnya">
+                Lainnya
+            </button>
+
+        </div>
+
+
+        <!-- PRODUCT GRID -->
+        <div class="customer-products" id="productContainer">
+
+            <div class="customer-loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <p>
+                    Memuat produk...
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="customer-footer">
+
+        <span>
+            Powered by SPC
+        </span>
+
+        <span>
+            Sistem Pelayanan Customer
+        </span>
+
+    </footer>
+
+</div>
+
+
+<!-- ===============================
+     CART MODAL
+=============================== -->
+
+<div
+    class="customer-cart-overlay"
+    id="cartOverlay">
+
+    <div class="customer-cart-modal">
+
+        <div class="customer-cart-header">
+
+            <h3>
+                <i class="fa-solid fa-cart-shopping"></i>
+                Keranjang
+            </h3>
+
+            <button
+                class="customer-cart-close"
+                id="closeCart"
+                type="button">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="customer-cart-items"
+            id="cartItems">
+
+        </div>
+
+
+        <div class="customer-cart-footer">
+
+            <div class="customer-cart-total">
+
+                <span>
+                    Total
+                </span>
+
+                <span id="cartTotal">
+                    Rp 0
+                </span>
+
+            </div>
+
+            <button
+                class="customer-order-button"
+                id="orderButton"
+                type="button"
+                disabled>
+
+                Lanjutkan Pesanan
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- ===============================
+     CEK STATUS PESANAN
+=============================== -->
+
+<div
+    class="customer-cart-overlay"
+    id="orderStatusOverlay">
+
+    <div class="customer-cart-modal">
+
+        <div class="customer-cart-header">
+
+            <h3>
+                <i class="fa-solid fa-receipt"></i>
+                Status Pesanan
+            </h3>
+
+            <button
+                class="customer-cart-close"
+                id="closeOrderStatus"
+                type="button">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <div style="padding: 20px;">
+
+            <p style="color: rgba(255,255,255,.55); margin-top:0;">
+                Masukkan nomor pesanan Anda.
+            </p>
+
+            <input
+                type="text"
+                id="orderNumberInput"
+                placeholder="Contoh: SPC-00001"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:13px;
+                    border-radius:12px;
+                    border:1px solid rgba(255,255,255,.1);
+                    background:rgba(255,255,255,.05);
+                    color:white;
+                    outline:none;
+                    margin-bottom:12px;
+                ">
+
+            <button
+                type="button"
+                id="checkOrderStatus"
+                class="customer-order-button">
+
+                Cek Status
+            </button>
+
+            <div
+                id="orderStatusResult"
+                style="margin-top:20px;">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", async function () {
+
+    // ==========================================
+    // DATA DASAR
+    // ==========================================
+
+    const params = new URLSearchParams(
+        window.location.search
+    );
+
+    const businessId = params.get("business");
+
+    // Backend API
+    const API_URL = "http://localhost:3000";
+
+    let products = [];
+    let cart = [];
+
+    let selectedCategory = "Semua";
+
+
+    // ==========================================
+    // ELEMENT
+    // ==========================================
+
+    const businessName =
+        document.querySelector(".customer-brand strong");
+
+    const businessStatus =
+        document.querySelector(".customer-brand span");
+
+    const heroTitle =
+        document.getElementById("heroTitle");
+
+    const heroDescription =
+        document.getElementById("heroDescription");
+
+    const businessAddress =
+        document.getElementById("businessAddress");
+
+    const businessHours =
+        document.getElementById("businessHours");
+
+    const productContainer =
+        document.getElementById("productContainer");
+
+    const searchInput =
+        document.getElementById("productSearch");
+
+    const cartButton =
+        document.getElementById("cartButton");
+
+    const cartCount =
+        document.getElementById("cartCount");
+
+    const cartOverlay =
+        document.getElementById("cartOverlay");
+
+    const closeCart =
+        document.getElementById("closeCart");
+
+    const cartItems =
+        document.getElementById("cartItems");
+
+    const cartTotal =
+        document.getElementById("cartTotal");
+
+    const orderButton =
+        document.getElementById("orderButton");
+
+const checkOrderButton =
+    document.getElementById("checkOrderButton");
+
+const orderStatusOverlay =
+    document.getElementById("orderStatusOverlay");
+
+const closeOrderStatus =
+    document.getElementById("closeOrderStatus");
+
+const orderNumberInput =
+    document.getElementById("orderNumberInput");
+
+const checkOrderStatusButton =
+    document.getElementById("checkOrderStatus");
+
+const orderStatusResult =
+    document.getElementById("orderStatusResult");
+    // ==========================================
+    // FORMAT RUPIAH
+    // ==========================================
+
+    function formatRupiah(value) {
+
+        return new Intl.NumberFormat(
+            "id-ID",
+            {
+                style: "currency",
+                currency: "IDR",
+                maximumFractionDigits: 0
+            }
+        ).format(Number(value) || 0);
+
+    }
+
+
+    // ==========================================
+    // ESCAPE HTML
+    // ==========================================
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    // ==========================================
+    // JIKA QR TIDAK VALID
+    // ==========================================
+
+    if (!businessId) {
+
+        businessName.textContent =
+            "Bisnis tidak ditemukan";
+
+        businessStatus.textContent =
+            "QR Code tidak valid";
+
+        heroTitle.textContent =
+            "Halaman Bisnis Tidak Ditemukan";
+
+        heroDescription.textContent =
+            "Silakan scan QR Code bisnis yang tersedia.";
+
+        productContainer.innerHTML = `
+            <div class="customer-empty">
+
+                <div class="customer-empty-icon">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+
+                <h3>
+                    QR Code Tidak Valid
+                </h3>
+
+                <p>
+                    Halaman ini harus dibuka melalui QR Code bisnis SPC.
+                </p>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // AMBIL DATA BISNIS
+    // ==========================================
+
+    async function loadBusiness() {
+
+        const response = await fetch(
+            API_URL +
+            "/api/businesses/" +
+            encodeURIComponent(businessId)
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+
+            throw new Error(
+                result.message ||
+                "Bisnis tidak ditemukan"
+            );
+
+        }
+
+        const business = result.data;
+
+        businessName.textContent =
+            business.name || "Nama Bisnis";
+
+        businessStatus.textContent =
+            "Bisnis Terverifikasi";
+
+        heroTitle.textContent =
+            "Selamat Datang di " +
+            (business.name || "Bisnis");
+
+        heroDescription.textContent =
+            business.description ||
+            "Lihat produk dan layanan yang tersedia dari bisnis ini.";
+
+        businessAddress.innerHTML =
+            '<i class="fa-solid fa-location-dot"></i> ' +
+            escapeHtml(
+                business.address ||
+                "Alamat belum tersedia"
+            );
+
+        const openTime =
+            business.open_time || "-";
+
+        const closeTime =
+            business.close_time || "-";
+
+        businessHours.innerHTML =
+            '<i class="fa-solid fa-clock"></i> ' +
+            escapeHtml(openTime) +
+            " - " +
+            escapeHtml(closeTime);
+
+    }
+
+
+    // ==========================================
+    // AMBIL PRODUK BISNIS
+    // ==========================================
+
+    async function loadProducts() {
+
+        productContainer.innerHTML = `
+            <div class="customer-loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                <p>
+                    Memuat produk...
+                </p>
+
+            </div>
+        `;
+
+        const response = await fetch(
+            API_URL +
+            "/api/businesses/" +
+            encodeURIComponent(businessId) +
+            "/products"
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+
+            throw new Error(
+                result.message ||
+                "Produk gagal dimuat"
+            );
+
+        }
+
+        products = result.data || [];
+
+        renderProducts();
+
+    }
+
+
+    // ==========================================
+    // RENDER PRODUK
+    // ==========================================
+
+    function renderProducts() {
+
+        const keyword =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        const filteredProducts =
+            products.filter(product => {
+
+                const matchCategory =
+                    selectedCategory === "Semua" ||
+                    String(product.category || "")
+                        .toLowerCase() ===
+                    selectedCategory.toLowerCase();
+
+                const matchSearch =
+                    String(product.name || "")
+                        .toLowerCase()
+                        .includes(keyword);
+
+                return matchCategory && matchSearch;
+
+            });
+
+
+        if (filteredProducts.length === 0) {
+
+            productContainer.innerHTML = `
+                <div class="customer-empty">
+
+                    <div class="customer-empty-icon">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+
+                    <h3>
+                        Belum ada produk
+                    </h3>
+
+                    <p>
+                        Tidak ada produk yang sesuai dengan pencarian Anda.
+                    </p>
+
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        productContainer.innerHTML =
+            filteredProducts.map(product => {
+
+                const stock =
+                    Number(product.stock) || 0;
+
+                const disabled =
+                    stock <= 0 ? "disabled" : "";
+
+                return `
+
+                    <div class="customer-product-card">
+
+                        <div class="customer-product-icon">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+
+                        <span class="customer-product-category">
+                            ${escapeHtml(
+                                product.category ||
+                                "Lainnya"
+                            )}
+                        </span>
+
+                        <h3>
+                            ${escapeHtml(product.name)}
+                        </h3>
+
+                        <p class="customer-product-description">
+                            ${escapeHtml(
+                                product.description ||
+                                "Produk tersedia untuk dipesan."
+                            )}
+                        </p>
+
+                        <div class="customer-product-bottom">
+
+                            <div>
+
+                                <div class="customer-product-price">
+                                    ${formatRupiah(product.price)}
+                                </div>
+
+                                <div class="customer-stock">
+                                    ${stock > 0
+                                        ? "Stok: " + stock
+                                        : "Stok habis"}
+                                </div>
+
+                            </div>
+
+                            <button
+                                class="customer-add-button"
+                                type="button"
+                                data-product-id="${product.id}"
+                                title="${stock > 0
+                                    ? "Tambah ke keranjang"
+                                    : "Stok habis"}"
+                                ${disabled}>
+
+                                <i class="fa-solid fa-plus"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+            }).join("");
+
+
+        document
+            .querySelectorAll(".customer-add-button")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const productId =
+                            Number(
+                                this.dataset.productId
+                            );
+
+                        addToCart(productId);
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    // ==========================================
+    // TAMBAH KE KERANJANG
+    // ==========================================
+
+    function addToCart(productId) {
+
+        const product =
+            products.find(
+                item =>
+                    Number(item.id) === productId
+            );
+
+        if (!product) return;
+
+        const stock =
+            Number(product.stock) || 0;
+
+        if (stock <= 0) {
+
+            alert("Produk sedang habis.");
+
+            return;
+
+        }
+
+        const existing =
+            cart.find(
+                item =>
+                    Number(item.id) === productId
+            );
+
+
+        if (existing) {
+
+            if (existing.quantity >= stock) {
+
+                alert(
+                    "Jumlah melebihi stok yang tersedia."
+                );
+
+                return;
+
+            }
+
+            existing.quantity++;
+
+        } else {
+
+            cart.push({
+
+                id: product.id,
+                name: product.name,
+                price: Number(product.price) || 0,
+                stock: stock,
+                quantity: 1
+
+            });
+
+        }
+
+        updateCart();
+
+    }
+
+
+    // ==========================================
+    // UPDATE KERANJANG
+    // ==========================================
+
+    function updateCart() {
+
+        const totalItems =
+            cart.reduce(
+                (total, item) =>
+                    total + item.quantity,
+                0
+            );
+
+        cartCount.textContent =
+            totalItems;
+
+
+        if (cart.length === 0) {
+
+            cartItems.innerHTML = `
+                <div class="customer-cart-empty">
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                    <div>
+                        Keranjang masih kosong.
+                    </div>
+
+                </div>
+            `;
+
+            cartTotal.textContent =
+                "Rp 0";
+
+            orderButton.disabled =
+                true;
+
+            return;
+
+        }
+
+
+        let totalPrice = 0;
+
+
+        cartItems.innerHTML =
+            cart.map(item => {
+
+                const subtotal =
+                    item.price *
+                    item.quantity;
+
+                totalPrice += subtotal;
+
+
+                return `
+
+                    <div class="customer-cart-item">
+
+                        <div class="customer-cart-item-info">
+
+                            <strong>
+                                ${escapeHtml(item.name)}
+                            </strong>
+
+                            <span class="customer-cart-item-price">
+                                ${formatRupiah(item.price)}
+                            </span>
+
+                        </div>
+
+                        <div class="customer-cart-controls">
+
+                            <button
+                                type="button"
+                                data-cart-action="minus"
+                                data-id="${item.id}">
+
+                                <i class="fa-solid fa-minus"></i>
+
+                            </button>
+
+                            <span>
+                                ${item.quantity}
+                            </span>
+
+                            <button
+                                type="button"
+                                data-cart-action="plus"
+                                data-id="${item.id}">
+
+                                <i class="fa-solid fa-plus"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+
+        cartTotal.textContent =
+            formatRupiah(totalPrice);
+
+        orderButton.disabled =
+            false;
+
+
+        document
+            .querySelectorAll("[data-cart-action]")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const id =
+                            Number(
+                                this.dataset.id
+                            );
+
+                        const action =
+                            this.dataset.cartAction;
+
+                        changeCartQuantity(
+                            id,
+                            action
+                        );
+
+                    }
+                );
+
+            });
+
+    }
+
+
+    // ==========================================
+    // UBAH JUMLAH
+    // ==========================================
+
+    function changeCartQuantity(
+        productId,
+        action
+    ) {
+
+        const item =
+            cart.find(
+                product =>
+                    Number(product.id) ===
+                    productId
+            );
+
+        if (!item) return;
+
+
+        if (action === "plus") {
+
+            if (item.quantity >= item.stock) {
+
+                alert(
+                    "Jumlah sudah mencapai stok tersedia."
+                );
+
+                return;
+
+            }
+
+            item.quantity++;
+
+        }
+
+
+        if (action === "minus") {
+
+            item.quantity--;
+
+            if (item.quantity <= 0) {
+
+                cart =
+                    cart.filter(
+                        product =>
+                            Number(product.id) !==
+                            productId
+                    );
+
+            }
+
+        }
+
+
+        updateCart();
+
+    }
+
+
+    // ==========================================
+    // FILTER KATEGORI
+    // ==========================================
+
+    document
+        .querySelectorAll(
+            "#categoryButtons button"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    document
+                        .querySelectorAll(
+                            "#categoryButtons button"
+                        )
+                        .forEach(item =>
+                            item.classList.remove(
+                                "active"
+                            )
+                        );
+
+                    this.classList.add("active");
+
+                    selectedCategory =
+                        this.dataset.category;
+
+                    renderProducts();
+
+                }
+            );
+
+        });
+
+
+    // ==========================================
+    // SEARCH
+    // ==========================================
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            renderProducts();
+
+        }
+    );
+
+
+    // ==========================================
+    // BUKA KERANJANG
+    // ==========================================
+
+    cartButton.addEventListener(
+        "click",
+        function () {
+
+            cartOverlay.classList.add("show");
+
+            updateCart();
+
+        }
+    );
+
+
+    // ==========================================
+    // TUTUP KERANJANG
+    // ==========================================
+
+    closeCart.addEventListener(
+        "click",
+        function () {
+
+            cartOverlay.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+    cartOverlay.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                cartOverlay
+            ) {
+
+                cartOverlay.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // PESAN
+    // ==========================================
+
+    orderButton.addEventListener(
+        "click",
+        async function () {
+
+            if (cart.length === 0) {
+
+                alert(
+                    "Keranjang masih kosong."
+                );
+
+                return;
+
+            }
+
+
+            // Cegah klik berkali-kali
+            orderButton.disabled = true;
+
+            orderButton.textContent =
+                "Mengirim Pesanan...";
+
+
+            try {
+
+                const items =
+                    cart.map(item => ({
+
+                        product_id:
+                            Number(item.id),
+
+                        quantity:
+                            Number(item.quantity)
+
+                    }));
+
+
+                // KIRIM KE BACKEND
+                const response =
+                    await fetch(
+                        API_URL + "/api/orders",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                business_id:
+                                    Number(businessId),
+
+                                customer_id:
+                                    null,
+
+                                items:
+                                    items
+
+                            })
+
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    !result.success
+                ) {
+
+                    throw new Error(
+                        result.message ||
+                        "Pesanan gagal dikirim."
+                    );
+
+                }
+
+
+                // Pesanan berhasil
+                alert(
+                    "Pesanan berhasil dibuat!\n\n" +
+                    "Nomor Pesanan: " +
+                    result.order.order_number +
+                    "\nTotal: " +
+                    formatRupiah(
+                        result.order.total
+                    )
+                );
+localStorage.setItem(
+    "spc_last_order_" + businessId,
+    result.order.order_number
+);
+
+                // Kosongkan keranjang
+                cart = [];
+
+                updateCart();
+
+
+                // Tutup modal
+                cartOverlay.classList.remove(
+                    "show"
+                );
+
+
+                // Refresh stok
+                await loadProducts();
+
+            } catch (error) {
+
+                console.error(
+                    "Order error:",
+                    error
+                );
+
+                alert(
+                    "Pesanan gagal dikirim.\n\n" +
+                    error.message
+                );
+
+            } finally {
+
+                orderButton.disabled =
+                    cart.length === 0;
+
+                orderButton.textContent =
+                    "Lanjutkan Pesanan";
+
+            }
+
+        }
+    );
+
+// ==========================================
+// CEK STATUS PESANAN
+// ==========================================
+
+checkOrderButton.addEventListener(
+    "click",
+    function () {
+
+        const savedOrder =
+            localStorage.getItem(
+                "spc_last_order_" + businessId
+            );
+
+        orderNumberInput.value =
+            savedOrder || "";
+
+        orderStatusResult.innerHTML = "";
+
+        orderStatusOverlay.classList.add("show");
+
+    }
+);
+
+
+closeOrderStatus.addEventListener(
+    "click",
+    function () {
+
+        orderStatusOverlay.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+orderStatusOverlay.addEventListener(
+    "click",
+    function (event) {
+
+        if (event.target === orderStatusOverlay) {
+
+            orderStatusOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+checkOrderStatusButton.addEventListener(
+    "click",
+    async function () {
+
+        const orderNumber =
+            orderNumberInput.value
+                .trim()
+                .toUpperCase();
+
+        if (!orderNumber) {
+
+            alert("Masukkan nomor pesanan.");
+
+            return;
+
+        }
+
+        checkOrderStatusButton.disabled = true;
+
+        checkOrderStatusButton.textContent =
+            "Mengecek...";
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/api/orders/" +
+                    encodeURIComponent(orderNumber) +
+                    "/status?business_id=" +
+                    encodeURIComponent(businessId)
+                );
+
+            const result =
+                await response.json();
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+
+                throw new Error(
+                    result.message ||
+                    "Pesanan tidak ditemukan."
+                );
+
+            }
+
+            const order = result.order;
+
+            let statusText = "Menunggu";
+            let statusIcon = "fa-clock";
+
+            if (order.status === "processing") {
+
+                statusText = "Sedang Diproses";
+                statusIcon = "fa-spinner";
+
+            }
+
+            if (order.status === "completed") {
+
+                statusText = "Selesai";
+                statusIcon = "fa-circle-check";
+
+            }
+
+            if (order.status === "cancelled") {
+
+                statusText = "Dibatalkan";
+                statusIcon = "fa-circle-xmark";
+
+            }
+
+            orderStatusResult.innerHTML = `
+
+                <div style="
+                    padding:18px;
+                    border-radius:15px;
+                    background:rgba(255,255,255,.04);
+                    border:1px solid rgba(255,255,255,.08);
+                ">
+
+                    <div style="
+                        font-size:13px;
+                        color:rgba(255,255,255,.5);
+                        margin-bottom:7px;
+                    ">
+                        Nomor Pesanan
+                    </div>
+
+                    <strong>
+                        ${escapeHtml(order.order_number)}
+                    </strong>
+
+                    <div style="
+                        margin-top:18px;
+                        font-size:13px;
+                        color:rgba(255,255,255,.5);
+                        margin-bottom:7px;
+                    ">
+                        Status
+                    </div>
+
+                    <div style="
+                        font-size:18px;
+                        font-weight:700;
+                    ">
+
+                        <i class="fa-solid ${statusIcon}"></i>
+
+                        ${statusText}
+
+                    </div>
+
+                    <div style="
+                        margin-top:12px;
+                        color:rgba(255,255,255,.55);
+                        font-size:13px;
+                    ">
+                        Total:
+                        ${formatRupiah(order.total)}
+                    </div>
+
+                </div>
+
+            `;
+
+        } catch (error) {
+
+            orderStatusResult.innerHTML = `
+
+                <div style="
+                    padding:15px;
+                    border-radius:12px;
+                    background:rgba(255,70,70,.08);
+                    border:1px solid rgba(255,70,70,.15);
+                    color:#ff8d8d;
+                ">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    ${escapeHtml(error.message)}
+
+                </div>
+
+            `;
+
+        } finally {
+
+            checkOrderStatusButton.disabled = false;
+
+            checkOrderStatusButton.textContent =
+                "Cek Status";
+
+        }
+
+    }
+);
+    // ==========================================
+    // LOAD AWAL
+    // ==========================================
+
+    try {
+
+        await loadBusiness();
+
+        await loadProducts();
+
+        updateCart();
+
+    } catch (error) {
+
+        console.error(
+            "Customer page error:",
+            error
+        );
+
+
+        businessName.textContent =
+            "Bisnis tidak ditemukan";
+
+        businessStatus.textContent =
+            "Tidak tersedia";
+
+        heroTitle.textContent =
+            "Bisnis Tidak Ditemukan";
+
+        heroDescription.textContent =
+            "Bisnis mungkin belum diverifikasi atau QR Code tidak valid.";
+
+
+        productContainer.innerHTML = `
+            <div class="customer-empty">
+
+                <div class="customer-empty-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <h3>
+                    Gagal Memuat Halaman
+                </h3>
+
+                <p>
+                    ${escapeHtml(error.message)}
+                </p>
+
+            </div>
+        `;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+```

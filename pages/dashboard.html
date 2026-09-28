@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard Owner | SPC</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="../style.css">
+    <script src="../auth.js"></script>
+
+    <style>
+
+        .dashboard-loading {
+            padding: 35px;
+            text-align: center;
+            color: #888894;
+        }
+
+        .dashboard-loading i {
+            color: #705cff;
+            margin-right: 8px;
+        }
+
+        .dashboard-error {
+            padding: 35px;
+            text-align: center;
+            color: #888894;
+        }
+
+        .dashboard-error i {
+            display: block;
+            font-size: 25px;
+            color: #f87171;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-order {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .dashboard-order:last-child {
+            border-bottom: none;
+        }
+
+        .dashboard-order-info {
+            min-width: 0;
+        }
+
+        .dashboard-order-number {
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .dashboard-order-date {
+            display: block;
+            margin-top: 4px;
+            color: #858592;
+            font-size: 11px;
+        }
+
+        .dashboard-order-right {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .dashboard-order-total {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .dashboard-order-status {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            background: rgba(112, 92, 255, 0.12);
+            color: #a99dff;
+        }
+
+        .dashboard-order-status.completed {
+            color: #6ee7b7;
+            background: rgba(16,185,129,0.10);
+        }
+
+        .dashboard-order-status.cancelled {
+            color: #fca5a5;
+            background: rgba(239,68,68,0.10);
+        }
+
+        .dashboard-order-status.processing {
+            color: #93c5fd;
+            background: rgba(59,130,246,0.10);
+        }
+
+        .dashboard-empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: #858592;
+        }
+
+        .dashboard-empty i {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 25px;
+            color: #705cff;
+        }
+
+        .owner-chart {
+            min-height: 220px;
+        }
+
+        .dashboard-chart {
+            height: 190px;
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            padding: 20px 10px 5px;
+        }
+
+        .dashboard-chart-day {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .dashboard-chart-value {
+            color: #858592;
+            font-size: 10px;
+        }
+
+        .dashboard-chart-bar-area {
+            width: 100%;
+            height: 145px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .dashboard-chart-bar {
+            width: 55%;
+            min-height: 4px;
+            border-radius: 6px 6px 2px 2px;
+            background: linear-gradient(
+                to top,
+                #705cff,
+                #9b8fff
+            );
+            box-shadow: 0 0 15px rgba(112,92,255,0.2);
+            transition: height .5s ease;
+        }
+
+        .dashboard-chart-label {
+            color: #777783;
+            font-size: 10px;
+        }
+
+        @media (max-width: 700px) {
+
+            .dashboard-chart {
+                gap: 5px;
+            }
+
+            .dashboard-chart-bar {
+                width: 70%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="owner-sidebar">
+
+        <a href="../index.html" class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <span>SPC</span>
+
+        </a>
+
+
+        <div class="sidebar-label">
+            MENU UTAMA
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="dashboard.html" class="active">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="profil-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Profil Bisnis</span>
+            </a>
+
+            <a href="produk-layanan.html">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Produk & Layanan</span>
+            </a>
+
+            <a href="pesanan.html">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pesanan</span>
+            </a>
+
+            <a href="pelanggan.html">
+                <i class="fa-solid fa-users"></i>
+                <span>Pelanggan</span>
+            </a>
+
+            <a href="statistik.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Statistik</span>
+            </a>
+
+            <a href="qr-code.html">
+                <i class="fa-solid fa-qrcode"></i>
+                <span>QR Code</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="pengaturan.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+            </a>
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="owner-main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="owner-topbar">
+
+            <div>
+
+                <span class="owner-breadcrumb">
+                    SPC / OWNER
+                </span>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="owner-profile">
+
+                <div
+                    class="owner-avatar"
+                    id="ownerAvatar"
+                >
+                    O
+                </div>
+
+                <div>
+
+                    <strong id="ownerName">
+                        Owner
+                    </strong>
+
+                    <span>
+                        Owner
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- CONTENT -->
+
+        <section class="owner-content">
+
+
+            <!-- WELCOME -->
+
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span>
+                        SELAMAT DATANG KEMBALI
+                    </span>
+
+                    <h2 id="welcomeName">
+                        Halo, Owner 👋
+                    </h2>
+
+                    <p>
+                        Berikut ringkasan aktivitas bisnis
+                        Anda hari ini.
+                    </p>
+
+                </div>
+
+
+                <div class="business-status">
+
+                    <span></span>
+
+                    <span id="businessStatus">
+                        Memuat...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATISTICS -->
+
+            <div class="owner-stats">
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pesanan Hari Ini
+                        </span>
+
+                        <strong id="ordersToday">
+                            0
+                        </strong>
+
+                        <small>
+                            Pesanan hari ini
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pelanggan
+                        </span>
+
+                        <strong id="totalCustomers">
+                            0
+                        </strong>
+
+                        <small>
+                            Total pelanggan
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Produk
+                        </span>
+
+                        <strong id="totalProducts">
+                            0
+                        </strong>
+
+                        <small>
+                            Produk aktif
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="owner-stat-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pendapatan
+                        </span>
+
+                        <strong id="revenueMonth">
+                            Rp 0
+                        </strong>
+
+                        <small>
+                            Bulan ini
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- GRID -->
+
+            <div class="owner-grid">
+
+
+                <!-- ACTIVITY -->
+
+                <div class="owner-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                AKTIVITAS
+                            </span>
+
+                            <h3>
+                                Aktivitas Pelayanan
+                            </h3>
+
+                        </div>
+
+                        <span>
+                            7 Hari
+                        </span>
+
+                    </div>
+
+
+                    <div class="owner-chart">
+
+                        <div
+                            class="dashboard-chart"
+                            id="activityChart"
+                        >
+
+                            <div class="dashboard-loading">
+
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                                Memuat aktivitas...
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RECENT ORDERS -->
+
+                <div class="owner-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                PESANAN
+                            </span>
+
+                            <h3>
+                                Pesanan Terbaru
+                            </h3>
+
+                        </div>
+
+                        <a href="pesanan.html">
+                            Lihat semua
+                        </a>
+
+                    </div>
+
+
+                    <div
+                        class="order-list"
+                        id="recentOrders"
+                    >
+
+                        <div class="dashboard-loading">
+
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+
+                            Memuat pesanan...
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- QUICK ACTION -->
+
+            <div class="owner-panel quick-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            AKSES CEPAT
+                        </span>
+
+                        <h3>
+                            Kelola Bisnis
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+                    <a href="produk-layanan.html">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        <span>
+                            Tambah Produk
+                        </span>
+
+                    </a>
+
+
+                    <a href="pesanan.html">
+
+                        <i class="fa-solid fa-cart-shopping"></i>
+
+                        <span>
+                            Lihat Pesanan
+                        </span>
+
+                    </a>
+
+
+                    <a href="qr-code.html">
+
+                        <i class="fa-solid fa-qrcode"></i>
+
+                        <span>
+                            Buka QR Code
+                        </span>
+
+                    </a>
+
+
+                    <a href="profil-bisnis.html">
+
+                        <i class="fa-solid fa-store"></i>
+
+                        <span>
+                            Profil Bisnis
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+<script>
+
+    const API_URL =
+        "http://localhost:3000";
+
+
+    // ================================
+    // HELPER
+    // ================================
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function formatRupiah(value) {
+
+        return new Intl.NumberFormat(
+            "id-ID",
+            {
+                style: "currency",
+                currency: "IDR",
+                maximumFractionDigits: 0
+            }
+        ).format(
+            Number(value) || 0
+        );
+
+    }
+
+
+    function formatDate(value) {
+
+        return new Date(value).toLocaleString(
+            "id-ID",
+            {
+                day: "2-digit",
+                month: "short",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    }
+
+
+    function statusLabel(status) {
+
+        const labels = {
+            pending: "Menunggu",
+            processing: "Diproses",
+            completed: "Selesai",
+            cancelled: "Dibatalkan"
+        };
+
+        return labels[status] || status;
+
+    }
+
+
+    // ================================
+    // OWNER INFO
+    // ================================
+
+    function loadOwnerInfo() {
+
+        try {
+
+            const user =
+                JSON.parse(
+                    localStorage.getItem(
+                        "spc_user"
+                    ) || "null"
+                );
+
+            if (!user) return;
+
+            const name =
+                user.name ||
+                user.email ||
+                "Owner";
+
+            document.getElementById(
+                "ownerName"
+            ).textContent = name;
+
+            document.getElementById(
+                "welcomeName"
+            ).textContent =
+                `Halo, ${name} 👋`;
+
+            document.getElementById(
+                "ownerAvatar"
+            ).textContent =
+                name
+                    .charAt(0)
+                    .toUpperCase();
+
+        } catch (error) {
+
+            console.error(
+                "Owner info error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    // ================================
+    // LOAD DASHBOARD
+    // ================================
+
+    async function loadDashboard() {
+
+        const token =
+            localStorage.getItem(
+                "spc_token"
+            );
+
+
+        if (!token) {
+
+            window.location.href =
+                "../login.html";
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/api/owner/dashboard-summary",
+                    {
+                        headers: {
+                            "Authorization":
+                                "Bearer " +
+                                token
+                        }
+                    }
+                );
+
+
+            if (response.status === 401) {
+
+                localStorage.removeItem(
+                    "spc_token"
+                );
+
+                localStorage.removeItem(
+                    "spc_user"
+                );
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Gagal mengambil dashboard"
+                );
+
+            }
+
+
+            renderDashboard(
+                data.dashboard
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Dashboard error:",
+                error
+            );
+
+            document.getElementById(
+                "activityChart"
+            ).innerHTML = `
+
+                <div class="dashboard-error">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    Gagal memuat dashboard
+
+                    <br>
+
+                    <small>
+                        ${escapeHtml(error.message)}
+                    </small>
+
+                </div>
+
+            `;
+
+            document.getElementById(
+                "recentOrders"
+            ).innerHTML = `
+
+                <div class="dashboard-error">
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    Gagal memuat pesanan
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    // ================================
+    // RENDER DASHBOARD
+    // ================================
+
+    function renderDashboard(data) {
+
+        document.getElementById(
+            "ordersToday"
+        ).textContent =
+            Number(
+                data.ordersToday || 0
+            );
+
+
+        document.getElementById(
+            "totalCustomers"
+        ).textContent =
+            Number(
+                data.totalCustomers || 0
+            );
+
+
+        document.getElementById(
+            "totalProducts"
+        ).textContent =
+            Number(
+                data.totalProducts || 0
+            );
+
+
+        document.getElementById(
+            "revenueMonth"
+        ).textContent =
+            formatRupiah(
+                data.revenueMonth
+            );
+
+
+        // STATUS BISNIS
+
+        const status =
+            data.businessStatus;
+
+        const statusElement =
+            document.getElementById(
+                "businessStatus"
+            );
+
+        const statusMap = {
+
+            active: "Bisnis Aktif",
+
+            approved: "Bisnis Aktif",
+
+            pending: "Menunggu Verifikasi",
+
+            rejected: "Ditolak"
+
+        };
+
+        statusElement.textContent =
+            statusMap[status] ||
+            status ||
+            "Belum tersedia";
+
+
+        renderChart(
+            data.chart || []
+        );
+
+
+        renderRecentOrders(
+            data.recentOrders || []
+        );
+
+    }
+
+
+    // ================================
+    // CHART
+    // ================================
+
+    function renderChart(data) {
+
+        const container =
+            document.getElementById(
+                "activityChart"
+            );
+
+
+        const days = [];
+
+
+        for (
+            let i = 6;
+            i >= 0;
+            i--
+        ) {
+
+            const date =
+                new Date();
+
+            date.setHours(
+                0,
+                0,
+                0,
+                0
+            );
+
+            date.setDate(
+                date.getDate() - i
+            );
+
+
+            const key =
+                date
+                    .toISOString()
+                    .split("T")[0];
+
+
+            const found =
+                data.find(
+                    item =>
+                        String(
+                            item.order_date
+                        ).slice(0, 10) === key
+                );
+
+
+            days.push({
+
+                date,
+
+                total: found
+                    ? Number(found.total)
+                    : 0
+
+            });
+
+        }
+
+
+        const max =
+            Math.max(
+                ...days.map(
+                    day => day.total
+                ),
+                1
+            );
+
+
+        container.innerHTML =
+            days.map(day => {
+
+                const label =
+                    day.date.toLocaleDateString(
+                        "id-ID",
+                        {
+                            weekday: "short"
+                        }
+                    ).replace(
+                        ".",
+                        ""
+                    );
+
+
+                const height =
+                    day.total === 0
+                        ? 4
+                        : Math.max(
+                            8,
+                            (
+                                day.total /
+                                max
+                            ) * 100
+                        );
+
+
+                return `
+
+                    <div class="dashboard-chart-day">
+
+                        <span class="dashboard-chart-value">
+                            ${day.total}
+                        </span>
+
+                        <div class="dashboard-chart-bar-area">
+
+                            <div
+                                class="dashboard-chart-bar"
+                                style="height:${height}%"
+                            ></div>
+
+                        </div>
+
+                        <span class="dashboard-chart-label">
+                            ${escapeHtml(label)}
+                        </span>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    // ================================
+    // RECENT ORDERS
+    // ================================
+
+    function renderRecentOrders(orders) {
+
+        const container =
+            document.getElementById(
+                "recentOrders"
+            );
+
+
+        if (!orders.length) {
+
+            container.innerHTML = `
+
+                <div class="dashboard-empty">
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                    <h4>
+                        Belum ada pesanan
+                    </h4>
+
+                    <p>
+                        Pesanan dari customer akan
+                        muncul di sini.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            orders.map(order => {
+
+                const status =
+                    escapeHtml(
+                        order.status
+                    );
+
+
+                return `
+
+                    <div class="dashboard-order">
+
+                        <div class="dashboard-order-info">
+
+                            <div class="dashboard-order-number">
+                                ${escapeHtml(
+                                    order.order_number
+                                )}
+                            </div>
+
+                            <span class="dashboard-order-date">
+                                ${formatDate(
+                                    order.created_at
+                                )}
+                            </span>
+
+                        </div>
+
+                        <div class="dashboard-order-right">
+
+                            <div class="dashboard-order-total">
+                                ${formatRupiah(
+                                    order.total
+                                )}
+                            </div>
+
+                            <span class="dashboard-order-status ${status}">
+                                ${statusLabel(
+                                    order.status
+                                )}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    // ================================
+    // START
+    // ================================
+
+    loadOwnerInfo();
+
+    loadDashboard();
+
+</script>
+
+</body>
+
+</html>

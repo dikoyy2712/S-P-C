@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Masuk | SPC</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <span>SPC</span>
+
+        </a>
+
+
+        <div class="nav-buttons">
+
+            <a
+                href="index.html"
+                class="btn-login"
+            >
+                <i class="fa-solid fa-arrow-left"></i>
+                Kembali
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- LOGIN -->
+    <main class="auth-page">
+
+        <div class="auth-container">
+
+
+            <!-- HEADER -->
+            <div class="auth-header">
+
+                <div class="auth-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+
+                <span>WELCOME BACK</span>
+
+                <h1>
+                    Masuk ke SPC
+                </h1>
+
+                <p>
+                    Kelola bisnis dan layanan Anda
+                    melalui satu sistem.
+                </p>
+
+            </div>
+
+
+            <!-- FORM -->
+            <form
+                class="auth-form"
+                id="loginForm"
+            >
+
+
+                <!-- EMAIL -->
+                <div class="input-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="nama@email.com"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Masukkan password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                        >
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTIONS -->
+                <div class="auth-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="remember"
+                        >
+
+                        <span>
+                            Ingat saya
+                        </span>
+
+                    </label>
+
+
+                    <a href="#">
+                        Lupa password?
+                    </a>
+
+                </div>
+
+
+                <!-- BUTTON LOGIN -->
+                <button
+                    type="submit"
+                    class="btn-primary auth-submit"
+                >
+
+                    <span>
+                        Masuk
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
+
+            <!-- DIVIDER -->
+            <div class="auth-divider">
+
+                <span>
+                    atau
+                </span>
+
+            </div>
+
+
+            <!-- REGISTER -->
+            <div class="auth-register">
+
+                <span>
+                    Belum punya akun?
+                </span>
+
+                <a href="register.html">
+                    Daftar sekarang
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="login.js"></script>
+
+</body>
+
+</html>

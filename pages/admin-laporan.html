@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPC — Laporan</title>
+
+    <link rel="stylesheet" href="../style.css">
+    <script src="../auth.js"></script>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="owner-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="owner-sidebar">
+
+        <div class="owner-logo">
+
+            <div class="owner-logo-mark">
+                SPC
+            </div>
+
+            <div>
+                <strong>SPC</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="admin-dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="verifikasi-bisnis.html">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Verifikasi Bisnis</span>
+            </a>
+
+            <a href="admin-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Bisnis</span>
+            </a>
+
+            <a href="admin-pengguna.html">
+                <i class="fa-solid fa-users"></i>
+                <span>Pengguna</span>
+            </a>
+
+            <a href="admin-laporan.html" class="active">
+                <i class="fa-solid fa-chart-column"></i>
+                <span>Laporan</span>
+            </a>
+
+           <a href="admin-pengaturan.html">
+    <i class="fa-solid fa-gear"></i>
+    <span>Pengaturan</span>
+</a>
+
+        </nav>
+
+
+        <div class="owner-sidebar-bottom">
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="owner-main">
+
+        <header class="owner-topbar">
+
+            <div class="owner-breadcrumb">
+                SPC
+                <span>/</span>
+                ADMIN
+                <span>/</span>
+                LAPORAN
+            </div>
+
+            <div class="owner-profile">
+
+                <div class="owner-avatar">
+                    A
+                </div>
+
+                <div>
+                    <strong>Administrator</strong>
+                    <span>Admin SPC</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="owner-content">
+
+            <!-- WELCOME -->
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span class="welcome-label">
+                        ANALISIS SISTEM
+                    </span>
+
+                    <h1>
+                        Laporan
+                    </h1>
+
+                    <p>
+                        Ringkasan data dan aktivitas sistem SPC.
+                    </p>
+
+                </div>
+
+
+                <div class="business-status">
+
+                    <span class="status-dot"></span>
+
+                    SISTEM ONLINE
+
+                </div>
+
+            </div>
+
+
+            <!-- STATISTIK -->
+            <div class="owner-stats">
+
+                <div class="owner-stat-card">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Bisnis</span>
+                        <strong id="totalBusiness">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Pengguna</span>
+                        <strong id="totalUsers">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Pesanan</span>
+                        <strong id="totalOrders">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="owner-stat-card">
+
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+
+                    <div>
+                        <span>Total Pendapatan</span>
+                        <strong id="totalRevenue">Rp 0</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LAPORAN DETAIL -->
+            <div class="owner-grid">
+
+                <!-- PENGGUNA -->
+                <div class="owner-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                PENGGUNA
+                            </span>
+
+                            <h3>
+                                Statistik Pengguna
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="report-stat-list">
+
+                        <div>
+                            <span>Owner</span>
+                            <strong id="totalOwners">0</strong>
+                        </div>
+
+                        <div>
+                            <span>Customer</span>
+                            <strong id="totalCustomers">0</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INFORMASI -->
+                <div class="owner-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                SISTEM
+                            </span>
+
+                            <h3>
+                                Ringkasan
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-empty">
+
+                        <div class="admin-empty-icon">
+
+                            <i class="fa-solid fa-chart-line"></i>
+
+                        </div>
+
+                        <h4>
+                            Data laporan terhubung
+                        </h4>
+
+                        <p>
+                            Informasi di halaman ini diambil langsung dari database SPC.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="admin-laporan.js"></script>
+
+</body>
+
+</html>

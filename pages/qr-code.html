@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>QR Code | SPC</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <script src="../auth.js"></script>
+</head>
+
+<body>
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="owner-sidebar">
+
+        <a href="dashboard.html" class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <span>SPC</span>
+        </a>
+
+        <div class="sidebar-label">
+            MENU UTAMA
+        </div>
+
+        <nav class="owner-menu">
+
+            <a href="dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="profil-bisnis.html">
+                <i class="fa-solid fa-store"></i>
+                <span>Profil Bisnis</span>
+            </a>
+
+            <a href="produk-layanan.html">
+                <i class="fa-solid fa-box-open"></i>
+                <span>Produk & Layanan</span>
+            </a>
+
+            <a href="pesanan.html">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pesanan</span>
+            </a>
+
+            <a href="pelanggan.html">
+                <i class="fa-solid fa-users"></i>
+                <span>Pelanggan</span>
+            </a>
+
+            <a href="statistik.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Statistik</span>
+            </a>
+
+            <a href="qr-code.html" class="active">
+                <i class="fa-solid fa-qrcode"></i>
+                <span>QR Code</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="pengaturan.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+            </a>
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="owner-main">
+
+        <!-- TOPBAR -->
+        <header class="owner-topbar">
+
+            <div>
+                <span class="owner-breadcrumb">
+                    SPC / OWNER / QR CODE
+                </span>
+
+                <h1>
+                    QR Code
+                </h1>
+            </div>
+
+            <div class="owner-profile">
+
+            <div class="owner-avatar" id="ownerAvatar">O</div>
+
+                <div>
+                  <strong id="ownerName">Owner</strong>
+                    <span>
+                        Owner
+                    </span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="owner-content">
+
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span>
+                        AKSES BISNIS
+                    </span>
+
+                    <h2>
+                        QR Code Bisnis
+                    </h2>
+
+                    <p>
+                        Gunakan QR Code untuk mengarahkan
+                        pelanggan ke halaman bisnis Anda.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- QR SECTION -->
+            <div class="qr-page-grid">
+
+                <!-- QR CARD -->
+                <div class="owner-panel qr-card">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                QR CODE
+                            </span>
+
+                            <h3>
+                                Akses Pelanggan
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="qr-display">
+
+                        <div id="qrcode"></div>
+
+                        <strong id="qr-status">
+                            Memuat QR Code...
+                        </strong>
+
+                        <p id="qr-description">
+                            QR Code akan mengarahkan Customer langsung
+                            ke halaman bisnis Anda.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INFO CARD -->
+                <div class="owner-panel qr-info-card">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span>
+                                INFORMASI
+                            </span>
+
+                            <h3>
+                                Cara Menggunakan
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="qr-steps">
+
+                        <div class="qr-step">
+
+                            <div class="qr-step-number">
+                                01
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Bagikan QR Code
+                                </strong>
+
+                                <p>
+                                    Tempelkan QR Code di
+                                    tempat yang mudah dilihat.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="qr-step">
+
+                            <div class="qr-step-number">
+                                02
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Customer Scan
+                                </strong>
+
+                                <p>
+                                    Customer memindai QR Code
+                                    menggunakan kamera.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="qr-step">
+
+                            <div class="qr-step-number">
+                                03
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Buka Halaman Bisnis
+                                </strong>
+
+                                <p>
+                                    Customer langsung diarahkan
+                                    ke halaman bisnis Anda.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- QR CODE SCRIPT -->
+    <script>
+
+        document.addEventListener("DOMContentLoaded", async function () {
+
+            const token =
+                localStorage.getItem("spc_token");
+
+            const qrContainer =
+                document.getElementById("qrcode");
+
+            const qrStatus =
+                document.getElementById("qr-status");
+
+            const qrDescription =
+                document.getElementById("qr-description");
+
+
+            if (!token) {
+
+                window.location.href = "../login.html";
+
+                return;
+            }
+const user = JSON.parse(
+    localStorage.getItem("spc_user")
+);
+
+const ownerName =
+    document.getElementById("ownerName");
+
+const ownerAvatar =
+    document.getElementById("ownerAvatar");
+
+if (user) {
+
+    if (ownerName) {
+        ownerName.textContent = user.name;
+    }
+
+    if (ownerAvatar) {
+        ownerAvatar.textContent =
+            user.name.charAt(0).toUpperCase();
+    }
+
+}
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:3000/api/owner/business",
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        }
+                    }
+                );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok || !result.success) {
+
+                    throw new Error(
+                        result.message ||
+                        "Gagal mengambil data bisnis"
+                    );
+
+                }
+
+
+                const business =
+                    result.data;
+
+
+                if (!business) {
+
+                    qrStatus.textContent =
+                        "Bisnis belum tersedia";
+
+                    qrDescription.textContent =
+                        "Silakan lengkapi Profil Bisnis terlebih dahulu.";
+
+                    return;
+                }
+
+
+                // CEK STATUS BISNIS
+
+                if (
+                    business.verification_status !==
+                    "approved"
+                ) {
+
+                    qrStatus.textContent =
+                        "QR Code belum tersedia";
+
+                    qrDescription.textContent =
+                        "QR Code akan tersedia setelah bisnis Anda disetujui Admin SPC.";
+
+                    return;
+                }
+
+
+                // URL CUSTOMER
+
+                const customerUrl =
+                    window.location.origin +
+                    "/pages/customer.html?business=" +
+                    business.id;
+
+
+                // BUAT QR CODE
+
+                const qrImage =
+                    document.createElement("img");
+
+
+                qrImage.src =
+                    "https://quickchart.io/qr?text=" +
+                    encodeURIComponent(customerUrl) +
+                    "&size=220";
+
+
+                qrImage.width = 220;
+                qrImage.height = 220;
+
+                qrImage.alt =
+                    "QR Code " + business.name;
+
+
+                qrContainer.innerHTML = "";
+
+                qrContainer.appendChild(qrImage);
+
+
+                // STATUS
+
+                qrStatus.textContent =
+                    "QR Code siap digunakan";
+
+
+                qrDescription.textContent =
+                    "Scan QR Code ini untuk membuka halaman " +
+                    business.name + ".";
+
+
+                // URL CUSTOMER
+
+                const urlElement =
+                    document.createElement("small");
+
+
+                urlElement.textContent =
+                    customerUrl;
+
+
+                urlElement.style.display =
+                    "block";
+
+                urlElement.style.marginTop =
+                    "15px";
+
+                urlElement.style.wordBreak =
+                    "break-all";
+
+                urlElement.style.opacity =
+                    "0.7";
+
+
+                qrDescription.after(
+                    urlElement
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "QR Code error:",
+                    error
+                );
+
+
+                qrStatus.textContent =
+                    "Gagal memuat QR Code";
+
+
+                qrDescription.textContent =
+                    "Pastikan server SPC sedang berjalan.";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
