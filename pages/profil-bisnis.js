@@ -195,7 +195,6 @@ if (ownerAvatar) {
             return;
         }
 
-
         try {
 
             const response = await fetch(
