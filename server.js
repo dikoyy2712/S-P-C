@@ -8,31 +8,78 @@ const bcrypt = require("bcrypt");
 const pool = require("./db");
 
 const app = express();
+
+app.use(cors());
+app.use(helmet());
+
+app.use(express.json({
+    type: "*/*"
+}));
+
+app.use(express.urlencoded({
+    extended: true
+}));
+
 app.use(express.static(__dirname));
+
 const PORT = process.env.PORT || 3000;
-app.get("/api/db-test", async (req, res) => {
+
+app.use(express.static(__dirname));
+
+const PORT = process.env.PORT || 3000;
+// ===============================
+// STATUS BACKEND
+// ===============================
+app.get("/api/status", (req, res) => {
+    res.json({
+        success: true,
+        message: "Backend SPC aktif"
+    });
+});
+
+
+// ===============================
+// DAFTAR BISNIS UNTUK CUSTOMER
+// ===============================
+app.get("/api/businesses", async (req, res) => {
     try {
-        const result = await pool.query("SELECT NOW()");
+        const result = await pool.query(`
+            SELECT
+                id,
+                name,
+                category,
+                logo_url,
+                description,
+                address,
+                phone,
+                email,
+                open_time,
+                close_time,
+                verification_status
+            FROM businesses
+            WHERE verification_status = 'approved'
+            ORDER BY id DESC
+        `);
 
         res.json({
             success: true,
-            message: "Database Supabase terhubung",
-            time: result.rows[0].now
+            data: result.rows
         });
 
     } catch (error) {
-        console.error("DB TEST ERROR:", error);
+        console.error(
+            "Gagal mengambil bisnis:",
+            error.message
+        );
 
         res.status(500).json({
             success: false,
-            name: error.name || "",
-            code: error.code || "",
-            message: error.message || "",
-            detail: error.detail || "",
-            hint: error.hint || ""
+            message: "Gagal mengambil data bisnis"
         });
     }
 });
+
+
 // ===============================
 // ADMIN - DAFTAR BISNIS
 // ===============================
@@ -170,9 +217,9 @@ app.post("/api/login", async (req, res) => {
     try {
 
         const {
-            email,
-            password
-        } = req.body;
+    email,
+    password
+} = req.body || {};
 
         if (!email || !password) {
             return res.status(400).json({
@@ -1091,40 +1138,6 @@ app.patch(
 // ===============================
 // CUSTOMER - DETAIL BISNIS
 // ===============================
-app.get("/api/businesses", async (req, res) => {
-    try {
-        const result = await pool.query(`
-            SELECT
-                id,
-                name,
-                category,
-                logo_url,
-                description,
-                address,
-                phone,
-                email,
-                open_time,
-                close_time,
-                verification_status
-            FROM businesses
-            WHERE verification_status = 'approved'
-            ORDER BY id DESC
-        `);
-
-        res.json({
-            success: true,
-            data: result.rows
-        });
-
-    } catch (error) {
-        console.error("Gagal mengambil bisnis:", error);
-
-        res.status(500).json({
-            success: false,
-            message: "Gagal mengambil data bisnis"
-        });
-    }
-});
 app.get(
     "/api/businesses/:id",
     async (req, res) => {
