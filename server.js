@@ -24,9 +24,6 @@ app.use(express.static(__dirname));
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(__dirname));
-
-const PORT = process.env.PORT || 3000;
 // ===============================
 // STATUS BACKEND
 // ===============================
@@ -36,7 +33,6 @@ app.get("/api/status", (req, res) => {
         message: "Backend SPC aktif"
     });
 });
-
 
 // ===============================
 // DAFTAR BISNIS UNTUK CUSTOMER
