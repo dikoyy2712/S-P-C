@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ========================================= */
 
             try {
-
                 const response =
                     await fetch(
     "/api/login",
