@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
 
                 const response =
-                    await await fetch(
+                    await fetch(
     "/api/login",
                         {
                             method: "POST",
