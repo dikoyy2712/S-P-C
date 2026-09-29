@@ -13,77 +13,26 @@ const PORT = process.env.PORT || 3000;
 app.get("/api/db-test", async (req, res) => {
     try {
         const result = await pool.query("SELECT NOW()");
+
         res.json({
             success: true,
             message: "Database Supabase terhubung",
             time: result.rows[0].now
         });
-    } catch (error) {
-        console.error("DB TEST ERROR:", error.message);
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-});
-app.use(cors());
-app.use(helmet());
-app.use(express.json());
-
-
-// ===============================
-// STATUS BACKEND
-// ===============================
-app.get("/api/status", (req, res) => {
-    res.json({
-        success: true,
-        message: "Backend SPC aktif"
-    });
-});
-
-
-// ===============================
-// DAFTAR BISNIS UNTUK CUSTOMER
-// ===============================
-app.get("/api/businesses", async (req, res) => {
-    try {
-        const result = await pool.query(`
-            SELECT
-                id,
-                name,
-                category,
-                logo_url,
-                description,
-                address,
-                phone,
-                email,
-                open_time,
-                close_time,
-                verification_status
-            FROM businesses
-            WHERE verification_status = 'approved'
-            ORDER BY id DESC
-        `);
-
-        res.json({
-            success: true,
-            data: result.rows
-        });
 
     } catch (error) {
-        console.error(
-            "Gagal mengambil bisnis:",
-            error.message
-        );
+        console.error("DB TEST ERROR:", error);
 
         res.status(500).json({
             success: false,
-            message: "Gagal mengambil data bisnis"
+            name: error.name || "",
+            code: error.code || "",
+            message: error.message || "",
+            detail: error.detail || "",
+            hint: error.hint || ""
         });
     }
 });
-
-
 // ===============================
 // ADMIN - DAFTAR BISNIS
 // ===============================
