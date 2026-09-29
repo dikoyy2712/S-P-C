@@ -68,7 +68,7 @@ if (user) {
     async function apiRequest(url, options = {}) {
 
         const response = await fetch(
-            "http://" + url,
+    url,
             {
                 ...options,
                 headers: {
