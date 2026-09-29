@@ -1,189 +1,544 @@
-document.addEventListener("DOMContentLoaded", () => {
-    loadOwnerDashboard();
-});
+const API_URL = "";
 
-async function loadOwnerDashboard() {
-    const userData = localStorage.getItem("spc_user");
 
-    if (!userData) {
-        window.location.href = "../login.html";
-        return;
-    }
+// ================================
+// HELPER
+// ================================
 
-    let user;
+function escapeHtml(value) {
 
-    try {
-        user = JSON.parse(userData);
-    } catch (error) {
-        localStorage.removeItem("spc_user");
-        localStorage.removeItem("spc_token");
-        window.location.href = "../login.html";
-        return;
-    }
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
-    try {
-        const response = await fetch(
-            `http:///api/owner/dashboard?owner_id=${encodeURIComponent(user.id)}`
-        );
-
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(result.message || "Gagal mengambil dashboard");
-        }
-
-        const data = result.data;
-
-        setText("ownerName", user.name || "Owner");
-        setText("welcomeName", `Halo, ${user.name || "Owner"} 👋`);
-
-        const businessStatus = document.getElementById("businessStatus");
-
-        if (businessStatus) {
-            if (!data.business) {
-                businessStatus.textContent = "Belum Ada Bisnis";
-            } else if (data.business.verification_status === "approved") {
-                businessStatus.textContent = "Bisnis Aktif";
-            } else if (data.business.verification_status === "pending") {
-                businessStatus.textContent = "Menunggu Verifikasi";
-            } else {
-                businessStatus.textContent = "Bisnis Belum Aktif";
-            }
-        }
-
-        setText("ordersToday", data.orders_today);
-        setText("totalCustomers", data.total_customers);
-        setText("totalProducts", data.total_products);
-        setText("revenueMonth", formatRupiah(data.revenue_month));
-
-        renderRecentOrders(data.recent_orders || []);
-        renderActivityChart(data.activity || []);
-
-    } catch (error) {
-        console.error("Gagal memuat dashboard owner:", error);
-        showDashboardError(error.message);
-    }
 }
 
-function setText(id, value) {
-    const element = document.getElementById(id);
-    if (element) element.textContent = value;
-}
-
-function renderRecentOrders(orders) {
-    const orderList = document.getElementById("recentOrders");
-    if (!orderList) return;
-
-    if (!orders.length) {
-        orderList.innerHTML = `
-            <div class="admin-empty">
-                <div class="admin-empty-icon">
-                    <i class="fa-solid fa-receipt"></i>
-                </div>
-                <h4>Belum ada pesanan</h4>
-                <p>Pesanan pelanggan akan muncul di sini.</p>
-            </div>
-        `;
-        return;
-    }
-
-    orderList.innerHTML = orders.map(order => `
-        <div class="owner-order">
-            <div class="order-icon">
-                <i class="fa-solid fa-receipt"></i>
-            </div>
-
-            <div>
-                <strong>${escapeHtml(order.order_number)}</strong>
-                <span>${formatRupiah(order.total)}</span>
-            </div>
-
-            <span class="${getOrderStatusClass(order.status)}">
-                ${escapeHtml(formatOrderStatus(order.status))}
-            </span>
-        </div>
-    `).join("");
-}
-
-function renderActivityChart(activity) {
-    const chartBars = document.querySelector(".chart-bars");
-    const chartDays = document.querySelector(".chart-days");
-
-    if (!chartBars || !chartDays) return;
-
-    if (!activity.length) {
-        chartBars.innerHTML = Array.from({ length: 7 }, () =>
-            '<span style="height: 4%"></span>'
-        ).join("");
-        chartDays.innerHTML = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"]
-            .map(day => `<span>${day}</span>`)
-            .join("");
-        return;
-    }
-
-    const max = Math.max(...activity.map(item => Number(item.total) || 0), 1);
-
-    chartBars.innerHTML = activity.map(item => {
-        const total = Number(item.total) || 0;
-        const height = total === 0 ? 4 : Math.max(8, Math.round((total / max) * 100));
-        return `<span style="height: ${height}%" title="${total} pesanan"></span>`;
-    }).join("");
-
-    chartDays.innerHTML = activity.map(item =>
-        `<span>${escapeHtml(item.day)}</span>`
-    ).join("");
-}
-
-function showDashboardError(message) {
-    const orderList = document.getElementById("recentOrders");
-    if (!orderList) return;
-
-    orderList.innerHTML = `
-        <div class="admin-empty">
-            <div class="admin-empty-icon">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h4>Data dashboard belum dapat dimuat</h4>
-            <p>${escapeHtml(message || "Periksa koneksi backend dan database.")}</p>
-        </div>
-    `;
-}
 
 function formatRupiah(value) {
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        maximumFractionDigits: 0
-    }).format(Number(value) || 0);
+
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }
+    ).format(
+        Number(value) || 0
+    );
+
 }
 
-function formatOrderStatus(status) {
-    const statusMap = {
+
+function formatDate(value) {
+
+    return new Date(value).toLocaleString(
+        "id-ID",
+        {
+            day: "2-digit",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+function statusLabel(status) {
+
+    const labels = {
         pending: "Menunggu",
         processing: "Diproses",
         completed: "Selesai",
         cancelled: "Dibatalkan"
     };
 
-    return statusMap[status] || status || "Menunggu";
+    return labels[status] || status;
+
 }
 
-function getOrderStatusClass(status) {
-    const classMap = {
-        pending: "status-processing",
-        processing: "status-processing",
-        completed: "status-complete",
-        cancelled: "status-cancelled"
+
+// ================================
+// OWNER INFO
+// ================================
+
+function loadOwnerInfo() {
+
+    try {
+
+        const user =
+            JSON.parse(
+                localStorage.getItem(
+                    "spc_user"
+                ) || "null"
+            );
+
+        if (!user) return;
+
+        const name =
+            user.name ||
+            user.email ||
+            "Owner";
+
+        document.getElementById(
+            "ownerName"
+        ).textContent = name;
+
+        document.getElementById(
+            "welcomeName"
+        ).textContent =
+            `Halo, ${name} 👋`;
+
+        document.getElementById(
+            "ownerAvatar"
+        ).textContent =
+            name
+                .charAt(0)
+                .toUpperCase();
+
+    } catch (error) {
+
+        console.error(
+            "Owner info error:",
+            error
+        );
+
+    }
+
+}
+
+
+// ================================
+// LOAD DASHBOARD
+// ================================
+
+async function loadDashboard() {
+
+    const token =
+        localStorage.getItem(
+            "spc_token"
+        );
+
+
+    if (!token) {
+
+        window.location.href =
+            "../login.html";
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/owner/dashboard-summary",
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " +
+                            token
+                    }
+                }
+            );
+
+
+        if (response.status === 401) {
+
+            localStorage.removeItem(
+                "spc_token"
+            );
+
+            localStorage.removeItem(
+                "spc_user"
+            );
+
+            window.location.href =
+                "../login.html";
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Gagal mengambil dashboard"
+            );
+
+        }
+
+
+        renderDashboard(
+            data.dashboard
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+        document.getElementById(
+            "activityChart"
+        ).innerHTML = `
+
+            <div class="dashboard-error">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                Gagal memuat dashboard
+
+                <br>
+
+                <small>
+                    ${escapeHtml(error.message)}
+                </small>
+
+            </div>
+
+        `;
+
+        document.getElementById(
+            "recentOrders"
+        ).innerHTML = `
+
+            <div class="dashboard-error">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                Gagal memuat pesanan
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ================================
+// RENDER DASHBOARD
+// ================================
+
+function renderDashboard(data) {
+
+    document.getElementById(
+        "ordersToday"
+    ).textContent =
+        Number(
+            data.ordersToday || 0
+        );
+
+
+    document.getElementById(
+        "totalCustomers"
+    ).textContent =
+        Number(
+            data.totalCustomers || 0
+        );
+
+
+    document.getElementById(
+        "totalProducts"
+    ).textContent =
+        Number(
+            data.totalProducts || 0
+        );
+
+
+    document.getElementById(
+        "revenueMonth"
+    ).textContent =
+        formatRupiah(
+            data.revenueMonth
+        );
+
+
+    // STATUS BISNIS
+
+    const status =
+        data.businessStatus;
+
+    const statusElement =
+        document.getElementById(
+            "businessStatus"
+        );
+
+    const statusMap = {
+
+        active: "Bisnis Aktif",
+
+        approved: "Bisnis Aktif",
+
+        pending: "Menunggu Verifikasi",
+
+        rejected: "Ditolak"
+
     };
 
-    return classMap[status] || "status-processing";
+    statusElement.textContent =
+        statusMap[status] ||
+        status ||
+        "Belum tersedia";
+
+
+    renderChart(
+        data.chart || []
+    );
+
+
+    renderRecentOrders(
+        data.recentOrders || []
+    );
+
 }
 
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+
+// ================================
+// CHART
+// ================================
+
+function renderChart(data) {
+
+    const container =
+        document.getElementById(
+            "activityChart"
+        );
+
+
+    const days = [];
+
+
+    for (
+        let i = 6;
+        i >= 0;
+        i--
+    ) {
+
+        const date =
+            new Date();
+
+        date.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+        date.setDate(
+            date.getDate() - i
+        );
+
+
+        const key =
+            date
+                .toISOString()
+                .split("T")[0];
+
+
+        const found =
+            data.find(
+                item =>
+                    String(
+                        item.order_date
+                    ).slice(0, 10) === key
+            );
+
+
+        days.push({
+
+            date,
+
+            total: found
+                ? Number(found.total)
+                : 0
+
+        });
+
+    }
+
+
+    const max =
+        Math.max(
+            ...days.map(
+                day => day.total
+            ),
+            1
+        );
+
+
+    container.innerHTML =
+        days.map(day => {
+
+            const label =
+                day.date.toLocaleDateString(
+                    "id-ID",
+                    {
+                        weekday: "short"
+                    }
+                ).replace(
+                    ".",
+                    ""
+                );
+
+
+            const height =
+                day.total === 0
+                    ? 4
+                    : Math.max(
+                        8,
+                        (
+                            day.total /
+                            max
+                        ) * 100
+                    );
+
+
+            return `
+
+                <div class="dashboard-chart-day">
+
+                    <span class="dashboard-chart-value">
+                        ${day.total}
+                    </span>
+
+                    <div class="dashboard-chart-bar-area">
+
+                        <div
+                            class="dashboard-chart-bar"
+                            style="height:${height}%"
+                        ></div>
+
+                    </div>
+
+                    <span class="dashboard-chart-label">
+                        ${escapeHtml(label)}
+                    </span>
+
+                </div>
+
+            `;
+
+        }).join("");
+
 }
+
+
+// ================================
+// RECENT ORDERS
+// ================================
+
+function renderRecentOrders(orders) {
+
+    const container =
+        document.getElementById(
+            "recentOrders"
+        );
+
+
+    if (!orders.length) {
+
+        container.innerHTML = `
+
+            <div class="dashboard-empty">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <h4>
+                    Belum ada pesanan
+                </h4>
+
+                <p>
+                    Pesanan dari customer akan
+                    muncul di sini.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        orders.map(order => {
+
+            const status =
+                escapeHtml(
+                    order.status
+                );
+
+
+            return `
+
+                <div class="dashboard-order">
+
+                    <div class="dashboard-order-info">
+
+                        <div class="dashboard-order-number">
+                            ${escapeHtml(
+                                order.order_number
+                            )}
+                        </div>
+
+                        <span class="dashboard-order-date">
+                            ${formatDate(
+                                order.created_at
+                            )}
+                        </span>
+
+                    </div>
+
+                    <div class="dashboard-order-right">
+
+                        <div class="dashboard-order-total">
+                            ${formatRupiah(
+                                order.total
+                            )}
+                        </div>
+
+                        <span class="dashboard-order-status ${status}">
+                            ${statusLabel(
+                                order.status
+                            )}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+// ================================
+// START
+// ================================
+
+loadOwnerInfo();
+
+loadDashboard();
