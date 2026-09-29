@@ -1091,6 +1091,40 @@ app.patch(
 // ===============================
 // CUSTOMER - DETAIL BISNIS
 // ===============================
+app.get("/api/businesses", async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT
+                id,
+                name,
+                category,
+                logo_url,
+                description,
+                address,
+                phone,
+                email,
+                open_time,
+                close_time,
+                verification_status
+            FROM businesses
+            WHERE verification_status = 'approved'
+            ORDER BY id DESC
+        `);
+
+        res.json({
+            success: true,
+            data: result.rows
+        });
+
+    } catch (error) {
+        console.error("Gagal mengambil bisnis:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Gagal mengambil data bisnis"
+        });
+    }
+});
 app.get(
     "/api/businesses/:id",
     async (req, res) => {
