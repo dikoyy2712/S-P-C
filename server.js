@@ -10,7 +10,22 @@ const pool = require("./db");
 const app = express();
 app.use(express.static(__dirname));
 const PORT = process.env.PORT || 3000;
-
+app.get("/api/db-test", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT NOW()");
+        res.json({
+            success: true,
+            message: "Database Supabase terhubung",
+            time: result.rows[0].now
+        });
+    } catch (error) {
+        console.error("DB TEST ERROR:", error.message);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
