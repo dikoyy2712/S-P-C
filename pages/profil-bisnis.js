@@ -39,7 +39,7 @@ if (ownerAvatar) {
         try {
 
             const response = await fetch(
-                "http:///api/owner/business",
+                "/api/owner/business",
                 {
                     method: "GET",
                     headers: {
