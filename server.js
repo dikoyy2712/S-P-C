@@ -436,12 +436,42 @@ app.get("/api/admin/users", async (req, res) => {
 // ===============================
 // ADMIN - LAPORAN
 // ===============================
-app.get("/api/admin/reports", authenticateAdmin, async (req, res) => {
+app.get("/api/admin/reports", async (req, res) => {
     try {
+        // =========================
+        // CEK TOKEN ADMIN
+        // =========================
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({
+                success: false,
+                message: "Token tidak ditemukan"
+            });
+        }
+
+        const token = authHeader.split(" ")[1];
+
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
+
+        if (decoded.role !== "admin") {
+            return res.status(403).json({
+                success: false,
+                message: "Akses hanya untuk Admin"
+            });
+        }
+
+
+        // =========================
+        // LAPORAN PER BISNIS
+        // =========================
         const { business_id } = req.query;
 
-        // Jika memilih bisnis tertentu
         if (business_id) {
+
             const businessResult = await pool.query(`
                 SELECT
                     b.id,
@@ -477,13 +507,23 @@ app.get("/api/admin/reports", authenticateAdmin, async (req, res) => {
                 success: true,
                 data: {
                     business: businessResult.rows[0],
-                    total_orders: Number(orderResult.rows[0].total),
-                    total_revenue: Number(revenueResult.rows[0].total)
+
+                    total_orders: Number(
+                        orderResult.rows[0].total
+                    ),
+
+                    total_revenue: Number(
+                        revenueResult.rows[0].total
+                    )
                 }
             });
         }
 
-        // Laporan global jika tidak memilih bisnis
+
+        // =========================
+        // LAPORAN GLOBAL
+        // =========================
+
         const userResult = await pool.query(`
             SELECT COUNT(*) AS total
             FROM users
@@ -516,23 +556,52 @@ app.get("/api/admin/reports", authenticateAdmin, async (req, res) => {
             WHERE status = 'completed'
         `);
 
+
         res.json({
             success: true,
             data: {
-                total_users: Number(userResult.rows[0].total),
-                total_owners: Number(ownerResult.rows[0].total),
-                total_businesses: Number(businessResult.rows[0].total),
-                total_customers: Number(customerResult.rows[0].total),
-                total_orders: Number(orderResult.rows[0].total),
-                total_revenue: Number(revenueResult.rows[0].total)
+                total_users: Number(
+                    userResult.rows[0].total
+                ),
+
+                total_owners: Number(
+                    ownerResult.rows[0].total
+                ),
+
+                total_businesses: Number(
+                    businessResult.rows[0].total
+                ),
+
+                total_customers: Number(
+                    customerResult.rows[0].total
+                ),
+
+                total_orders: Number(
+                    orderResult.rows[0].total
+                ),
+
+                total_revenue: Number(
+                    revenueResult.rows[0].total
+                )
             }
         });
 
     } catch (error) {
+
         console.error(
             "Gagal mengambil laporan:",
             error.message
         );
+
+        if (
+            error.name === "JsonWebTokenError" ||
+            error.name === "TokenExpiredError"
+        ) {
+            return res.status(401).json({
+                success: false,
+                message: "Token tidak valid atau sudah expired"
+            });
+        }
 
         res.status(500).json({
             success: false,
