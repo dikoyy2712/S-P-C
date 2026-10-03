@@ -1,55 +1,73 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const token =
+        localStorage.getItem("spc_token");
+
+    if (!token) {
+        window.location.href =
+            "../login.html";
+        return;
+    }
+
+
+    const backendStatus =
+        document.getElementById(
+            "backendStatus"
+        );
+
+
+    // ===============================
+    // CEK BACKEND
+    // ===============================
+
+    async function checkBackend() {
+
+        try {
+
+            backendStatus.textContent =
+                "Memeriksa koneksi...";
+
+
+            const response =
+                await fetch(
+                    "/api/status"
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !response.ok
+            ) {
+                throw new Error(
+                    "Backend tidak merespons"
+                );
+            }
+
+
+            backendStatus.textContent =
+                result.message ||
+                "Backend SPC aktif";
+
+
+        } catch (error) {
+
+            console.error(
+                "BACKEND STATUS ERROR:",
+                error
+            );
+
+
+            backendStatus.textContent =
+                "Backend tidak terhubung";
+
+        }
+
+    }
+
 
     checkBackend();
 
 });
-
-
-async function checkBackend() {
-
-    const status =
-        document.getElementById("backendStatus");
-
-    try {
-
-        const response = await fetch(
-            "http:///api/status"
-        );
-
-        const result =
-            await response.json();
-
-
-        if (result.success) {
-
-            status.textContent =
-                "Terhubung dan berjalan";
-
-            status.classList.add(
-                "system-online"
-            );
-
-        } else {
-
-            status.textContent =
-                "Backend tidak merespons";
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Koneksi backend gagal:",
-            error
-        );
-
-        status.textContent =
-            "Tidak dapat terhubung ke backend";
-
-        status.classList.add(
-            "system-offline"
-        );
-
-    }
-
-}
