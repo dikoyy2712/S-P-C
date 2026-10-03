@@ -94,23 +94,30 @@ app.get("/api/businesses", async (req, res) => {
 app.get("/api/admin/businesses", async (req, res) => {
     try {
         const result = await pool.query(`
-            SELECT
-                b.id,
-                b.owner_id,
-                b.name AS business_name,
-                b.category,
-                b.address,
-                b.phone,
-                b.email,
-                b.verification_status,
-                b.created_at,
-                u.name AS owner_name,
-                u.email AS owner_email
-            FROM businesses b
-            LEFT JOIN users u
-                ON b.owner_id = u.id
-            ORDER BY b.id DESC
-        `);
+    SELECT
+        b.id,
+        b.owner_id,
+        b.name AS business_name,
+        b.category,
+        b.address,
+
+        u.name AS owner_name,
+        u.email AS owner_email,
+        u.phone AS owner_phone,
+
+        COALESCE(b.phone, u.phone) AS phone,
+        COALESCE(b.email, u.email) AS email,
+
+        b.verification_status,
+        b.created_at
+
+    FROM businesses b
+
+    LEFT JOIN users u
+        ON b.owner_id = u.id
+
+    ORDER BY b.id DESC
+`);
 
         res.json({
             success: true,

@@ -287,23 +287,26 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </div>
 
 
-                <!-- KONTAK -->
+               <!-- KONTAK -->
 
-                <div class="admin-business-cell business-contact">
+<div class="admin-business-cell business-contact">
 
-                    <span>
-                        ${
-                            business.phone
-                                ? `<i class="fa-solid fa-phone"></i>
-                                   ${escapeHTML(business.phone)}`
-                                : `<i class="fa-solid fa-location-dot"></i>
-                                   ${escapeHTML(
-                                       business.address || "-"
-                                   )}`
-                        }
-                    </span>
+    <span>
+        ${
+            business.owner_phone || business.phone
+                ? `<i class="fa-solid fa-phone"></i>
+                   ${escapeHTML(
+                       business.owner_phone ||
+                       business.phone
+                   )}`
+                : `<i class="fa-solid fa-location-dot"></i>
+                   ${escapeHTML(
+                       business.address || "-"
+                   )}`
+        }
+    </span>
 
-                </div>
+</div>
 
 
                 <!-- STATUS -->
