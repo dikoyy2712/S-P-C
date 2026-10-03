@@ -10,8 +10,20 @@ const pool = require("./db");
 const app = express();
 
 app.use(cors());
-app.use(helmet());
 
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                imgSrc: [
+                    "'self'",
+                    "data:",
+                    "https://quickchart.io"
+                ]
+            }
+        }
+    })
+);
 app.use(express.json({
     type: "*/*"
 }));
