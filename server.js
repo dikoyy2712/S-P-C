@@ -2818,7 +2818,6 @@ app.patch("/api/owner/password", authenticateOwner, async (req, res) => {
         res.json({
             message: "Password berhasil diubah"
         });
-
     } catch (error) {
         console.error("CHANGE PASSWORD ERROR:", error);
 
