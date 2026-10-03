@@ -3,392 +3,272 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>SPC — Bisnis</title>
 
-    <title>SPC — Kelola Bisnis</title>
-
-    <link rel="stylesheet"
-          href="../style.css">
-
+    <link rel="stylesheet" href="../style.css">
     <script src="../auth.js"></script>
 
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
-    <div class="owner-layout">
+<div class="owner-layout">
 
-        <!-- SIDEBAR ADMIN -->
-        <aside class="owner-sidebar">
+    <!-- SIDEBAR -->
+    <aside class="owner-sidebar">
 
-            <div class="owner-logo">
+        <div class="owner-logo">
 
-                <div class="owner-logo-mark">
-                    SPC
+            <div class="owner-logo-mark">
+                SPC
+            </div>
+
+            <div>
+                <strong>SPC</strong>
+                <span>ADMIN PANEL</span>
+            </div>
+
+        </div>
+
+
+        <nav class="owner-menu">
+
+            <a href="admin-dashboard.html">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="verifikasi-bisnis.html">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Verifikasi Bisnis</span>
+            </a>
+
+            <a href="admin-bisnis.html" class="active">
+                <i class="fa-solid fa-store"></i>
+                <span>Bisnis</span>
+            </a>
+
+            <a href="admin-pengguna.html">
+                <i class="fa-solid fa-users"></i>
+                <span>Pengguna</span>
+            </a>
+
+            <a href="admin-laporan.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Laporan</span>
+            </a>
+
+            <a href="admin-pengaturan.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+            </a>
+
+        </nav>
+
+
+        <div class="owner-sidebar-bottom">
+
+            <a href="../index.html">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="owner-main">
+
+        <!-- TOPBAR -->
+        <header class="owner-topbar">
+
+            <div class="owner-breadcrumb">
+
+                SPC
+                <span>/</span>
+                ADMIN
+                <span>/</span>
+                BISNIS
+
+            </div>
+
+
+            <div class="owner-profile">
+
+                <div class="owner-avatar">
+                    A
                 </div>
 
                 <div>
-                    <strong>SPC</strong>
-                    <span>ADMIN PANEL</span>
+                    <strong>Administrator</strong>
+                    <span>Admin SPC</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="owner-content">
+
+
+            <!-- WELCOME -->
+            <div class="owner-welcome">
+
+                <div>
+
+                    <span class="welcome-label">
+                        DATABASE BISNIS
+                    </span>
+
+                    <h1>
+                        Bisnis
+                    </h1>
+
+                    <p>
+                        Kelola dan lihat seluruh bisnis yang terdaftar di SPC.
+                    </p>
+
+                </div>
+
+
+                <div class="business-status">
+
+                    <span class="status-dot"></span>
+
+                    SISTEM ONLINE
+
                 </div>
 
             </div>
 
 
-            <nav class="owner-menu">
+            <!-- DATABASE BISNIS -->
+            <div class="owner-panel admin-business-panel">
 
-                <a href="admin-dashboard.html">
+                <div class="panel-header">
 
-                    <i class="fa-solid fa-house"></i>
+                    <div>
 
-                    <span>Dashboard</span>
+                        <span class="panel-label">
+                            DATA TERDAFTAR
+                        </span>
 
-                </a>
+                        <h3>
+                            Daftar Bisnis
+                        </h3>
+
+                    </div>
+
+                    <span id="businessCount"
+                          class="admin-data-count">
+                        0 Bisnis
+                    </span>
+
+                </div>
 
 
-                <a href="verifikasi-bisnis.html">
+                <!-- TOOLBAR -->
+                <div class="admin-business-toolbar">
 
-                    <i class="fa-solid fa-circle-check"></i>
+                    <div class="admin-search-box">
 
-                    <span>Verifikasi Bisnis</span>
+                        <i class="fa-solid fa-magnifying-glass"></i>
 
-                </a>
+                        <input
+                            type="text"
+                            id="businessSearch"
+                            placeholder="Cari nama bisnis atau owner..."
+                            autocomplete="off">
+
+                    </div>
 
 
-                <a href="admin-bisnis.html"
-                   class="active">
+                    <div class="admin-filter-box">
 
-                    <i class="fa-solid fa-store"></i>
+                        <i class="fa-solid fa-filter"></i>
+
+                        <select id="businessFilter">
+
+                            <option value="all">
+                                Semua Status
+                            </option>
+
+                            <option value="approved">
+                                Aktif
+                            </option>
+
+                            <option value="pending">
+                                Menunggu
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TABLE HEADER -->
+                <div class="admin-business-header">
 
                     <span>Bisnis</span>
 
-                </a>
+                    <span>Owner</span>
 
+                    <span>Kategori</span>
 
-               <a href="admin-pengguna.html">
-    <i class="fa-solid fa-users"></i>
-    <span>Pengguna</span>
-</a>
+                    <span>Kontak</span>
 
-
-                <a href="admin-laporan.html">
-    <i class="fa-solid fa-chart-line"></i>
-    <span>Laporan</span>
-</a>
-
-
-           <a href="admin-pengaturan.html">
-    <i class="fa-solid fa-gear"></i>
-    <span>Pengaturan</span>
-</a>
-
-            </nav>
-
-
-            <div class="owner-sidebar-bottom">
-
-                <a href="../index.html">
-
-                    <i class="fa-solid fa-right-from-bracket"></i>
-
-                    <span>Keluar</span>
-
-                </a>
-
-            </div>
-
-        </aside>
-
-
-        <!-- MAIN -->
-        <main class="owner-main">
-
-
-            <!-- TOPBAR -->
-            <header class="owner-topbar">
-
-                <div class="owner-breadcrumb">
-
-                    SPC
-
-                    <span>/</span>
-
-                    ADMIN
-
-                    <span>/</span>
-
-                    BISNIS
+                    <span>Status</span>
 
                 </div>
 
 
-                <div class="owner-profile">
+                <!-- DATA -->
+                <div
+                    class="admin-business-list"
+                    id="businessTable">
 
-                    <div class="owner-avatar">
-                        A
-                    </div>
+                    <div class="admin-empty">
 
-                    <div>
+                        <div class="admin-empty-icon">
 
-                        <strong>Administrator</strong>
+                            <i class="fa-solid fa-store"></i>
 
-                        <span>Admin SPC</span>
+                        </div>
 
-                    </div>
-
-                </div>
-
-            </header>
-
-
-
-            <!-- CONTENT -->
-            <section class="owner-content">
-
-
-                <!-- WELCOME -->
-                <div class="owner-welcome">
-
-                    <div>
-
-                        <span class="welcome-label">
-                            MANAJEMEN BISNIS
-                        </span>
-
-                        <h1>
-                            Kelola Bisnis
-                        </h1>
+                        <h4>
+                            Memuat data bisnis...
+                        </h4>
 
                         <p>
-                            Lihat dan kelola seluruh bisnis yang terdaftar di sistem SPC.
+                            Data bisnis sedang diambil dari database SPC.
                         </p>
 
                     </div>
 
-
-                    <div class="business-status">
-
-                        <span class="status-dot"></span>
-
-                        SISTEM ONLINE
-
-                    </div>
-
                 </div>
 
 
+            </div>
 
-                <!-- STATISTIK -->
-                <div class="owner-stats">
 
+        </section>
 
-                    <div class="owner-stat-card">
+    </main>
 
-                        <div class="stat-icon">
+</div>
 
-                            <i class="fa-solid fa-store"></i>
 
-                        </div>
-
-                        <div>
-
-                            <span>Total Bisnis</span>
-
-                            <strong id="totalBusiness">0</strong>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="owner-stat-card">
-
-                        <div class="stat-icon">
-
-                            <i class="fa-solid fa-clock"></i>
-
-                        </div>
-
-                        <div>
-
-                            <span>Menunggu Verifikasi</span>
-
-                            <strong id="pendingBusiness">0</strong>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="owner-stat-card">
-
-                        <div class="stat-icon">
-
-                            <i class="fa-solid fa-circle-check"></i>
-
-                        </div>
-
-                        <div>
-
-                            <span>Bisnis Aktif</span>
-
-                            <strong id="activeBusiness">0</strong>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="owner-stat-card">
-
-                        <div class="stat-icon">
-
-                            <i class="fa-solid fa-users"></i>
-
-                        </div>
-
-                        <div>
-
-                            <span>Total Owner</span>
-
-                            <strong id="totalOwner">0</strong>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- DAFTAR BISNIS -->
-                <div class="owner-panel">
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <span class="panel-label">
-                                DATABASE BISNIS
-                            </span>
-
-                            <h3>
-                                Daftar Bisnis
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="admin-business-list"
-                         id="businessTable">
-
-                        <div class="admin-empty">
-
-                            <div class="admin-empty-icon">
-
-                                <i class="fa-solid fa-store"></i>
-
-                            </div>
-
-                            <h4>
-                                Memuat data bisnis...
-                            </h4>
-
-                            <p>
-                                Data bisnis sedang diambil dari database SPC.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- QUICK ACTION -->
-                <div class="owner-panel admin-quick-panel">
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <span class="panel-label">
-                                ADMIN TOOLS
-                            </span>
-
-                            <h3>
-                                Akses Cepat
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="quick-actions">
-
-
-                        <a href="verifikasi-bisnis.html">
-
-                            <i class="fa-solid fa-circle-check"></i>
-
-                            <span>
-                                Verifikasi Bisnis
-                            </span>
-
-                        </a>
-
-
-                        <a href="admin-bisnis.html">
-
-                            <i class="fa-solid fa-store"></i>
-
-                            <span>
-                                Kelola Bisnis
-                            </span>
-
-                        </a>
-
-
-                      <a href="admin-pengguna.html">
-    <i class="fa-solid fa-users"></i>
-    <span>Pengguna</span>
-</a>
-
-
-                        <a href="#">
-
-                            <i class="fa-solid fa-chart-column"></i>
-
-                            <span>
-                                Lihat Laporan
-                            </span>
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-            </section>
-
-        </main>
-
-    </div>
-
-
-    <script src="admin-bisnis.js"></script>
+<script src="admin-bisnis.js"></script>
 
 </body>
 
