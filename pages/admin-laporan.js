@@ -1,34 +1,18 @@
-const token = localStorage.getItem("spc_token");
+const spcToken = localStorage.getItem("spc_token");
 
-if (!token) {
+if (!spcToken) {
     window.location.href = "../login.html";
 }
 
 const businessList = document.getElementById("reportBusinessList");
 const reportDetail = document.getElementById("reportDetail");
-
-const selectedBusinessName =
-    document.getElementById("selectedBusinessName");
-
-const selectedBusinessOwner =
-    document.getElementById("selectedBusinessOwner");
-
-const businessTotalOrders =
-    document.getElementById("businessTotalOrders");
-
-const businessTotalRevenue =
-    document.getElementById("businessTotalRevenue");
-
-const reportSummary =
-    document.getElementById("reportSummary");
-
+const selectedBusinessName = document.getElementById("selectedBusinessName");
+const selectedBusinessOwner = document.getElementById("selectedBusinessOwner");
+const businessTotalOrders = document.getElementById("businessTotalOrders");
+const businessTotalRevenue = document.getElementById("businessTotalRevenue");
+const reportSummary = document.getElementById("reportSummary");
 
 let businesses = [];
-
-
-/* =========================
-   FORMAT
-========================= */
 
 function formatRupiah(value) {
     return new Intl.NumberFormat("id-ID", {
@@ -38,28 +22,19 @@ function formatRupiah(value) {
     }).format(Number(value) || 0);
 }
 
-
-function escapeHTML(text) {
+function escapeHTML(value) {
     const div = document.createElement("div");
-    div.textContent = text ?? "";
+    div.textContent = value ?? "";
     return div.innerHTML;
 }
 
-
-/* =========================
-   LOAD BUSINESS
-========================= */
-
 async function loadBusinesses() {
     try {
-        const response = await fetch(
-            "http://localhost:3000/api/admin/businesses",
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+        const response = await fetch("/api/admin/businesses", {
+            headers: {
+                Authorization: `Bearer ${spcToken}`
             }
-        );
+        });
 
         const result = await response.json();
 
@@ -74,74 +49,90 @@ async function loadBusinesses() {
         renderBusinessList();
 
     } catch (error) {
-        console.error(error);
+        console.error("Gagal memuat bisnis:", error);
 
         businessList.innerHTML = `
-            <div class="empty-state">
-                Gagal memuat data bisnis.
+            <div class="admin-empty">
+                <div class="admin-empty-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <h4>Gagal memuat bisnis</h4>
+
+                <p>
+                    ${escapeHTML(error.message)}
+                </p>
             </div>
         `;
     }
 }
-
-
-/* =========================
-   RENDER BUSINESS
-========================= */
 
 function renderBusinessList() {
     if (!businesses.length) {
         businessList.innerHTML = `
-            <div class="empty-state">
-                Belum ada bisnis yang terdaftar.
+            <div class="admin-empty">
+                <div class="admin-empty-icon">
+                    <i class="fa-solid fa-store"></i>
+                </div>
+
+                <h4>Belum ada bisnis</h4>
+
+                <p>
+                    Belum ada bisnis yang terdaftar di SPC.
+                </p>
             </div>
         `;
+
         return;
     }
 
-    businessList.innerHTML = businesses.map(business => `
-        <div
-            class="report-business-item"
-            data-id="${business.id}"
-        >
-            <div class="report-business-icon">
-                <i class="fa-solid fa-store"></i>
+    businessList.innerHTML = businesses.map(function (business) {
+        return `
+            <div class="report-business-item" data-id="${business.id}">
+
+                <div class="report-business-icon">
+                    <i class="fa-solid fa-store"></i>
+                </div>
+
+                <div class="report-business-info">
+
+                    <h3>
+                        ${escapeHTML(
+                            business.business_name || "Tanpa Nama"
+                        )}
+                    </h3>
+
+                    <p>
+                        Owner:
+                        ${escapeHTML(
+                            business.owner_name || "-"
+                        )}
+                    </p>
+
+                    <span>
+                        ${escapeHTML(
+                            business.category || "Tanpa kategori"
+                        )}
+                    </span>
+
+                </div>
+
+                <div class="report-business-arrow">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+
             </div>
-
-            <div class="report-business-info">
-                <h3>
-                    ${escapeHTML(business.business_name)}
-                </h3>
-
-                <p>
-                    Owner:
-                    ${escapeHTML(business.owner_name || "-")}
-                </p>
-
-                <span>
-                    ${escapeHTML(business.category || "Tanpa kategori")}
-                </span>
-            </div>
-
-            <div class="report-business-arrow">
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-        </div>
-    `).join("");
+        `;
+    }).join("");
 
     document
         .querySelectorAll(".report-business-item")
-        .forEach(item => {
-            item.addEventListener("click", () => {
-                loadBusinessReport(item.dataset.id);
+        .forEach(function (item) {
+            item.addEventListener("click", function () {
+                loadBusinessReport(this.dataset.id);
             });
         });
 }
-
-
-/* =========================
-   LOAD BUSINESS REPORT
-========================= */
 
 async function loadBusinessReport(businessId) {
     try {
@@ -150,13 +141,13 @@ async function loadBusinessReport(businessId) {
         selectedBusinessName.textContent = "Memuat...";
         selectedBusinessOwner.textContent = "";
         businessTotalOrders.textContent = "0";
-        businessTotalRevenue.textContent = "Rp0";
+        businessTotalRevenue.textContent = "Rp 0";
 
         const response = await fetch(
-            `http://localhost:3000/api/admin/reports?business_id=${businessId}`,
+            `/api/admin/reports?business_id=${businessId}`,
             {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${spcToken}`
                 }
             }
         );
@@ -172,13 +163,13 @@ async function loadBusinessReport(businessId) {
         const data = result.data;
 
         selectedBusinessName.textContent =
-            data.business.business_name;
+            data.business.business_name || "Tanpa Nama";
 
         selectedBusinessOwner.textContent =
             `Owner: ${data.business.owner_name || "-"}`;
 
         businessTotalOrders.textContent =
-            data.total_orders;
+            data.total_orders || 0;
 
         businessTotalRevenue.textContent =
             formatRupiah(data.total_revenue);
@@ -187,7 +178,7 @@ async function loadBusinessReport(businessId) {
             <div class="report-summary-item">
                 <span>Total Pesanan</span>
                 <strong>
-                    ${data.total_orders}
+                    ${data.total_orders || 0}
                 </strong>
             </div>
 
@@ -201,7 +192,7 @@ async function loadBusinessReport(businessId) {
 
         document
             .querySelectorAll(".report-business-item")
-            .forEach(item => {
+            .forEach(function (item) {
                 item.classList.remove("active");
 
                 if (item.dataset.id === String(businessId)) {
@@ -210,27 +201,31 @@ async function loadBusinessReport(businessId) {
             });
 
     } catch (error) {
-        console.error(error);
+        console.error("Gagal memuat laporan:", error);
 
         selectedBusinessName.textContent =
             "Gagal memuat laporan";
 
         selectedBusinessOwner.textContent = "";
-
         businessTotalOrders.textContent = "0";
-        businessTotalRevenue.textContent = "Rp0";
+        businessTotalRevenue.textContent = "Rp 0";
 
         reportSummary.innerHTML = `
-            <div class="empty-state">
-                Gagal mengambil laporan bisnis.
+            <div class="admin-empty">
+
+                <div class="admin-empty-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+
+                <h4>Gagal mengambil laporan</h4>
+
+                <p>
+                    ${escapeHTML(error.message)}
+                </p>
+
             </div>
         `;
     }
 }
-
-
-/* =========================
-   START
-========================= */
 
 loadBusinesses();
