@@ -1,73 +1,136 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
-    loadBusinesses();
+    const token = localStorage.getItem("spc_token");
+
+    if (!token) {
+        window.location.href = "../login.html";
+        return;
+    }
+
+    const totalBusiness =
+        document.getElementById("totalBusiness");
+
+    const pendingBusiness =
+        document.getElementById("pendingBusiness");
+
+    const activeBusiness =
+        document.getElementById("activeBusiness");
+
+    const totalOwner =
+        document.getElementById("totalOwner");
+
+    const businessTable =
+        document.getElementById("businessTable");
+
+
+    // ===============================
+    // QUICK ACTION
+    // ===============================
+
+    const quickActions =
+        document.querySelectorAll(".quick-actions a");
+
+    if (quickActions[3]) {
+        quickActions[3].href = "admin-laporan.html";
+    }
+
+
+    // ===============================
+    // LOAD DATA
+    // ===============================
 
     async function loadBusinesses() {
 
-        const container = document.getElementById("businessTable");
-
         try {
 
-            const response = await fetch(
-                "http:///api/admin/businesses"
-            );
+            const [businessResponse, reportResponse] =
+                await Promise.all([
 
-            const result = await response.json();
+                    fetch("/api/admin/businesses"),
 
-            console.log("DATA BISNIS:", result);
+                    fetch("/api/admin/reports")
 
-            if (!response.ok || !result.success) {
+                ]);
+
+
+            const businessResult =
+                await businessResponse.json();
+
+            const reportResult =
+                await reportResponse.json();
+
+
+            if (
+                !businessResponse.ok ||
+                !businessResult.success
+            ) {
                 throw new Error(
-                    result.message || "Gagal mengambil data bisnis"
+                    businessResult.message ||
+                    "Gagal mengambil data bisnis"
                 );
             }
 
-            const businesses = result.data || [];
+
+            if (
+                !reportResponse.ok ||
+                !reportResult.success
+            ) {
+                throw new Error(
+                    reportResult.message ||
+                    "Gagal mengambil laporan"
+                );
+            }
 
 
-            // STATISTIK
-            document.getElementById("totalBusiness").textContent =
-                businesses.length;
+            const businesses =
+                businessResult.data || [];
+
+            const reports =
+                reportResult.data || {};
 
 
-            const pending = businesses.filter(
-                business =>
-                    business.verification_status === "pending"
-            ).length;
+            // ===============================
+            // HITUNG STATISTIK
+            // ===============================
+
+            const pending =
+                businesses.filter(
+                    business =>
+                        business.verification_status === "pending"
+                ).length;
 
 
-            const active = businesses.filter(
-                business =>
-                    business.verification_status === "approved" ||
-                    business.verification_status === "active"
-            ).length;
+            const active =
+                businesses.filter(
+                    business =>
+                        business.verification_status === "approved"
+                ).length;
 
 
-            const owners = new Set(
-                businesses
-                    .map(business => business.owner_id)
-                    .filter(Boolean)
-            ).size;
+            totalBusiness.textContent =
+                reports.total_businesses ?? businesses.length;
 
-
-            document.getElementById("pendingBusiness").textContent =
+            pendingBusiness.textContent =
                 pending;
 
-            document.getElementById("activeBusiness").textContent =
+            activeBusiness.textContent =
                 active;
 
-            document.getElementById("totalOwner").textContent =
-                owners;
+            totalOwner.textContent =
+                reports.total_owners ?? 0;
 
 
+            // ===============================
             // KOSONG
+            // ===============================
+
             if (businesses.length === 0) {
 
-                container.innerHTML = `
+                businessTable.innerHTML = `
                     <div class="admin-empty">
 
                         <div class="admin-empty-icon">
-                            <i class="fa-solid fa-store-slash"></i>
+                            <i class="fa-solid fa-store"></i>
                         </div>
 
                         <h4>
@@ -85,103 +148,132 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            // DATA BISNIS
-            container.innerHTML = businesses.map(business => {
+            // ===============================
+            // TAMPILKAN BISNIS
+            // ===============================
 
-                let statusText = "Belum diverifikasi";
+            businessTable.innerHTML = "";
+
+
+            businesses.forEach(business => {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "admin-business-item";
+
+
+                let statusText =
+                    "Menunggu Verifikasi";
+
+                let statusClass =
+                    "pending";
+
 
                 if (
-                    business.verification_status === "approved" ||
-                    business.verification_status === "active"
+                    business.verification_status ===
+                    "approved"
                 ) {
-                    statusText = "Aktif";
 
-                } else if (
-                    business.verification_status === "pending"
-                ) {
-                    statusText = "Menunggu";
+                    statusText =
+                        "Aktif";
 
-                } else if (
-                    business.verification_status === "rejected"
-                ) {
-                    statusText = "Ditolak";
+                    statusClass =
+                        "approved";
+
                 }
 
 
-                return `
-                    <div class="admin-business-item">
+                item.innerHTML = `
 
-                        <div class="admin-business-icon">
+                    <div class="business-main-info">
+
+                        <div class="business-icon">
                             <i class="fa-solid fa-store"></i>
                         </div>
 
-                        <div class="admin-business-info">
+                        <div class="business-details">
 
-                            <strong>
+                            <h4>
                                 ${escapeHTML(
                                     business.business_name || "-"
                                 )}
-                            </strong>
+                            </h4>
 
-                            <span>
-                                Pemilik:
+                            <p>
+                                <i class="fa-solid fa-user"></i>
                                 ${escapeHTML(
                                     business.owner_name || "-"
                                 )}
-                            </span>
+                            </p>
 
-                            <small>
+                            <p>
+                                <i class="fa-solid fa-tag"></i>
                                 ${escapeHTML(
-                                    business.category || "Tanpa kategori"
+                                    business.category || "-"
                                 )}
-                            </small>
-
-                        </div>
-
-
-                        <div class="admin-business-contact">
-
-                            <span>
-                                <i class="fa-solid fa-phone"></i>
-
-                                ${escapeHTML(
-                                    business.phone || "-"
-                                )}
-                            </span>
-
-                            <span>
-                                <i class="fa-solid fa-location-dot"></i>
-
-                                ${escapeHTML(
-                                    business.address || "-"
-                                )}
-                            </span>
-
-                        </div>
-
-
-                        <div class="admin-business-status">
-
-                            <span>
-                                ${statusText}
-                            </span>
+                            </p>
 
                         </div>
 
                     </div>
+
+
+                    <div class="business-contact">
+
+                        <p>
+                            <i class="fa-solid fa-envelope"></i>
+                            ${escapeHTML(
+                                business.owner_email ||
+                                business.email ||
+                                "-"
+                            )}
+                        </p>
+
+                        <p>
+                            <i class="fa-solid fa-location-dot"></i>
+                            ${escapeHTML(
+                                business.address || "-"
+                            )}
+                        </p>
+
+                    </div>
+
+
+                    <div class="business-status-info">
+
+                        <span class="business-status ${statusClass}">
+                            ${statusText}
+                        </span>
+
+                        <a
+                            href="verifikasi-bisnis.html"
+                            class="business-view-button"
+                        >
+                            Lihat Detail
+                        </a>
+
+                    </div>
+
                 `;
 
-            }).join("");
+
+                businessTable.appendChild(item);
+
+            });
 
 
         } catch (error) {
 
             console.error(
-                "Gagal memuat bisnis:",
+                "ADMIN BISNIS ERROR:",
                 error
             );
 
-            container.innerHTML = `
+
+            businessTable.innerHTML = `
+
                 <div class="admin-empty">
 
                     <div class="admin-empty-icon">
@@ -189,18 +281,28 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
 
                     <h4>
-                        Gagal mengambil data
+                        Gagal memuat data
                     </h4>
 
                     <p>
-                        Tidak dapat terhubung ke database bisnis SPC.
+                        ${escapeHTML(
+                            error.message ||
+                            "Terjadi kesalahan saat mengambil data bisnis."
+                        )}
                     </p>
 
                 </div>
+
             `;
+
         }
+
     }
 
+
+    // ===============================
+    // AMANKAN TEXT DATABASE
+    // ===============================
 
     function escapeHTML(value) {
 
@@ -210,23 +312,14 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
-    }
-
-
-    const logoutBtn =
-        document.getElementById("logoutBtn");
-
-    if (logoutBtn) {
-
-        logoutBtn.addEventListener("click", () => {
-
-            localStorage.removeItem("spc_token");
-            localStorage.removeItem("spc_user");
-
-            window.location.href = "../login.html";
-
-        });
 
     }
+
+
+    // ===============================
+    // JALANKAN
+    // ===============================
+
+    loadBusinesses();
 
 });
