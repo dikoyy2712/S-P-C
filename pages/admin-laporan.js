@@ -134,6 +134,21 @@ function renderBusinessList() {
         });
 }
 
+function showBusinessList() {
+    reportDetail.classList.add("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    document
+        .querySelectorAll(".report-business-item")
+        .forEach(function (item) {
+            item.classList.remove("active");
+        });
+}
+
 async function loadBusinessReport(businessId) {
     try {
         reportDetail.classList.remove("hidden");
@@ -143,8 +158,15 @@ async function loadBusinessReport(businessId) {
         businessTotalOrders.textContent = "0";
         businessTotalRevenue.textContent = "Rp 0";
 
+        reportSummary.innerHTML = `
+            <div class="report-loading">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <span>Memuat laporan bisnis...</span>
+            </div>
+        `;
+
         const response = await fetch(
-            `/api/admin/reports?business_id=${businessId}`,
+            `/api/admin/reports?business_id=${encodeURIComponent(businessId)}`,
             {
                 headers: {
                     Authorization: `Bearer ${spcToken}`
@@ -176,17 +198,29 @@ async function loadBusinessReport(businessId) {
 
         reportSummary.innerHTML = `
             <div class="report-summary-item">
-                <span>Total Pesanan</span>
-                <strong>
-                    ${data.total_orders || 0}
-                </strong>
+                <div class="summary-icon">
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+
+                <div>
+                    <span>Total Pesanan</span>
+                    <strong>
+                        ${data.total_orders || 0}
+                    </strong>
+                </div>
             </div>
 
             <div class="report-summary-item">
-                <span>Total Pendapatan</span>
-                <strong>
-                    ${formatRupiah(data.total_revenue)}
-                </strong>
+                <div class="summary-icon">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+
+                <div>
+                    <span>Total Pendapatan</span>
+                    <strong>
+                        ${formatRupiah(data.total_revenue)}
+                    </strong>
+                </div>
             </div>
         `;
 
@@ -200,6 +234,11 @@ async function loadBusinessReport(businessId) {
                 }
             });
 
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
     } catch (error) {
         console.error("Gagal memuat laporan:", error);
 
@@ -212,7 +251,6 @@ async function loadBusinessReport(businessId) {
 
         reportSummary.innerHTML = `
             <div class="admin-empty">
-
                 <div class="admin-empty-icon">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
@@ -222,10 +260,15 @@ async function loadBusinessReport(businessId) {
                 <p>
                     ${escapeHTML(error.message)}
                 </p>
-
             </div>
         `;
     }
 }
+const reportBackButton =
+    document.getElementById("reportBackButton");
 
+reportBackButton.addEventListener(
+    "click",
+    showBusinessList
+);
 loadBusinesses();

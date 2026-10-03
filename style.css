@@ -6389,84 +6389,114 @@ footer {
    ADMIN LAPORAN
 ========================================= */
 
-.report-business-panel {
-    margin-top: 25px;
-}
-
 .report-business-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-top: 20px;
 }
 
 .report-business-item {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
+
     padding: 18px 20px;
-    background: rgba(255, 255, 255, 0.04);
+
+    background: rgba(255, 255, 255, 0.035);
     border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 14px;
+
+    border-radius: 16px;
+
     cursor: pointer;
-    transition: 0.25s ease;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .report-business-item:hover {
-    background: rgba(112, 92, 255, 0.08);
+    background: rgba(112, 92, 255, 0.07);
     border-color: rgba(112, 92, 255, 0.35);
     transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .report-business-item.active {
-    background: rgba(112, 92, 255, 0.12);
+    background: rgba(112, 92, 255, 0.1);
     border-color: #705cff;
+    box-shadow: 0 0 0 1px rgba(112, 92, 255, 0.15);
 }
 
 .report-business-icon {
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
+
+    border-radius: 14px;
+
     background: rgba(112, 92, 255, 0.12);
     color: #705cff;
+
     font-size: 18px;
 }
 
 .report-business-info {
     flex: 1;
+    min-width: 0;
 }
 
 .report-business-info h3 {
     margin: 0 0 5px;
-    color: #fff;
+
+    color: #ffffff;
+
     font-size: 15px;
     font-weight: 600;
 }
 
 .report-business-info p {
     margin: 0 0 5px;
-    color: #aaa;
+
+    color: #999;
+
     font-size: 13px;
 }
 
 .report-business-info span {
-    color: #777;
+    color: #6f6f6f;
     font-size: 12px;
 }
 
 .report-business-arrow {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     color: #666;
-    font-size: 13px;
-    transition: 0.2s ease;
+
+    border-radius: 10px;
+
+    transition: 0.25s ease;
 }
 
-.report-business-item:hover .report-business-arrow,
+.report-business-item:hover .report-business-arrow {
+    color: #705cff;
+    background: rgba(112, 92, 255, 0.08);
+    transform: translateX(3px);
+}
+
 .report-business-item.active .report-business-arrow {
     color: #705cff;
-    transform: translateX(3px);
 }
 
 
@@ -6475,65 +6505,100 @@ footer {
 ========================================= */
 
 #reportDetail {
-    margin-top: 25px;
+    margin-top: 24px;
 }
 
 #reportDetail.hidden {
     display: none;
 }
 
-.report-detail-header {
-    margin-bottom: 20px;
+
+/* =========================================
+   TOMBOL KEMBALI
+========================================= */
+
+.report-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 16px;
+    padding: 10px 15px;
+
+    background: rgba(255, 255, 255, 0.04);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 10px;
+
+    color: #aaa;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
 }
 
-.report-detail-header h2 {
-    margin: 0 0 6px;
+.report-back-button:hover {
     color: #fff;
-    font-size: 21px;
+
+    background: rgba(112, 92, 255, 0.1);
+
+    border-color: rgba(112, 92, 255, 0.4);
+
+    transform: translateX(-2px);
 }
 
-.report-detail-header p {
+.report-back-button i {
+    color: #705cff;
+}
+
+
+/* =========================================
+   BISNIS TERPILIH
+========================================= */
+
+.report-business-header {
+    margin-bottom: 18px;
+}
+
+.report-selected-business {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.report-selected-business h3 {
+    margin: 4px 0 5px;
+
+    color: #fff;
+
+    font-size: 20px;
+    font-weight: 650;
+}
+
+.report-selected-business p {
     margin: 0;
+
     color: #888;
+
     font-size: 13px;
 }
 
 
 /* =========================================
-   REPORT STATS
+   STATISTIK BISNIS
 ========================================= */
 
-.report-stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+.report-business-stats {
     margin-bottom: 20px;
 }
 
-.report-stat-card {
-    padding: 22px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 16px;
-}
-
-.report-stat-card span {
-    display: block;
-    margin-bottom: 10px;
-    color: #888;
-    font-size: 13px;
-}
-
-.report-stat-card strong {
-    display: block;
-    color: #fff;
-    font-size: 25px;
-    font-weight: 700;
-}
-
-.report-stat-card i {
-    color: #705cff;
-    margin-right: 7px;
+.report-business-stats .owner-stat-card {
+    min-height: 90px;
 }
 
 
@@ -6543,27 +6608,91 @@ footer {
 
 .report-summary {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
 }
 
 .report-summary-item {
-    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 18px;
+
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 14px;
+
     border: 1px solid rgba(255, 255, 255, 0.06);
+
+    border-radius: 14px;
+
+    transition: 0.25s ease;
+}
+
+.report-summary-item:hover {
+    background: rgba(112, 92, 255, 0.05);
+    border-color: rgba(112, 92, 255, 0.18);
+}
+
+.summary-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: rgba(112, 92, 255, 0.1);
+
+    color: #705cff;
+
+    font-size: 15px;
 }
 
 .report-summary-item span {
     display: block;
+
+    margin-bottom: 5px;
+
     color: #888;
+
     font-size: 12px;
-    margin-bottom: 7px;
 }
 
 .report-summary-item strong {
+    display: block;
+
     color: #fff;
+
     font-size: 17px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.report-loading {
+    min-height: 120px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    color: #888;
+
+    font-size: 13px;
+}
+
+.report-loading i {
+    color: #705cff;
 }
 
 
@@ -6571,14 +6700,9 @@ footer {
    EMPTY STATE
 ========================================= */
 
-.empty-state {
-    padding: 35px 20px;
-    text-align: center;
-    color: #777;
-    font-size: 13px;
-    background: rgba(255, 255, 255, 0.025);
-    border-radius: 14px;
-    border: 1px dashed rgba(255, 255, 255, 0.08);
+.report-business-list .admin-empty,
+.report-summary .admin-empty {
+    margin-top: 0;
 }
 
 
@@ -6586,9 +6710,8 @@ footer {
    RESPONSIVE
 ========================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 
-    .report-stats,
     .report-summary {
         grid-template-columns: 1fr;
     }
@@ -6597,17 +6720,34 @@ footer {
         padding: 15px;
     }
 
-    .report-business-icon {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-    }
-
-    .report-detail-header h2 {
+    .report-selected-business h3 {
         font-size: 18px;
     }
+}
 
-    .report-stat-card strong {
-        font-size: 21px;
+
+@media (max-width: 520px) {
+
+    .report-business-item {
+        gap: 11px;
+    }
+
+    .report-business-icon {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+    }
+
+    .report-business-info h3 {
+        font-size: 14px;
+    }
+
+    .report-business-arrow {
+        display: none;
+    }
+
+    .report-back-button {
+        width: 100%;
+        justify-content: center;
     }
 }
