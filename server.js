@@ -2681,6 +2681,152 @@ app.get("/api/owner/dashboard-summary", authenticateOwner, async (req, res) => {
 
     }
 });
+// =========================
+// OWNER SETTINGS
+// =========================
+
+app.get("/api/owner/settings", authenticateOwner, async (req, res) => {
+    try {
+        const result = await pool.query(
+            `
+            SELECT id, name, email, phone
+            FROM users
+            WHERE id = $1
+            `,
+            [req.user.id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Akun tidak ditemukan"
+            });
+        }
+
+        res.json({
+            data: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error("GET SETTINGS ERROR:", error);
+
+        res.status(500).json({
+            message: "Gagal mengambil pengaturan akun"
+        });
+    }
+});
+
+
+app.patch("/api/owner/settings", authenticateOwner, async (req, res) => {
+    try {
+        const { name, phone } = req.body;
+
+        if (!name || !name.trim()) {
+            return res.status(400).json({
+                message: "Nama wajib diisi"
+            });
+        }
+
+        const result = await pool.query(
+            `
+            UPDATE users
+            SET name = $1,
+                phone = $2
+            WHERE id = $3
+            RETURNING id, name, email, phone
+            `,
+            [
+                name.trim(),
+                phone ? phone.trim() : null,
+                req.user.id
+            ]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Akun tidak ditemukan"
+            });
+        }
+
+        res.json({
+            message: "Pengaturan berhasil disimpan",
+            data: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error("UPDATE SETTINGS ERROR:", error);
+
+        res.status(500).json({
+            message: "Gagal menyimpan pengaturan"
+        });
+    }
+});
+
+
+app.patch("/api/owner/password", authenticateOwner, async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({
+                message: "Password lama dan password baru wajib diisi"
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                message: "Password baru minimal 6 karakter"
+            });
+        }
+
+        const result = await pool.query(
+            `
+            SELECT password_hash
+            FROM users
+            WHERE id = $1
+            `,
+            [req.user.id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Akun tidak ditemukan"
+            });
+        }
+
+        const validPassword = await bcrypt.compare(
+            currentPassword,
+            result.rows[0].password_hash
+        );
+
+        if (!validPassword) {
+            return res.status(400).json({
+                message: "Password lama salah"
+            });
+        }
+
+        const newPasswordHash = await bcrypt.hash(newPassword, 10);
+
+        await pool.query(
+            `
+            UPDATE users
+            SET password_hash = $1
+            WHERE id = $2
+            `,
+            [newPasswordHash, req.user.id]
+        );
+
+        res.json({
+            message: "Password berhasil diubah"
+        });
+
+    } catch (error) {
+        console.error("CHANGE PASSWORD ERROR:", error);
+
+        res.status(500).json({
+            message: "Gagal mengubah password"
+        });
+    }
+});
 app.listen(PORT, () => {
     console.log(
         `Server SPC berjalan di http://localhost:${PORT}`
