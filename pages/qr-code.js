@@ -187,10 +187,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             document.createElement("img");
 
 
-        qrImage.src =
-            "https://quickchart.io/qr?text=" +
-            encodeURIComponent(customerUrl) +
-            "&size=220";
+                qrImage.src =
+    "https://quickchart.io/qr?text=" +
+    encodeURIComponent(customerUrl) +
+    "&size=300&margin=2";
 
 
         qrImage.width = 220;
