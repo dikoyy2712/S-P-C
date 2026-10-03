@@ -5950,3 +5950,438 @@ footer {
     }
 
 }
+/* =========================================
+   ADMIN BISNIS — DATABASE
+========================================= */
+
+.admin-business-panel {
+    overflow: hidden;
+}
+
+
+/* JUMLAH DATA */
+
+.admin-data-count {
+    padding: 6px 11px;
+
+    border-radius: 8px;
+
+    background: rgba(112, 92, 255, 0.10);
+    color: #a69cff;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* TOOLBAR */
+
+.admin-business-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin: 20px 0;
+}
+
+
+/* SEARCH */
+
+.admin-search-box {
+    flex: 1;
+
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    transition: 0.2s ease;
+}
+
+.admin-search-box:focus-within {
+    border-color: rgba(112, 92, 255, 0.45);
+    background: rgba(112, 92, 255, 0.035);
+}
+
+.admin-search-box i {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 13px;
+}
+
+.admin-search-box input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.admin-search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.32);
+}
+
+
+/* FILTER */
+
+.admin-filter-box {
+    width: 170px;
+
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 0 13px;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.admin-filter-box i {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 12px;
+}
+
+.admin-filter-box select {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-family: inherit;
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.admin-filter-box select option {
+    background: #17171d;
+    color: #fff;
+}
+
+
+/* TABLE HEADER */
+
+.admin-business-header {
+    display: grid;
+
+    grid-template-columns:
+        minmax(220px, 1.5fr)
+        minmax(170px, 1.1fr)
+        minmax(120px, 0.8fr)
+        minmax(160px, 1fr)
+        90px;
+
+    gap: 18px;
+
+    padding: 12px 14px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    color: rgba(255, 255, 255, 0.32);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+
+/* LIST */
+
+.admin-business-list {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ROW */
+
+.admin-business-item {
+    display: grid;
+
+    grid-template-columns:
+        minmax(220px, 1.5fr)
+        minmax(170px, 1.1fr)
+        minmax(120px, 0.8fr)
+        minmax(160px, 1fr)
+        90px;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 15px 14px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.admin-business-item:last-child {
+    border-bottom: none;
+}
+
+.admin-business-item:hover {
+    background: rgba(112, 92, 255, 0.035);
+}
+
+
+/* CELL */
+
+.admin-business-cell {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 4px;
+}
+
+
+/* BISNIS */
+
+.business-main-info {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.business-icon {
+    flex-shrink: 0;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: rgba(112, 92, 255, 0.11);
+
+    color: #8d80ff;
+
+    font-size: 13px;
+}
+
+.business-details {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.business-details strong {
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.business-details span {
+    color: rgba(255, 255, 255, 0.30);
+
+    font-size: 10px;
+}
+
+
+/* OWNER */
+
+.business-owner-info strong {
+    color: rgba(255, 255, 255, 0.78);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.business-owner-info span {
+    color: rgba(255, 255, 255, 0.34);
+
+    font-size: 10px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* KATEGORI */
+
+.business-category span {
+    color: rgba(255, 255, 255, 0.58);
+
+    font-size: 11px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* KONTAK */
+
+.business-contact {
+    min-width: 0;
+}
+
+.business-contact span {
+    display: block;
+
+    color: rgba(255, 255, 255, 0.50);
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.business-contact i {
+    margin-right: 5px;
+
+    color: rgba(255, 255, 255, 0.28);
+
+    font-size: 9px;
+}
+
+
+/* STATUS */
+
+.business-status-info {
+    align-items: flex-start;
+}
+
+.business-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 70px;
+
+    padding: 6px 9px;
+
+    border-radius: 20px;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.business-status.approved {
+    background: rgba(46, 204, 113, 0.10);
+    color: #55d98b;
+}
+
+.business-status.pending {
+    background: rgba(255, 193, 7, 0.10);
+    color: #f5c542;
+}
+
+
+/* EMPTY */
+
+.admin-business-list .admin-empty {
+    padding: 45px 20px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+
+    .admin-business-header,
+    .admin-business-item {
+        grid-template-columns:
+            minmax(200px, 1.4fr)
+            minmax(150px, 1fr)
+            minmax(110px, 0.8fr)
+            90px;
+
+    }
+
+    .admin-business-header span:nth-child(4),
+    .admin-business-item .business-contact {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .admin-business-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-filter-box {
+        width: auto;
+    }
+
+    .admin-business-header {
+        display: none;
+    }
+
+    .admin-business-item {
+        grid-template-columns: 1fr auto;
+
+        gap: 12px;
+
+        padding: 16px 10px;
+    }
+
+    .business-owner-info,
+    .business-category,
+    .business-contact {
+        display: none;
+    }
+
+    .business-status-info {
+        align-items: flex-end;
+    }
+
+}
