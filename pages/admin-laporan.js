@@ -1,74 +1,178 @@
-document.addEventListener("DOMContentLoaded", () => {
-    loadReports();
-});
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const token = localStorage.getItem("spc_token");
+
+    if (!token) {
+        window.location.href = "../login.html";
+        return;
+    }
 
 
-async function loadReports() {
+    // ===============================
+    // ELEMENT
+    // ===============================
 
-    try {
+    const totalBusiness =
+        document.getElementById("totalBusiness");
 
-        const response = await fetch(
-            "http:///api/admin/reports"
-        );
+    const totalUsers =
+        document.getElementById("totalUsers");
 
-        const result = await response.json();
+    const totalOrders =
+        document.getElementById("totalOrders");
 
-        if (!response.ok || !result.success) {
-            throw new Error(
-                result.message || "Gagal mengambil laporan"
+    const totalRevenue =
+        document.getElementById("totalRevenue");
+
+    const totalOwners =
+        document.getElementById("totalOwners");
+
+    const totalCustomers =
+        document.getElementById("totalCustomers");
+
+
+    // ===============================
+    // LOAD REPORT
+    // ===============================
+
+    async function loadReport() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/admin/reports"
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !result.success
+            ) {
+                throw new Error(
+                    result.message ||
+                    "Gagal mengambil data laporan"
+                );
+            }
+
+
+            const data =
+                result.data || {};
+
+
+            // ===============================
+            // STATISTIK UTAMA
+            // ===============================
+
+            totalBusiness.textContent =
+                formatNumber(
+                    data.total_businesses
+                );
+
+
+            totalUsers.textContent =
+                formatNumber(
+                    data.total_users
+                );
+
+
+            totalOrders.textContent =
+                formatNumber(
+                    data.total_orders
+                );
+
+
+            totalRevenue.textContent =
+                formatRupiah(
+                    data.total_revenue
+                );
+
+
+            // ===============================
+            // STATISTIK PENGGUNA
+            // ===============================
+
+            totalOwners.textContent =
+                formatNumber(
+                    data.total_owners
+                );
+
+
+            totalCustomers.textContent =
+                formatNumber(
+                    data.total_customers
+                );
+
+
+        } catch (error) {
+
+            console.error(
+                "ADMIN LAPORAN ERROR:",
+                error
             );
+
+
+            totalBusiness.textContent = "-";
+            totalUsers.textContent = "-";
+            totalOrders.textContent = "-";
+            totalRevenue.textContent = "Rp -";
+            totalOwners.textContent = "-";
+            totalCustomers.textContent = "-";
+
+
+            console.error(
+                "Gagal memuat laporan:",
+                error.message
+            );
+
         }
 
-        const data = result.data;
-
-        // Total Bisnis
-        document.getElementById("totalBusiness")
-            .textContent = data.total_businesses;
-
-        // Total Pengguna
-        document.getElementById("totalUsers")
-            .textContent = data.total_users;
-
-        // Total Pesanan
-        document.getElementById("totalOrders")
-            .textContent = data.total_orders;
-
-        // Total Pendapatan
-        document.getElementById("totalRevenue")
-            .textContent = formatRupiah(
-                data.total_revenue
-            );
-
-        // Total Owner
-        document.getElementById("totalOwners")
-            .textContent = data.total_owners;
-
-        // Total Customer
-        document.getElementById("totalCustomers")
-            .textContent = data.total_customers;
+    }
 
 
-    } catch (error) {
+    // ===============================
+    // FORMAT ANGKA
+    // ===============================
 
-        console.error(
-            "Gagal memuat laporan:",
-            error
+    function formatNumber(value) {
+
+        const number =
+            Number(value) || 0;
+
+        return number.toLocaleString("id-ID");
+
+    }
+
+
+    // ===============================
+    // FORMAT RUPIAH
+    // ===============================
+
+    function formatRupiah(value) {
+
+        const number =
+            Number(value) || 0;
+
+        return number.toLocaleString(
+            "id-ID",
+            {
+                style: "currency",
+                currency: "IDR",
+                maximumFractionDigits: 0
+            }
         );
 
     }
 
-}
 
+    // ===============================
+    // JALANKAN
+    // ===============================
 
-function formatRupiah(value) {
+    loadReport();
 
-    return new Intl.NumberFormat(
-        "id-ID",
-        {
-            style: "currency",
-            currency: "IDR",
-            maximumFractionDigits: 0
-        }
-    ).format(value);
-
-}
+});
