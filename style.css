@@ -6603,77 +6603,6 @@ footer {
 
 
 /* =========================================
-   SUMMARY
-========================================= */
-
-.report-summary {
-    display: grid;
-
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    gap: 14px;
-}
-
-.report-summary-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-
-    padding: 18px;
-
-    background: rgba(255, 255, 255, 0.03);
-
-    border: 1px solid rgba(255, 255, 255, 0.06);
-
-    border-radius: 14px;
-
-    transition: 0.25s ease;
-}
-
-.report-summary-item:hover {
-    background: rgba(112, 92, 255, 0.05);
-    border-color: rgba(112, 92, 255, 0.18);
-}
-
-.summary-icon {
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 11px;
-
-    background: rgba(112, 92, 255, 0.1);
-
-    color: #705cff;
-
-    font-size: 15px;
-}
-
-.report-summary-item span {
-    display: block;
-
-    margin-bottom: 5px;
-
-    color: #888;
-
-    font-size: 12px;
-}
-
-.report-summary-item strong {
-    display: block;
-
-    color: #fff;
-
-    font-size: 17px;
-    font-weight: 600;
-}
-
-
-/* =========================================
    LOADING
 ========================================= */
 
@@ -6699,22 +6628,15 @@ footer {
 /* =========================================
    EMPTY STATE
 ========================================= */
-
-.report-business-list .admin-empty,
-.report-summary .admin-empty {
+.report-business-list .admin-empty {
     margin-top: 0;
 }
-
 
 /* =========================================
    RESPONSIVE
 ========================================= */
 
 @media (max-width: 800px) {
-
-    .report-summary {
-        grid-template-columns: 1fr;
-    }
 
     .report-business-item {
         padding: 15px;
