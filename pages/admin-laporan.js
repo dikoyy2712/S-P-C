@@ -1,178 +1,236 @@
-document.addEventListener("DOMContentLoaded", async () => {
+const token = localStorage.getItem("spc_token");
 
-    const token = localStorage.getItem("spc_token");
+if (!token) {
+    window.location.href = "../login.html";
+}
 
-    if (!token) {
-        window.location.href = "../login.html";
-        return;
-    }
+const businessList = document.getElementById("reportBusinessList");
+const reportDetail = document.getElementById("reportDetail");
 
+const selectedBusinessName =
+    document.getElementById("selectedBusinessName");
 
-    // ===============================
-    // ELEMENT
-    // ===============================
+const selectedBusinessOwner =
+    document.getElementById("selectedBusinessOwner");
 
-    const totalBusiness =
-        document.getElementById("totalBusiness");
+const businessTotalOrders =
+    document.getElementById("businessTotalOrders");
 
-    const totalUsers =
-        document.getElementById("totalUsers");
+const businessTotalRevenue =
+    document.getElementById("businessTotalRevenue");
 
-    const totalOrders =
-        document.getElementById("totalOrders");
-
-    const totalRevenue =
-        document.getElementById("totalRevenue");
-
-    const totalOwners =
-        document.getElementById("totalOwners");
-
-    const totalCustomers =
-        document.getElementById("totalCustomers");
+const reportSummary =
+    document.getElementById("reportSummary");
 
 
-    // ===============================
-    // LOAD REPORT
-    // ===============================
-
-    async function loadReport() {
-
-        try {
-
-            const response =
-                await fetch(
-                    "/api/admin/reports"
-                );
+let businesses = [];
 
 
-            const result =
-                await response.json();
+/* =========================
+   FORMAT
+========================= */
+
+function formatRupiah(value) {
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+    }).format(Number(value) || 0);
+}
 
 
-            if (
-                !response.ok ||
-                !result.success
-            ) {
-                throw new Error(
-                    result.message ||
-                    "Gagal mengambil data laporan"
-                );
-            }
+function escapeHTML(text) {
+    const div = document.createElement("div");
+    div.textContent = text ?? "";
+    return div.innerHTML;
+}
 
 
-            const data =
-                result.data || {};
+/* =========================
+   LOAD BUSINESS
+========================= */
 
-
-            // ===============================
-            // STATISTIK UTAMA
-            // ===============================
-
-            totalBusiness.textContent =
-                formatNumber(
-                    data.total_businesses
-                );
-
-
-            totalUsers.textContent =
-                formatNumber(
-                    data.total_users
-                );
-
-
-            totalOrders.textContent =
-                formatNumber(
-                    data.total_orders
-                );
-
-
-            totalRevenue.textContent =
-                formatRupiah(
-                    data.total_revenue
-                );
-
-
-            // ===============================
-            // STATISTIK PENGGUNA
-            // ===============================
-
-            totalOwners.textContent =
-                formatNumber(
-                    data.total_owners
-                );
-
-
-            totalCustomers.textContent =
-                formatNumber(
-                    data.total_customers
-                );
-
-
-        } catch (error) {
-
-            console.error(
-                "ADMIN LAPORAN ERROR:",
-                error
-            );
-
-
-            totalBusiness.textContent = "-";
-            totalUsers.textContent = "-";
-            totalOrders.textContent = "-";
-            totalRevenue.textContent = "Rp -";
-            totalOwners.textContent = "-";
-            totalCustomers.textContent = "-";
-
-
-            console.error(
-                "Gagal memuat laporan:",
-                error.message
-            );
-
-        }
-
-    }
-
-
-    // ===============================
-    // FORMAT ANGKA
-    // ===============================
-
-    function formatNumber(value) {
-
-        const number =
-            Number(value) || 0;
-
-        return number.toLocaleString("id-ID");
-
-    }
-
-
-    // ===============================
-    // FORMAT RUPIAH
-    // ===============================
-
-    function formatRupiah(value) {
-
-        const number =
-            Number(value) || 0;
-
-        return number.toLocaleString(
-            "id-ID",
+async function loadBusinesses() {
+    try {
+        const response = await fetch(
+            "http://localhost:3000/api/admin/businesses",
             {
-                style: "currency",
-                currency: "IDR",
-                maximumFractionDigits: 0
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
         );
 
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message || "Gagal mengambil data bisnis"
+            );
+        }
+
+        businesses = result.data || [];
+
+        renderBusinessList();
+
+    } catch (error) {
+        console.error(error);
+
+        businessList.innerHTML = `
+            <div class="empty-state">
+                Gagal memuat data bisnis.
+            </div>
+        `;
+    }
+}
+
+
+/* =========================
+   RENDER BUSINESS
+========================= */
+
+function renderBusinessList() {
+    if (!businesses.length) {
+        businessList.innerHTML = `
+            <div class="empty-state">
+                Belum ada bisnis yang terdaftar.
+            </div>
+        `;
+        return;
     }
 
+    businessList.innerHTML = businesses.map(business => `
+        <div
+            class="report-business-item"
+            data-id="${business.id}"
+        >
+            <div class="report-business-icon">
+                <i class="fa-solid fa-store"></i>
+            </div>
 
-    // ===============================
-    // JALANKAN
-    // ===============================
+            <div class="report-business-info">
+                <h3>
+                    ${escapeHTML(business.business_name)}
+                </h3>
 
-    loadReport();
+                <p>
+                    Owner:
+                    ${escapeHTML(business.owner_name || "-")}
+                </p>
 
-});
+                <span>
+                    ${escapeHTML(business.category || "Tanpa kategori")}
+                </span>
+            </div>
+
+            <div class="report-business-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+    `).join("");
+
+    document
+        .querySelectorAll(".report-business-item")
+        .forEach(item => {
+            item.addEventListener("click", () => {
+                loadBusinessReport(item.dataset.id);
+            });
+        });
+}
+
+
+/* =========================
+   LOAD BUSINESS REPORT
+========================= */
+
+async function loadBusinessReport(businessId) {
+    try {
+        reportDetail.classList.remove("hidden");
+
+        selectedBusinessName.textContent = "Memuat...";
+        selectedBusinessOwner.textContent = "";
+        businessTotalOrders.textContent = "0";
+        businessTotalRevenue.textContent = "Rp0";
+
+        const response = await fetch(
+            `http://localhost:3000/api/admin/reports?business_id=${businessId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message || "Gagal mengambil laporan bisnis"
+            );
+        }
+
+        const data = result.data;
+
+        selectedBusinessName.textContent =
+            data.business.business_name;
+
+        selectedBusinessOwner.textContent =
+            `Owner: ${data.business.owner_name || "-"}`;
+
+        businessTotalOrders.textContent =
+            data.total_orders;
+
+        businessTotalRevenue.textContent =
+            formatRupiah(data.total_revenue);
+
+        reportSummary.innerHTML = `
+            <div class="report-summary-item">
+                <span>Total Pesanan</span>
+                <strong>
+                    ${data.total_orders}
+                </strong>
+            </div>
+
+            <div class="report-summary-item">
+                <span>Total Pendapatan</span>
+                <strong>
+                    ${formatRupiah(data.total_revenue)}
+                </strong>
+            </div>
+        `;
+
+        document
+            .querySelectorAll(".report-business-item")
+            .forEach(item => {
+                item.classList.remove("active");
+
+                if (item.dataset.id === String(businessId)) {
+                    item.classList.add("active");
+                }
+            });
+
+    } catch (error) {
+        console.error(error);
+
+        selectedBusinessName.textContent =
+            "Gagal memuat laporan";
+
+        selectedBusinessOwner.textContent = "";
+
+        businessTotalOrders.textContent = "0";
+        businessTotalRevenue.textContent = "Rp0";
+
+        reportSummary.innerHTML = `
+            <div class="empty-state">
+                Gagal mengambil laporan bisnis.
+            </div>
+        `;
+    }
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadBusinesses();

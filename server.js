@@ -436,9 +436,54 @@ app.get("/api/admin/users", async (req, res) => {
 // ===============================
 // ADMIN - LAPORAN
 // ===============================
-app.get("/api/admin/reports", async (req, res) => {
+app.get("/api/admin/reports", authenticateAdmin, async (req, res) => {
     try {
+        const { business_id } = req.query;
 
+        // Jika memilih bisnis tertentu
+        if (business_id) {
+            const businessResult = await pool.query(`
+                SELECT
+                    b.id,
+                    b.name AS business_name,
+                    u.name AS owner_name
+                FROM businesses b
+                LEFT JOIN users u
+                    ON b.owner_id = u.id
+                WHERE b.id = $1
+            `, [business_id]);
+
+            if (businessResult.rows.length === 0) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Bisnis tidak ditemukan"
+                });
+            }
+
+            const orderResult = await pool.query(`
+                SELECT COUNT(*) AS total
+                FROM orders
+                WHERE business_id = $1
+            `, [business_id]);
+
+            const revenueResult = await pool.query(`
+                SELECT COALESCE(SUM(total), 0) AS total
+                FROM orders
+                WHERE business_id = $1
+                AND status = 'completed'
+            `, [business_id]);
+
+            return res.json({
+                success: true,
+                data: {
+                    business: businessResult.rows[0],
+                    total_orders: Number(orderResult.rows[0].total),
+                    total_revenue: Number(revenueResult.rows[0].total)
+                }
+            });
+        }
+
+        // Laporan global jika tidak memilih bisnis
         const userResult = await pool.query(`
             SELECT COUNT(*) AS total
             FROM users
@@ -474,34 +519,16 @@ app.get("/api/admin/reports", async (req, res) => {
         res.json({
             success: true,
             data: {
-                total_users: Number(
-                    userResult.rows[0].total
-                ),
-
-                total_owners: Number(
-                    ownerResult.rows[0].total
-                ),
-
-                total_businesses: Number(
-                    businessResult.rows[0].total
-                ),
-
-                total_customers: Number(
-                    customerResult.rows[0].total
-                ),
-
-                total_orders: Number(
-                    orderResult.rows[0].total
-                ),
-
-                total_revenue: Number(
-                    revenueResult.rows[0].total
-                )
+                total_users: Number(userResult.rows[0].total),
+                total_owners: Number(ownerResult.rows[0].total),
+                total_businesses: Number(businessResult.rows[0].total),
+                total_customers: Number(customerResult.rows[0].total),
+                total_orders: Number(orderResult.rows[0].total),
+                total_revenue: Number(revenueResult.rows[0].total)
             }
         });
 
     } catch (error) {
-
         console.error(
             "Gagal mengambil laporan:",
             error.message
@@ -513,8 +540,6 @@ app.get("/api/admin/reports", async (req, res) => {
         });
     }
 });
-
-
 // ===============================
 // AUTH - CEK TOKEN OWNER
 // ===============================

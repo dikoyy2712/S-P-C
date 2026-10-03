@@ -62,10 +62,10 @@
                 <span>Laporan</span>
             </a>
 
-           <a href="admin-pengaturan.html">
-    <i class="fa-solid fa-gear"></i>
-    <span>Pengaturan</span>
-</a>
+            <a href="admin-pengaturan.html">
+                <i class="fa-solid fa-gear"></i>
+                <span>Pengaturan</span>
+            </a>
 
         </nav>
 
@@ -85,15 +85,19 @@
     <!-- MAIN -->
     <main class="owner-main">
 
+        <!-- TOPBAR -->
         <header class="owner-topbar">
 
             <div class="owner-breadcrumb">
+
                 SPC
                 <span>/</span>
                 ADMIN
                 <span>/</span>
                 LAPORAN
+
             </div>
+
 
             <div class="owner-profile">
 
@@ -111,7 +115,9 @@
         </header>
 
 
+        <!-- CONTENT -->
         <section class="owner-content">
+
 
             <!-- WELCOME -->
             <div class="owner-welcome">
@@ -119,7 +125,7 @@
                 <div>
 
                     <span class="welcome-label">
-                        ANALISIS SISTEM
+                        ANALISIS BISNIS
                     </span>
 
                     <h1>
@@ -127,7 +133,7 @@
                     </h1>
 
                     <p>
-                        Ringkasan data dan aktivitas sistem SPC.
+                        Lihat performa pesanan dan pendapatan setiap bisnis.
                     </p>
 
                 </div>
@@ -144,141 +150,42 @@
             </div>
 
 
-            <!-- STATISTIK -->
-            <div class="owner-stats">
+            <!-- PILIH BISNIS -->
+            <div class="owner-panel">
 
-                <div class="owner-stat-card">
-
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-store"></i>
-                    </div>
+                <div class="panel-header">
 
                     <div>
-                        <span>Total Bisnis</span>
-                        <strong id="totalBusiness">0</strong>
-                    </div>
 
-                </div>
+                        <span class="panel-label">
+                            PILIH BISNIS
+                        </span>
 
-
-                <div class="owner-stat-card">
-
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-
-                    <div>
-                        <span>Total Pengguna</span>
-                        <strong id="totalUsers">0</strong>
-                    </div>
-
-                </div>
-
-
-                <div class="owner-stat-card">
-
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-receipt"></i>
-                    </div>
-
-                    <div>
-                        <span>Total Pesanan</span>
-                        <strong id="totalOrders">0</strong>
-                    </div>
-
-                </div>
-
-
-                <div class="owner-stat-card">
-
-                    <div class="stat-icon">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-
-                    <div>
-                        <span>Total Pendapatan</span>
-                        <strong id="totalRevenue">Rp 0</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- LAPORAN DETAIL -->
-            <div class="owner-grid">
-
-                <!-- PENGGUNA -->
-                <div class="owner-panel">
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <span class="panel-label">
-                                PENGGUNA
-                            </span>
-
-                            <h3>
-                                Statistik Pengguna
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="report-stat-list">
-
-                        <div>
-                            <span>Owner</span>
-                            <strong id="totalOwners">0</strong>
-                        </div>
-
-                        <div>
-                            <span>Customer</span>
-                            <strong id="totalCustomers">0</strong>
-                        </div>
+                        <h3>
+                            Bisnis Terdaftar
+                        </h3>
 
                     </div>
 
                 </div>
 
 
-                <!-- INFORMASI -->
-                <div class="owner-panel">
-
-                    <div class="panel-header">
-
-                        <div>
-
-                            <span class="panel-label">
-                                SISTEM
-                            </span>
-
-                            <h3>
-                                Ringkasan
-                            </h3>
-
-                        </div>
-
-                    </div>
-
+                <div
+                    id="reportBusinessList"
+                    class="report-business-list">
 
                     <div class="admin-empty">
 
                         <div class="admin-empty-icon">
-
-                            <i class="fa-solid fa-chart-line"></i>
-
+                            <i class="fa-solid fa-store"></i>
                         </div>
 
                         <h4>
-                            Data laporan terhubung
+                            Memuat bisnis...
                         </h4>
 
                         <p>
-                            Informasi di halaman ini diambil langsung dari database SPC.
+                            Mengambil daftar bisnis dari database SPC.
                         </p>
 
                     </div>
@@ -286,6 +193,146 @@
                 </div>
 
             </div>
+
+
+            <!-- DETAIL LAPORAN -->
+            <div
+                id="reportDetail"
+                class="report-detail"
+                style="display: none;">
+
+
+                <!-- HEADER BISNIS -->
+                <div class="owner-panel report-business-header">
+
+                    <div class="report-selected-business">
+
+                        <div class="report-business-icon">
+
+                            <i class="fa-solid fa-store"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="panel-label">
+                                BISNIS TERPILIH
+                            </span>
+
+                            <h3 id="selectedBusinessName">
+                                -
+                            </h3>
+
+                            <p id="selectedBusinessOwner">
+                                -
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATISTIK BISNIS -->
+                <div class="owner-stats report-business-stats">
+
+
+                    <div class="owner-stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-receipt"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>Total Pesanan</span>
+
+                            <strong id="businessTotalOrders">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="owner-stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa-solid fa-wallet"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>Total Pendapatan</span>
+
+                            <strong id="businessTotalRevenue">
+                                Rp 0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- INFORMASI LAPORAN -->
+                <div class="owner-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                LAPORAN BISNIS
+                            </span>
+
+                            <h3>
+                                Ringkasan Performa
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="reportSummary"
+                        class="report-summary">
+
+                        <div class="admin-empty">
+
+                            <div class="admin-empty-icon">
+
+                                <i class="fa-solid fa-chart-line"></i>
+
+                            </div>
+
+                            <h4>
+                                Pilih bisnis terlebih dahulu
+                            </h4>
+
+                            <p>
+                                Pilih salah satu bisnis untuk melihat laporan.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
 
         </section>
 
