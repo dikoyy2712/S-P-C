@@ -1,148 +1,237 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-    try {
+    const token = localStorage.getItem("spc_token");
+
+    if (!token) {
+        window.location.href = "../login.html";
+        return;
+    }
+
+    const statCards =
+        document.querySelectorAll(".owner-stat-card strong");
+
+    const panels =
+        document.querySelectorAll(".owner-panel");
+
+    const verificationPanel = panels[0];
+
+    const verificationEmpty =
+        verificationPanel.querySelector(".admin-empty");
+
+
+    // =========================
+    // QUICK ACTION
+    // =========================
+
+    const quickActions =
+        document.querySelectorAll(".quick-actions a");
+
+    if (quickActions[2]) {
+        quickActions[2].href = "admin-pengguna.html";
+    }
+
+    if (quickActions[3]) {
+        quickActions[3].href = "admin-laporan.html";
+    }
+
+
+    // =========================
+    // LOAD REPORTS
+    // =========================
+
+    async function loadReports() {
 
         const response = await fetch(
-            "http:///api/admin/users"
+            "/api/admin/reports"
         );
 
         const result = await response.json();
 
-        if (!result.success) {
-            throw new Error(result.message);
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                "Gagal mengambil laporan admin"
+            );
         }
 
-        const users = result.data;
+        const data = result.data;
 
-        // =========================
-        // HITUNG DATA
-        // =========================
+        // Total Bisnis
+        statCards[0].textContent =
+            data.total_businesses ?? 0;
 
-        const totalOwners = users.filter(
-            user => user.role === "owner"
-        ).length;
+        // Total Owner
+        statCards[3].textContent =
+            data.total_owners ?? 0;
+    }
 
-        const pendingUsers = users.filter(
-            user =>
-                user.role === "owner" &&
-                user.status === "pending"
-        ).length;
 
-        // =========================
-        // STATISTIK DASHBOARD
-        // =========================
+    // =========================
+    // LOAD BISNIS
+    // =========================
 
-        const statCards =
-            document.querySelectorAll(".owner-stat-card");
+    async function loadBusinesses() {
 
-        if (statCards.length >= 4) {
+        const response = await fetch(
+            "/api/admin/businesses"
+        );
 
-            // Total Bisnis
-            // Untuk sementara ambil dari API bisnis
-            try {
+        const result = await response.json();
 
-                const businessResponse = await fetch(
-                    "http:///api/admin/businesses"
-                );
-
-                const businessResult =
-                    await businessResponse.json();
-
-                if (businessResult.success) {
-
-                    const businesses =
-                        businessResult.data;
-
-                    statCards[0]
-                        .querySelector("strong")
-                        .textContent =
-                        businesses.length;
-
-                    // Menunggu verifikasi BISNIS
-                    const pendingBusinesses =
-                        businesses.filter(
-                            business =>
-                                business.verification_status === "pending"
-                        ).length;
-
-                    statCards[1]
-                        .querySelector("strong")
-                        .textContent =
-                        pendingBusinesses;
-
-                    // Bisnis aktif
-                    const activeBusinesses =
-                        businesses.filter(
-                            business =>
-                                business.verification_status === "approved"
-                        ).length;
-
-                    statCards[2]
-                        .querySelector("strong")
-                        .textContent =
-                        activeBusinesses;
-                }
-
-            } catch (error) {
-
-                console.error(
-                    "Gagal mengambil data bisnis:",
-                    error
-                );
-            }
-
-            // Total Owner
-            statCards[3]
-                .querySelector("strong")
-                .textContent =
-                totalOwners;
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                "Gagal mengambil data bisnis"
+            );
         }
 
+        const businesses =
+            result.data || [];
+
+
         // =========================
-        // PERMINTAAN VERIFIKASI
+        // HITUNG STATUS
         // =========================
 
-        const verificationPanel =
-            document.querySelector(".owner-grid .owner-panel");
+        const pendingBusinesses =
+            businesses.filter(
+                business =>
+                    business.verification_status === "pending"
+            );
 
-        if (verificationPanel) {
+        const approvedBusinesses =
+            businesses.filter(
+                business =>
+                    business.verification_status === "approved"
+            );
 
-            const emptyBox =
-                verificationPanel.querySelector(".admin-empty");
 
-            if (pendingUsers > 0 && emptyBox) {
+        // Menunggu Verifikasi
+        statCards[1].textContent =
+            pendingBusinesses.length;
 
-                emptyBox.innerHTML = `
-                    <div class="admin-empty-icon">
-                        <i class="fa-solid fa-user-clock"></i>
+        // Bisnis Aktif
+        statCards[2].textContent =
+            approvedBusinesses.length;
+
+
+        // =========================
+        // PANEL VERIFIKASI
+        // =========================
+
+        const oldList =
+            verificationPanel.querySelector(
+                ".dashboard-verification-list"
+            );
+
+        if (oldList) {
+            oldList.remove();
+        }
+
+
+        // Tidak ada pending
+        if (pendingBusinesses.length === 0) {
+
+            verificationEmpty.style.display =
+                "block";
+
+            verificationEmpty.querySelector("h4").textContent =
+                "Belum ada permintaan";
+
+            verificationEmpty.querySelector("p").textContent =
+                "Bisnis yang menunggu verifikasi akan muncul di sini.";
+
+            return;
+        }
+
+
+        verificationEmpty.style.display =
+            "none";
+
+
+        // Buat daftar bisnis pending
+        const list =
+            document.createElement("div");
+
+        list.className =
+            "dashboard-verification-list";
+
+
+        pendingBusinesses
+            .slice(0, 5)
+            .forEach(business => {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "verification-item";
+
+
+                item.innerHTML = `
+                    <div class="verification-info">
+
+                        <div class="verification-icon">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                ${business.business_name || "-"}
+                            </h4>
+
+                            <p>
+                                Owner:
+                                ${business.owner_name || "-"}
+                            </p>
+
+                            <p>
+                                Kategori:
+                                ${business.category || "-"}
+                            </p>
+
+                        </div>
+
                     </div>
 
-                    <h4>
-                        ${pendingUsers} akun menunggu verifikasi
-                    </h4>
+                    <div class="verification-actions">
 
-                    <p>
-                        Terdapat akun Owner baru yang menunggu persetujuan Admin.
-                    </p>
+                        <a
+                            href="verifikasi-bisnis.html"
+                            class="verify-button">
 
-                    <a href="admin-pengguna.html"
-                       style="
-                           display:inline-block;
-                           margin-top:12px;
-                           color:#705cff;
-                           font-weight:600;
-                       ">
-                        Verifikasi Pengguna
-                    </a>
+                            Lihat
+
+                        </a>
+
+                    </div>
                 `;
-            }
 
-        }
+                list.appendChild(item);
+
+            });
+
+
+        verificationPanel.appendChild(list);
+    }
+
+
+    // =========================
+    // JALANKAN
+    // =========================
+
+    try {
+
+        await Promise.all([
+            loadReports(),
+            loadBusinesses()
+        ]);
 
     } catch (error) {
 
         console.error(
-            "Gagal memuat dashboard admin:",
+            "ADMIN DASHBOARD ERROR:",
             error
         );
 
